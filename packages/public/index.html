@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <h1>Subscribe to Weather Updates</h1>
+    <form id="subscribe-form">
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email" required />
+      <br /><br />
+
+      <label for="city">City:</label>
+      <input type="text" id="city" name="city" required />
+      <br /><br />
+
+      <label for="frequency">Frequency:</label>
+      <select id="frequency" name="frequency" required>
+        <option value="hourly">Hourly</option>
+        <option value="daily">Daily</option>
+      </select>
+      <br /><br />
+
+      <button type="submit">Subscribe</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script src="subscribe.js"></script>
+  </body>
+</html>
