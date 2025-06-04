@@ -5,7 +5,6 @@ import { MailService } from '../mail.service';
 
 describe('MailService', () => {
   let mailService: MailService;
-  let mailerService: MailerService;
 
   const sendMailMock = jest.fn();
 
@@ -23,7 +22,6 @@ describe('MailService', () => {
     }).compile();
 
     mailService = module.get<MailService>(MailService);
-    mailerService = module.get<MailerService>(MailerService);
   });
 
   afterEach(() => {

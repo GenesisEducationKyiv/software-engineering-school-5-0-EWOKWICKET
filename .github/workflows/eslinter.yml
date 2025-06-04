@@ -1,0 +1,29 @@
+name: Node.js eslinter
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  eslinter:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '22.x'
+          cache: yarn
+
+      - name: Install dependencies in packages/api
+        run: |
+          cd packages/api
+          yarn install
+
+      - name: Run eslint
+        run: |
+          cd packages/api
+          yarn lint
