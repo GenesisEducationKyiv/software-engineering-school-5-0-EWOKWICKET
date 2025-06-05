@@ -2,7 +2,7 @@ import * as tseslint from 'typescript-eslint';
 
 export default [
   {
-    ignores: ['test/**'],
+    ignores: ['test/**', 'src/**/*.spec.ts'],
   },
   {
     languageOptions: {
@@ -24,7 +24,7 @@ export default [
     },
     rules: {
       '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-explicit-any': 'warn',
     },
   },
 ];
