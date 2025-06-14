@@ -1,4 +1,4 @@
-export interface SendUpdatesOptions {
+export interface UpdatesOptions {
   frequency: string;
   subject: string;
 }

@@ -1,12 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
+import { DatabaseMigration } from './database.migration';
 
 @Injectable()
 export class DatabaseService {
-  constructor(@InjectConnection() private readonly connection: Connection) {}
+  constructor(
+    @InjectConnection() private readonly connection: Connection,
+    private readonly databaseMigration: DatabaseMigration,
+  ) {}
 
-  async waitForConnection() {
+  async startup() {
+    await this._waitForConnection();
+    await this.databaseMigration.migrateDatabase();
+  }
+
+  private async _waitForConnection() {
     if (this.connection.readyState !== 1) {
       console.log('Connecting to db...');
       await new Promise((resolve, reject) => {

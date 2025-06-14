@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MailModule } from 'src/mail/mail.module';
+import { MailModule } from 'src/notifications/mail/mail.module';
 import { WeatherModule } from 'src/weather/weather.module';
-import { Subscription, SubscriptionSchema } from './schemas/subscription.schema';
+import { Subscription, SubscriptionSchema } from '../database/schemas/subscription.schema';
+import { SubscriptionRepository } from './services/subscription.repository';
+import { SubscriptionService } from './services/subscription.service';
 import { SubscriptionController } from './subscription.controller';
-import { SubscriptionService } from './subscription.service';
 
 @Module({
   imports: [
@@ -18,6 +19,18 @@ import { SubscriptionService } from './subscription.service';
     WeatherModule,
   ],
   controllers: [SubscriptionController],
-  providers: [SubscriptionService],
+  providers: [
+    SubscriptionService,
+    SubscriptionRepository,
+    {
+      provide: 'IWeatherSubscriptionRepository',
+      useExisting: SubscriptionRepository,
+    },
+    {
+      provide: 'IServiceSubscriptionRepository',
+      useExisting: SubscriptionRepository,
+    },
+  ],
+  exports: ['IWeatherSubscriptionRepository', 'IServiceSubscriptionRepository'],
 })
 export class SubscriptionModule {}
