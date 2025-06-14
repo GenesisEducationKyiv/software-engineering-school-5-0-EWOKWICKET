@@ -1,9 +1,9 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
-import { ConfirmationMailOptions, MailOptions, UpdateMailOptions } from './config/mail.options';
+import { ConfirmationMailOptions, MailOptions, UpdateMailOptions } from '../../common/constants/types/mail.options';
 
 @Injectable()
-export class MailService {
+export class MailSenderService {
   constructor(private readonly mailerService: MailerService) {}
 
   async sendConfirmationEmail({ to, token, subject }: ConfirmationMailOptions) {
