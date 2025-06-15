@@ -5,14 +5,14 @@ import { NotificationType } from 'src/common/constants/enums/notification-type.e
 import { ISubscription } from 'src/common/constants/types/subscription.interface';
 import { Subscription } from 'src/database/schemas/subscription.schema';
 import { INotificationsService, NotificationsServiceToken } from 'src/scheduler/interfaces/notifications-service.interface';
-import { ISchedulerSubscriptionService } from 'src/scheduler/interfaces/subscription-service.interface';
+import { IFindSubscriptionService } from 'src/scheduler/interfaces/subscription-service.interface';
 import { ISubscriptionRepository, SubscriptionRepositoryToken } from 'src/subscriptions/interfaces/subscription-repository.interface';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
 import { IControllerSubscriptionService } from '../interfaces/subcription-service.interface';
-import { ICitiesWeatherService, CitiesWeatherServiceToken } from '../interfaces/weather-service.interface';
+import { CitiesWeatherServiceToken, ICitiesWeatherService } from '../interfaces/weather-service.interface';
 
 @Injectable()
-export class SubscriptionService implements ISchedulerSubscriptionService, IControllerSubscriptionService {
+export class SubscriptionService implements IFindSubscriptionService, IControllerSubscriptionService {
   constructor(
     @Inject(SubscriptionRepositoryToken)
     private readonly subscriptionRepository: ISubscriptionRepository,

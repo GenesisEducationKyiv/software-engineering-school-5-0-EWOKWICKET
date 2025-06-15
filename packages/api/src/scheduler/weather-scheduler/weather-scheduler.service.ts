@@ -7,13 +7,13 @@ import { WeatherUpdateNotificationsOptions } from 'src/common/constants/types/up
 import { Subscription } from 'src/database/schemas/subscription.schema';
 import { ForecastWeatherServiceToken, IForecastWeatherService } from 'src/weather/interfaces/weather-service.interface';
 import { INotificationsService, NotificationsServiceToken } from '../interfaces/notifications-service.interface';
-import { ISchedulerSubscriptionService, SchedulerSubscriptionServiceToken } from '../interfaces/subscription-service.interface';
+import { FindSubscriptionServiceToken, IFindSubscriptionService } from '../interfaces/subscription-service.interface';
 
 @Injectable()
 export class WeatherSchedulerService {
   constructor(
-    @Inject(SchedulerSubscriptionServiceToken)
-    private readonly subscriptionService: ISchedulerSubscriptionService,
+    @Inject(FindSubscriptionServiceToken)
+    private readonly subscriptionService: IFindSubscriptionService,
     @Inject(NotificationsServiceToken)
     private readonly notificationsService: INotificationsService,
     @Inject(ForecastWeatherServiceToken)
