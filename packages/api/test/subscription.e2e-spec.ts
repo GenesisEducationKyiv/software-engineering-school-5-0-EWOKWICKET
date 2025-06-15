@@ -57,10 +57,7 @@ describe('SubscriptionController', () => {
         frequency: 'daily',
       };
 
-      const response = await request(app.getHttpServer())
-        .post('/weatherapi.app/api/subscribe')
-        .send(dto)
-        .expect(200);
+      const response = await request(app.getHttpServer()).post('/weatherapi.app/api/subscribe').send(dto).expect(200);
 
       expect(response.body).toEqual({});
     });
@@ -72,10 +69,7 @@ describe('SubscriptionController', () => {
         frequency: 'invalid fruquency',
       };
 
-      const response = await request(app.getHttpServer())
-        .post('/weatherapi.app/api/subscribe')
-        .send(invalidDto)
-        .expect(400);
+      const response = await request(app.getHttpServer()).post('/weatherapi.app/api/subscribe').send(invalidDto).expect(400);
 
       expect(Array.isArray(response.body.message)).toBe(true);
       expect(response.body.message).toEqual(['email must be an email', 'frequency must be one of the following values: hourly, daily']);
@@ -88,10 +82,7 @@ describe('SubscriptionController', () => {
         frequency: 'daily',
       };
 
-      const response = await request(app.getHttpServer())
-        .post('/weatherapi.app/api/subscribe')
-        .send(invalidCityDto)
-        .expect(400);
+      const response = await request(app.getHttpServer()).post('/weatherapi.app/api/subscribe').send(invalidCityDto).expect(400);
 
       expect(response.body.message).toBe('No matching location found');
       expect(response.body.possibleLocations).toEqual([]);
@@ -104,10 +95,7 @@ describe('SubscriptionController', () => {
         frequency: 'daily',
       };
 
-      const response = await request(app.getHttpServer())
-        .post('/weatherapi.app/api/subscribe')
-        .send(dto)
-        .expect(409);
+      const response = await request(app.getHttpServer()).post('/weatherapi.app/api/subscribe').send(dto).expect(409);
 
       expect(response.body.message).toBe('Email already subscribed');
     });
@@ -115,18 +103,12 @@ describe('SubscriptionController', () => {
 
   describe('(GET) /confirm/:token', () => {
     it('should successfully confirm', async () => {
-      const subscription = await subscriptionModel
-        .findOne({ email: 'user@example.com' })
-        .exec();
+      const subscription = await subscriptionModel.findOne({ email: 'user@example.com' }).exec();
       expect(subscription).not.toBeNull();
 
-      await request(app.getHttpServer())
-        .get(`/weatherapi.app/api/confirm/${subscription!._id.toString()}`)
-        .expect(200);
+      await request(app.getHttpServer()).get(`/weatherapi.app/api/confirm/${subscription!._id.toString()}`).expect(200);
 
-      const confirmed = await subscriptionModel
-        .findOne({ _id: subscription!._id, confirmed: true })
-        .exec();
+      const confirmed = await subscriptionModel.findOne({ _id: subscription!._id, confirmed: true }).exec();
 
       expect(confirmed).not.toBeNull();
     });
@@ -152,18 +134,12 @@ describe('SubscriptionController', () => {
     });
 
     it('should successfully unsubscribe', async () => {
-      const subscription = await subscriptionModel
-        .findOne({ email: 'user@example.com' })
-        .exec();
+      const subscription = await subscriptionModel.findOne({ email: 'user@example.com' }).exec();
       expect(subscription).not.toBeNull();
 
-      await request(app.getHttpServer())
-        .get(`/weatherapi.app/api/unsubscribe/${subscription!._id.toString()}`)
-        .expect(200);
+      await request(app.getHttpServer()).get(`/weatherapi.app/api/unsubscribe/${subscription!._id.toString()}`).expect(200);
 
-      const unsubscribed = await subscriptionModel
-        .findById(subscription!._id)
-        .exec();
+      const unsubscribed = await subscriptionModel.findById(subscription!._id).exec();
       expect(unsubscribed).toBeNull();
     });
   });

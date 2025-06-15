@@ -1,15 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { NotificationsFrequencies } from 'src/common/constants/enums/notifications-frequencies.enum';
 
 @Schema()
 export class Subscription {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: false })
   email: string;
 
   @Prop({ required: true })
   city: string;
 
-  @Prop({ enum: ['daily', 'hourly'], required: true })
-  frequency: 'daily' | 'hourly';
+  @Prop({ type: String, enum: NotificationsFrequencies, required: true })
+  frequency: NotificationsFrequencies;
 
   @Prop({ default: false })
   confirmed: boolean;

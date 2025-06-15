@@ -1,12 +1,15 @@
-import { Body, Controller, Get, HttpCode, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Inject, Param, Post } from '@nestjs/common';
 import { CreateSubscriptionDto } from './dtos/create-subscription.dto';
-import { SubscriptionService } from './subscription.service';
+import { ControllerSubscriptionServiceToken, IControllerSubscriptionService } from './interfaces/subcription-service.interface';
 
-@Controller('')
+@Controller()
 export class SubscriptionController {
-  constructor(private readonly subscriptionService: SubscriptionService) {}
+  constructor(
+    @Inject(ControllerSubscriptionServiceToken)
+    private readonly subscriptionService: IControllerSubscriptionService,
+  ) {}
 
-  @UsePipes(ValidationPipe)
+  //validates globally
   @HttpCode(200)
   @Post('subscribe')
   async subscribe(@Body() subscribeDto: CreateSubscriptionDto) {
@@ -14,12 +17,12 @@ export class SubscriptionController {
   }
 
   @Get('confirm/:token')
-  confirm(@Param('token') token: string) {
-    return this.subscriptionService.confirm(token);
+  async confirm(@Param('token') token: string) {
+    await this.subscriptionService.confirm(token);
   }
 
   @Get('unsubscribe/:token')
-  unsubscribe(@Param('token') token: string) {
-    return this.subscriptionService.unsubscribe(token);
+  async unsubscribe(@Param('token') token: string) {
+    await this.subscriptionService.unsubscribe(token);
   }
 }

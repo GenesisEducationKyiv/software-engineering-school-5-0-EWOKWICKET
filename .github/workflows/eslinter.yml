@@ -1,4 +1,4 @@
-name: Node.js eslinter
+name: CI pipeline
 
 permissions:
   contents: read
