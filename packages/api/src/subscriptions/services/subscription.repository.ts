@@ -1,16 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { HydratedDocument, Model, RootFilterQuery, Types } from 'mongoose';
+import { Model, RootFilterQuery, Types } from 'mongoose';
 import { ISubscription } from 'src/common/constants/types/subscription.interface';
-import { IWeatherSubscriptionRepository } from 'src/scheduler/interfaces/subscription-repository.interface';
-import { IServiceSubscriptionRepository } from 'src/weather/interfaces/subscription-repository.interface';
+import { ISubscriptionRepository } from 'src/subscriptions/interfaces/subscription-repository.interface';
 import { Subscription } from '../../database/schemas/subscription.schema';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
 
 @Injectable()
-export class SubscriptionRepository implements IServiceSubscriptionRepository, IWeatherSubscriptionRepository {
+export class SubscriptionRepository implements ISubscriptionRepository {
   constructor(@InjectModel(Subscription.name) private readonly subscriptionModel: Model<Subscription>) {}
-  async find(options: RootFilterQuery<Subscription>): Promise<HydratedDocument<Subscription>[]> {
+  async find(options: RootFilterQuery<Subscription>): Promise<ISubscription[]> {
     const found = await this.subscriptionModel.find(options);
     return found;
   }

@@ -1,17 +1,19 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Types } from 'mongoose';
+import { RootFilterQuery, Types } from 'mongoose';
+import { Subscription } from 'rxjs';
 import { MailSubjects } from 'src/common/constants/enums/mail-subjects.enum';
 import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
+import { ISubscription } from 'src/common/constants/types/subscription.interface';
 import { NotificationsService } from 'src/notifications/notifications.service';
-import { IServiceSubscriptionRepository } from 'src/weather/interfaces/subscription-repository.interface';
+import { ISubscriptionRepository, SubscriptionRepositoryToken } from 'src/subscriptions/interfaces/subscription-repository.interface';
 import { WeatherService } from 'src/weather/services/weather.service';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
 
 @Injectable()
 export class SubscriptionService {
   constructor(
-    @Inject('IServiceSubscriptionRepository')
-    private readonly subscriptionRepository: IServiceSubscriptionRepository,
+    @Inject(SubscriptionRepositoryToken)
+    private readonly subscriptionRepository: ISubscriptionRepository,
     private readonly notificationsService: NotificationsService,
     private readonly weatherService: WeatherService,
   ) {}
@@ -51,5 +53,10 @@ export class SubscriptionService {
     const objectId = new Types.ObjectId(token);
     const deleted = await this.subscriptionRepository.deleteById(objectId);
     if (!deleted) throw new NotFoundException('Token Not Found');
+  }
+
+  async find(options: RootFilterQuery<Subscription>): Promise<ISubscription[]> {
+    const found = await this.subscriptionRepository.find(options);
+    return found;
   }
 }
