@@ -44,17 +44,13 @@ export class SubscriptionService implements IFindSubscriptionService, IControlle
   }
 
   async confirm(token: string) {
-    if (!Types.ObjectId.isValid(token)) throw new NotFoundException('Token Not Found');
-
-    const objectId = new Types.ObjectId(token);
+    const objectId = this._transformId(token);
     const updated = await this.subscriptionRepository.updateById(objectId, { confirmed: true, expiresAt: null });
     if (!updated) throw new NotFoundException('Token Not Found');
   }
 
   async unsubscribe(token: string) {
-    if (!Types.ObjectId.isValid(token)) throw new NotFoundException('Token Not Found');
-
-    const objectId = new Types.ObjectId(token);
+    const objectId = this._transformId(token);
     const deleted = await this.subscriptionRepository.deleteById(objectId);
     if (!deleted) throw new NotFoundException('Token Not Found');
   }
@@ -62,5 +58,10 @@ export class SubscriptionService implements IFindSubscriptionService, IControlle
   async find(options: RootFilterQuery<Subscription>): Promise<ISubscription[]> {
     const found = await this.subscriptionRepository.find(options);
     return found;
+  }
+
+  private _transformId(token: string): Types.ObjectId {
+    if (!Types.ObjectId.isValid(token)) throw new NotFoundException('Token Not Found');
+    return new Types.ObjectId(token);
   }
 }

@@ -16,14 +16,18 @@ export class NotificationsService implements INotificationsService {
   }
 
   async sendConfirmationNotification(data: ConfirmationNotification, type: NotificationType) {
-    const strategy = this.strategies[type];
-    if (!strategy) throw new InternalServerErrorException('Unexpected Notification Error Occured');
+    const strategy = this._getStrategy(type);
     await strategy.sendConfirmationNotification(data);
   }
 
   async sendWeatherUpdateNotification(data: UpdateWeatherNotification, type: NotificationType) {
+    const strategy = this._getStrategy(type);
+    await strategy.sendWeatherUpdateNotification(data);
+  }
+
+  private _getStrategy(type: NotificationType): INotificationsSender {
     const strategy = this.strategies[type];
     if (!strategy) throw new InternalServerErrorException('Unexpected Notification Error Occured');
-    await strategy.sendWeatherUpdateNotification(data);
+    return strategy;
   }
 }
