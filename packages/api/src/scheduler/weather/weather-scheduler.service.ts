@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { RootFilterQuery } from 'mongoose';
 import { MailSubjects } from 'src/common/constants/enums/mail-subjects.enum';
 import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
 import { NotificationsFrequencies } from 'src/common/constants/enums/notifications-frequencies.enum';
@@ -8,10 +7,7 @@ import { WeatherUpdateNotificationsOptions } from 'src/common/constants/types/up
 import { Subscription } from 'src/database/schemas/subscription.schema';
 import { NotificationsService } from 'src/notifications/notifications.service';
 import { WeatherService } from 'src/weather/services/weather.service';
-
-export interface IWeatherSubscriptionRepository {
-  find(options: RootFilterQuery<Subscription>);
-}
+import { IWeatherSubscriptionRepository } from '../interfaces/subscription-repository.interface';
 
 @Injectable()
 export class WeatherSchedulerService {
@@ -35,7 +31,7 @@ export class WeatherSchedulerService {
   }
 
   private async _sendUpdates({ frequency, subject }: WeatherUpdateNotificationsOptions) {
-    const subscriptions: Subscription[] = await this.subscriptionRepository.find({ confirmed: true, frequency });
+    const subscriptions = await this.subscriptionRepository.find({ confirmed: true, frequency });
 
     const groupedByCity = this._groupByCity(subscriptions);
 
