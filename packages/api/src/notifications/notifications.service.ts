@@ -1,28 +1,26 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
 import { ConfirmationNotification, UpdateWeatherNotification } from 'src/common/constants/types/notification.interface';
-import { INotificationsService } from './interfaces/notifications-service.interface';
-import { MailSenderService } from './mail/mail-sender.service';
+import { INotificationsService } from 'src/scheduler/interfaces/notifications-service.interface';
+import { INotificationsSender, NotificationsSenderToken } from './interfaces/notifications-sender.interface';
 
 @Injectable()
-export class NotificationsService {
-  private strategies: Record<NotificationType, INotificationsService>;
+export class NotificationsService implements INotificationsService {
+  private strategies: Record<NotificationType, INotificationsSender>;
 
-  constructor(private readonly mailSender: MailSenderService) {
-    this.strategies = {
-      email: mailSender,
-    };
+  constructor(@Inject(NotificationsSenderToken) private readonly senders: INotificationsSender[]) {
+    this.strategies = Object.fromEntries(this.senders.map((s) => [s.type, s])) as Record<NotificationType, INotificationsSender>;
   }
 
   async sendConfirmationNotification(data: ConfirmationNotification, type: NotificationType) {
     const strategy = this.strategies[type];
-    if (!strategy) throw new InternalServerErrorException();
+    if (!strategy) throw new InternalServerErrorException('Unexpected Notification Error Occured');
     await strategy.sendConfirmationNotification(data);
   }
 
   async sendWeatherUpdateNotification(data: UpdateWeatherNotification, type: NotificationType) {
     const strategy = this.strategies[type];
-    if (!strategy) throw new InternalServerErrorException();
+    if (!strategy) throw new InternalServerErrorException('Unexpected Notification Error Occured');
     await strategy.sendWeatherUpdateNotification(data);
   }
 }

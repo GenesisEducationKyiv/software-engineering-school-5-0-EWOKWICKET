@@ -1,16 +1,17 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { RootFilterQuery, Types } from 'mongoose';
-import { Subscription } from 'rxjs';
 import { MailSubjects } from 'src/common/constants/enums/mail-subjects.enum';
 import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
 import { ISubscription } from 'src/common/constants/types/subscription.interface';
+import { Subscription } from 'src/database/schemas/subscription.schema';
 import { NotificationsService } from 'src/notifications/notifications.service';
+import { ISubscriptionService } from 'src/scheduler/interfaces/subscription-service.interface';
 import { ISubscriptionRepository, SubscriptionRepositoryToken } from 'src/subscriptions/interfaces/subscription-repository.interface';
 import { WeatherService } from 'src/weather/services/weather.service';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
 
 @Injectable()
-export class SubscriptionService {
+export class SubscriptionService implements ISubscriptionService {
   constructor(
     @Inject(SubscriptionRepositoryToken)
     private readonly subscriptionRepository: ISubscriptionRepository,
