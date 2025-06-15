@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NotificationsModule } from 'src/notifications/notifications.module';
-import { SchedulerSubscriptionServiceToken } from 'src/scheduler/interfaces/subscription-service.interface';
+import { FindSubscriptionServiceToken } from 'src/scheduler/interfaces/subscription-service.interface';
 import { WeatherModule } from 'src/weather/weather.module';
 import { Subscription, SubscriptionSchema } from '../database/schemas/subscription.schema';
 import { ControllerSubscriptionServiceToken } from './interfaces/subcription-service.interface';
@@ -30,7 +30,7 @@ import { SubscriptionController } from './subscription.controller';
       useExisting: SubscriptionRepository,
     },
     {
-      provide: SchedulerSubscriptionServiceToken,
+      provide: FindSubscriptionServiceToken,
       useExisting: SubscriptionService,
     },
     {
@@ -38,6 +38,6 @@ import { SubscriptionController } from './subscription.controller';
       useExisting: SubscriptionService,
     },
   ],
-  exports: [SchedulerSubscriptionServiceToken, ControllerSubscriptionServiceToken],
+  exports: [FindSubscriptionServiceToken, ControllerSubscriptionServiceToken],
 })
 export class SubscriptionModule {}
