@@ -21,6 +21,6 @@ import { NotificationsService } from './notifications.service';
       inject: [MailSenderService],
     },
   ],
-  exports: [NotificationsServiceToken, NotificationsSenderToken, NotificationsService],
+  exports: [NotificationsServiceToken, NotificationsSenderToken],
 })
 export class NotificationsModule {}
