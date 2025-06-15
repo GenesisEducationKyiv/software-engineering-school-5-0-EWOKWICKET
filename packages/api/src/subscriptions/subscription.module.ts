@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MailModule } from 'src/notifications/mail/mail.module';
+import { NotificationsModule } from 'src/notifications/notifications.module';
 import { WeatherModule } from 'src/weather/weather.module';
 import { Subscription, SubscriptionSchema } from '../database/schemas/subscription.schema';
 import { SubscriptionRepository } from './services/subscription.repository';
@@ -15,7 +15,7 @@ import { SubscriptionController } from './subscription.controller';
         schema: SubscriptionSchema,
       },
     ]),
-    MailModule,
+    NotificationsModule,
     WeatherModule,
   ],
   controllers: [SubscriptionController],
