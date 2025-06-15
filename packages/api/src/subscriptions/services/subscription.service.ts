@@ -3,16 +3,9 @@ import { Types } from 'mongoose';
 import { MailSubjects } from 'src/common/constants/enums/mail-subjects.enum';
 import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
 import { NotificationsService } from 'src/notifications/notifications.service';
+import { IServiceSubscriptionRepository } from 'src/weather/interfaces/subscription-repository.interface';
 import { WeatherService } from 'src/weather/services/weather.service';
-import { Subscription } from '../../database/schemas/subscription.schema';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
-
-//interface for SubscriptionRepository
-export interface IServiceSubscriptionRepository {
-  create(createDto: CreateSubscriptionDto);
-  updateById(id: Types.ObjectId, updateDto: Partial<Subscription>);
-  deleteById(id: Types.ObjectId);
-}
 
 @Injectable()
 export class SubscriptionService {
