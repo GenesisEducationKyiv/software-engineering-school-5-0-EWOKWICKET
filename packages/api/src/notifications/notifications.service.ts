@@ -8,7 +8,10 @@ import { INotificationsSender, NotificationsSenderToken } from './interfaces/not
 export class NotificationsService implements INotificationsService {
   private strategies: Record<NotificationType, INotificationsSender>;
 
-  constructor(@Inject(NotificationsSenderToken) private readonly senders: INotificationsSender[]) {
+  constructor(
+    @Inject(NotificationsSenderToken)
+    private readonly senders: INotificationsSender[],
+  ) {
     this.strategies = Object.fromEntries(this.senders.map((s) => [s.type, s])) as Record<NotificationType, INotificationsSender>;
   }
 
