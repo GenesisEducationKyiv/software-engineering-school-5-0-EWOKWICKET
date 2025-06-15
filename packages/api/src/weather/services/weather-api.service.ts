@@ -1,9 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { City } from 'src/common/constants/types/city.interface';
 import { CurrentWeatherAPI } from 'src/common/constants/types/current-weather-api.interface';
+import { IWeatherApiService } from '../interfaces/weather-api-service.interface';
 
 @Injectable()
-export class WeatherApiService {
+export class WeatherApiService implements IWeatherApiService {
   private readonly baseUrl = 'http://api.weatherapi.com/v1';
   private readonly apiKey = process.env.WEATHER_API_KEY;
 

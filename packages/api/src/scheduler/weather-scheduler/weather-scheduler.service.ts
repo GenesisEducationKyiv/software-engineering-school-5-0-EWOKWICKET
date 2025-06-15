@@ -5,7 +5,7 @@ import { NotificationType } from 'src/common/constants/enums/notification-type.e
 import { NotificationsFrequencies } from 'src/common/constants/enums/notifications-frequencies.enum';
 import { WeatherUpdateNotificationsOptions } from 'src/common/constants/types/updates.options';
 import { Subscription } from 'src/database/schemas/subscription.schema';
-import { WeatherService } from 'src/weather/services/weather.service';
+import { ForecastWeatherServiceToken, IForecastWeatherService } from 'src/weather/interfaces/weather-service.interface';
 import { INotificationsService, NotificationsServiceToken } from '../interfaces/notifications-service.interface';
 import { ISchedulerSubscriptionService, SchedulerSubscriptionServiceToken } from '../interfaces/subscription-service.interface';
 
@@ -16,7 +16,8 @@ export class WeatherSchedulerService {
     private readonly subscriptionService: ISchedulerSubscriptionService,
     @Inject(NotificationsServiceToken)
     private readonly notificationsService: INotificationsService,
-    private readonly weatherService: WeatherService,
+    @Inject(ForecastWeatherServiceToken)
+    private readonly weatherService: IForecastWeatherService,
   ) {}
 
   @Cron(CronExpression.EVERY_HOUR)
