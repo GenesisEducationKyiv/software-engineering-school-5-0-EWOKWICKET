@@ -1,17 +1,16 @@
 import mongoose from 'mongoose';
 import { CurrentWeatherResponseDto } from 'src/weather/dtos/current-weather-response.dto';
 
-export interface MailOptions {
+export interface Notification {
   to: string;
   subject: string;
-  html?: string;
 }
 
-export interface ConfirmationMailOptions extends MailOptions {
+export interface ConfirmationNotification extends Notification {
   token: mongoose.Types.ObjectId;
 }
 
-export interface UpdateMailOptions extends MailOptions {
+export interface UpdateWeatherNotification extends Notification {
   data: {
     city: string;
   } & CurrentWeatherResponseDto;

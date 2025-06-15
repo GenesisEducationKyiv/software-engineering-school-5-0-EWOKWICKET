@@ -3,7 +3,7 @@ import { NotificationsFrequencies } from 'src/common/constants/enums/notificatio
 
 @Schema()
 export class Subscription {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: false })
   email: string;
 
   @Prop({ required: true })

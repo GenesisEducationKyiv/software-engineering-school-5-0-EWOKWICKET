@@ -1,6 +1,5 @@
 import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
 import { CreateSubscriptionDto } from './dtos/create-subscription.dto';
-import { TokenDto } from './dtos/token.dto';
 import { SubscriptionService } from './services/subscription.service';
 
 @Controller()
@@ -15,12 +14,12 @@ export class SubscriptionController {
   }
 
   @Get('confirm/:token')
-  confirm(@Param('token') tokenDto: TokenDto) {
-    return this.subscriptionService.confirm(tokenDto.token);
+  confirm(@Param('token') token: string) {
+    return this.subscriptionService.confirm(token);
   }
 
   @Get('unsubscribe/:token')
-  unsubscribe(@Param('token') tokenDto: TokenDto) {
-    return this.subscriptionService.unsubscribe(tokenDto.token);
+  unsubscribe(@Param('token') token: string) {
+    return this.subscriptionService.unsubscribe(token);
   }
 }
