@@ -9,7 +9,7 @@ export class Subscription {
   @Prop({ required: true })
   city: string;
 
-  @Prop({ enum: NotificationsFrequencies, required: true })
+  @Prop({ type: String, enum: NotificationsFrequencies, required: true })
   frequency: NotificationsFrequencies;
 
   @Prop({ default: false })
