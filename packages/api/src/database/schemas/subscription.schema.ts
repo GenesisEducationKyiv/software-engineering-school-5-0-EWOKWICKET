@@ -20,3 +20,6 @@ export class Subscription {
 }
 
 export const SubscriptionSchema = SchemaFactory.createForClass(Subscription);
+
+SubscriptionSchema.index({ email: 1, city: 1 }, { unique: true });
+SubscriptionSchema.index({ expiresAt: 1 }, { expires: '1h' });

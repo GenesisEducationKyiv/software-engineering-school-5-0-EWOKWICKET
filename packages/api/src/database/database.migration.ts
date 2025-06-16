@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
-import { Subscription } from 'src/database/schemas/subscription.schema';
 
 @Injectable()
 export class DatabaseMigration {
@@ -16,8 +15,7 @@ export class DatabaseMigration {
   }
 
   async addSubscriptionCollection() {
-    const collectionName = Subscription.name;
-
+    const collectionName = 'subscriptions';
     const collectionExists = await this.connection.db.listCollections({ name: collectionName }).hasNext();
 
     if (collectionExists) {
@@ -32,7 +30,8 @@ export class DatabaseMigration {
     const indexInfo = await collection.indexExists('expiresAt_index');
 
     if (!indexInfo) {
-      await collection.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0, name: 'expiresAt_index' });
+      await collection.createIndex({ email: 1, city: 1 }, { unique: true });
+      await collection.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 });
       console.log('TTL index created on expiresAt');
     } else {
       console.log('TTL index on expiresAt already exists');
