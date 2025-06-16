@@ -14,6 +14,7 @@
     "start:prod": "node dist/main",
     "lint": "eslint .",
     "test:unit": "jest --verbose --config jest.config.js",
+    "test:integration": "jest --config test/jest-integration.config.js",
     "test:e2e": "jest --verbose --config test/jest-e2e.config.js",
     "docker:up": "docker-compose up --build -d",
     "docker:down": "docker-compose down",
