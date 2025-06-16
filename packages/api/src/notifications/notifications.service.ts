@@ -1,6 +1,6 @@
 import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
-import { ConfirmationNotification, UpdateWeatherNotification } from 'src/common/constants/types/notification.interface';
+import { ConfirmationNotification, WeatherUpdateNotification } from 'src/common/constants/types/notification.interface';
 import { INotificationsService } from 'src/scheduler/interfaces/notifications-service.interface';
 import { INotificationsSender, NotificationsSenderToken } from './interfaces/notifications-sender.interface';
 
@@ -20,7 +20,7 @@ export class NotificationsService implements INotificationsService {
     await strategy.sendConfirmationNotification(data);
   }
 
-  async sendWeatherUpdateNotification(data: UpdateWeatherNotification, type: NotificationType) {
+  async sendWeatherUpdateNotification(data: WeatherUpdateNotification, type: NotificationType) {
     const strategy = this._getStrategy(type);
     await strategy.sendWeatherUpdateNotification(data);
   }
