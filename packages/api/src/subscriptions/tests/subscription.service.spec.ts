@@ -2,7 +2,7 @@ import { BadRequestException, ConflictException, NotFoundException } from '@nest
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import mongoose, { Model } from 'mongoose';
-import { MailService } from 'src/notifications/mail/mail-sender.service';
+import { MailService } from 'src/notifications/mail/services/mail-sender.service';
 import { WeatherService } from 'src/weather/services/weather.service';
 import { Subscription } from '../../database/schemas/subscription.schema';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';

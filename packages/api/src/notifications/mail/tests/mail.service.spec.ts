@@ -1,7 +1,7 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Test, TestingModule } from '@nestjs/testing';
 import mongoose from 'mongoose';
-import { MailService } from '../mail-sender.service';
+import { MailService } from '../services/mail-sender.service';
 
 describe('MailService', () => {
   let mailService: MailService;
