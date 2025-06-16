@@ -10,5 +10,3 @@ COPY api ./
 COPY public ../public
 
 EXPOSE 3000
-
-CMD [ "yarn", "start" ]

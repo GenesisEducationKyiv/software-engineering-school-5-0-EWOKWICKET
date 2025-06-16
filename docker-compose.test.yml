@@ -1,0 +1,21 @@
+services:
+  app-test:
+    build:
+      context: ./packages
+      dockerfile: Dockerfile.test
+    env_file:
+      - ./packages/api/.env.test
+    depends_on:
+      - mongo-test
+
+  mongo-test:
+    container_name: mongo-test
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-test-data:/data/db
+
+volumes:
+  mongo-test-data:
