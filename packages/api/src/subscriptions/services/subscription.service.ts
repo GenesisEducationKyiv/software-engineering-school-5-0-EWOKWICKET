@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { RootFilterQuery, Types } from 'mongoose';
 import { MailSubjects } from 'src/common/constants/enums/mail-subjects.enum';
 import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
@@ -32,6 +32,7 @@ export class SubscriptionService implements IFindSubscriptionService, IControlle
     }
 
     const newSubscription = await this.subscriptionRepository.create(subscribeDto);
+    if (!newSubscription) throw new ConflictException(); // cause db is silencing error during test
 
     await this.notificationsService.sendConfirmationNotification(
       {

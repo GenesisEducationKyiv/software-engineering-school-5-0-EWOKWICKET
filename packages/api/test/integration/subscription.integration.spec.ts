@@ -1,4 +1,4 @@
-import { BadRequestException, HttpStatus } from '@nestjs/common';
+import { BadRequestException, ConflictException, HttpStatus } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -21,21 +21,21 @@ import { mockFetch } from 'test/helpers/fetch.mock';
 
 const fetchCityResponse: City[] = [
   {
-    name: 'City',
-    region: '',
-    country: '',
-  },
-  {
     name: 'CityValid',
     region: '',
     country: '',
   },
 ];
 
-const subscriptionDto: CreateSubscriptionDto = {
+const invalidSubscriptionDto: CreateSubscriptionDto = {
   email: 'email',
-  city: '',
+  city: 'City',
   frequency: NotificationsFrequencies.HOURLY,
+};
+
+const succesfulSubscriptionDto = {
+  ...invalidSubscriptionDto,
+  city: fetchCityResponse[0].name,
 };
 
 describe('SubscriptionController (Integration)', () => {
@@ -80,6 +80,10 @@ describe('SubscriptionController (Integration)', () => {
     subscriptionModel = module.get<Model<Subscription>>(getModelToken(Subscription.name));
   });
 
+  beforeEach(() => {
+    mockFetch(fetchCityResponse, HttpStatus.OK); // mocks external api cities search
+  });
+
   afterEach(async () => {
     await subscriptionModel.deleteMany(); // clear all documents
     jest.resetAllMocks();
@@ -91,13 +95,8 @@ describe('SubscriptionController (Integration)', () => {
   });
 
   describe('subscribe', () => {
-    it('should successfilly subscribe if subsription is unique and city found', async () => {
-      mockFetch(fetchCityResponse, HttpStatus.OK);
+    it('should successfully subscribe if subsription is unique and city found', async () => {
       const createRepoSpy = jest.spyOn(subscriptionRepository, 'create');
-      const succesfulSubscriptionDto = {
-        ...subscriptionDto,
-        city: 'CityValid',
-      };
 
       await subscriptionController.subscribe(succesfulSubscriptionDto);
 
@@ -105,7 +104,7 @@ describe('SubscriptionController (Integration)', () => {
       expect(notificationsServiceMock.sendConfirmationNotification).toHaveBeenCalledWith(
         // notificationsService was called woth some params passed
         expect.objectContaining({
-          to: subscriptionDto.email,
+          to: succesfulSubscriptionDto.email,
           subject: MailSubjects.SUBSCRIPTION_CONFIRMATION,
           token: expect.anything(),
         }),
@@ -113,17 +112,23 @@ describe('SubscriptionController (Integration)', () => {
       );
     });
 
-    it('should throw exception if city not found', async () => {
-      mockFetch(fetchCityResponse, HttpStatus.OK);
-
+    it('should throw BadRequestException if city not found', async () => {
       const createRepoSpy = jest.spyOn(subscriptionRepository, 'create');
-      const result = subscriptionController.subscribe({
-        ...subscriptionDto,
-        city: 'invalid', // doesn't match any of those in cityResponse
-      });
+      const result = subscriptionController.subscribe(invalidSubscriptionDto);
 
       await expect(result).rejects.toThrow(BadRequestException); // exception is thrown
-      expect(createRepoSpy).toHaveBeenCalledTimes(0); // crate method of repo wasn't called
+      expect(createRepoSpy).not.toHaveBeenCalled(); // crate method of repo wasn't called
+    });
+
+    it('should throw ConflictException if subscription already exists', async () => {
+      await subscriptionModel.create(succesfulSubscriptionDto);
+
+      const createRepoSpy = jest.spyOn(subscriptionRepository, 'create');
+      const result = subscriptionController.subscribe(succesfulSubscriptionDto);
+
+      await expect(result).rejects.toThrow(ConflictException); // exception is thrown
+      expect(createRepoSpy).toHaveBeenCalledWith(succesfulSubscriptionDto); // repo method called with valid data
+      expect(notificationsServiceMock.sendConfirmationNotification).not.toHaveBeenCalled(); // flow doesn't reach notifications
     });
   });
 });
