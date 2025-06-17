@@ -7,19 +7,21 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint .",
-    "test:unit": "jest --verbose --config jest.config.js",
+    "test": "jest --config test/jest.config.js",
+    "test:unit": "jest --config jest.config.js",
     "test:integration": "jest --config test/jest-integration.config.js",
     "test:e2e": "jest --verbose --config test/jest-e2e.config.js",
-    "docker:up": "docker-compose up --build -d",
     "docker:down": "docker-compose down",
-    "docker:stop": "docker-compose stop",
-    "docker:start": "docker-compose start"
+    "docker:up": "docker-compose up --build",
+    "docker:test": "docker-compose -f ../../docker-compose.test.yml up --build --abort-on-container-exit",
+    "docker:test:clear": "docker-compose -f ../../docker-compose.test.yml down -v",
+    "test:ci": "(yarn docker:test || true) && yarn docker:test:clear"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",

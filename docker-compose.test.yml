@@ -5,8 +5,11 @@ services:
       dockerfile: Dockerfile.test
     env_file:
       - ./packages/api/.env.test
+    environment:
+      - DB_URI=mongodb://mongo-test:27017/weatherAPI
     depends_on:
       - mongo-test
+    command: sh -c "yarn test:integration"
 
   mongo-test:
     container_name: mongo-test
