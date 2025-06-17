@@ -17,7 +17,7 @@ import { SubscriptionRepository } from 'src/subscriptions/services/subscription.
 import { SubscriptionController } from 'src/subscriptions/subscription.controller';
 import { SubscriptionModule } from 'src/subscriptions/subscription.module';
 import { WeatherModule } from 'src/weather/weather.module';
-import { mockFetch } from 'test/helpers/fetch.mock';
+import { mockFetch } from 'test/mocks/fetch.mock';
 
 const fetchCityResponse: City[] = [
   {

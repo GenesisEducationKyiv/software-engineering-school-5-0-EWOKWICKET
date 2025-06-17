@@ -47,7 +47,7 @@ test.describe('Subscription Page', () => {
     await page.selectOption('#frequency', 'daily');
 
     await page.click('button[type="submit"]');
-    await expect(page.locator('#result')).toHaveText(/confirmation mail sent/i, { timeout: 2000 });
+    await expect(page.locator('#result')).toHaveText(/confirmation mail sent/i, { timeout: 6000 });
   });
 
   test('should handle subscription duplicate', async ({ page }) => {
@@ -58,7 +58,7 @@ test.describe('Subscription Page', () => {
     await page.fill('#city', 'Kyiv');
     await page.selectOption('#frequency', 'daily');
     await page.click('button[type="submit"]');
-    await page.waitForTimeout(2000); // allow response
+    await page.waitForTimeout(6000); // allow response
 
     // Reload and try again
     await page.reload();

@@ -4,7 +4,7 @@ import { CurrentWeatherAPI } from 'src/common/constants/types/current-weather-ap
 import { CurrentWeatherResponseDto } from 'src/weather/dtos/current-weather-response.dto';
 import { WeatherController } from 'src/weather/weather.controller';
 import { WeatherModule } from 'src/weather/weather.module';
-import { mockFetch } from 'test/helpers/fetch.mock';
+import { mockFetch } from 'test/mocks/fetch.mock';
 
 const fetchWeatherResponse: CurrentWeatherAPI = {
   location: {
