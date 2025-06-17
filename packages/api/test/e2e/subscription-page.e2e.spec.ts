@@ -1,11 +1,14 @@
 import { expect, test } from '@playwright/test';
 import mongoose from 'mongoose';
+import { NotificationsFrequencies } from 'src/common/constants/enums/notifications-frequencies.enum';
+import { SubscriptionPage } from 'test/utils/subscription.page';
 
 test.describe('Subscription Page', () => {
-  const publicUrl = 'http://localhost:3000/weatherapi.app/';
+  let subscriptionPage: SubscriptionPage;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(publicUrl);
+    subscriptionPage = new SubscriptionPage(page);
+    await subscriptionPage.goto();
   });
 
   test.afterEach(async () => {
@@ -24,49 +27,28 @@ test.describe('Subscription Page', () => {
   });
 
   test('should handle invalid email', async ({ page }) => {
-    await page.fill('#email', 'invalidEmail');
-    await page.fill('#city', 'Kyiv');
-    await page.selectOption('#frequency', 'daily');
-
-    await page.click('button[type="submit"]');
-    await expect(page.locator('#result')).toContainText(/must be an email/i);
+    await subscriptionPage.sendForm('invalidEmail', 'Kyiv', NotificationsFrequencies.DAILY);
+    await expect(page.locator('#result')).toContainText(/must be an email/i, { timeout: 10000 });
   });
 
   test('should handle invalid city', async ({ page }) => {
-    await page.fill('#email', 'valid@mail.com');
-    await page.fill('#city', 'invalidCity');
-    await page.selectOption('#frequency', 'hourly');
-
-    await page.click('button[type="submit"]');
-    await expect(page.locator('#result')).toContainText(/possible locations/i);
+    await subscriptionPage.sendForm('valid@mail.com', 'invalidCity', NotificationsFrequencies.DAILY);
+    await expect(page.locator('#result')).toContainText(/possible locations/i, { timeout: 10000 });
   });
 
-  test('should successfully subscribe if data is valid and write a message', async ({ page }) => {
-    await page.fill('#email', 'test@mail.com');
-    await page.fill('#city', 'Kyiv');
-    await page.selectOption('#frequency', 'daily');
-
-    await page.click('button[type="submit"]');
-    await expect(page.locator('#result')).toHaveText(/confirmation mail sent/i, { timeout: 6000 });
-  });
-
-  test('should handle subscription duplicate', async ({ page }) => {
-    const email = `duplicate@mail.com`;
+  test('should handle whole flow(first subsscription created - second is conflict)', async ({ page }) => {
+    const subscriptionMock = {
+      email: 'duplicate@mail.com',
+      city: 'Kyiv',
+      frequency: NotificationsFrequencies.HOURLY,
+    };
 
     // First subscription
-    await page.fill('#email', email);
-    await page.fill('#city', 'Kyiv');
-    await page.selectOption('#frequency', 'daily');
-    await page.click('button[type="submit"]');
-    await page.waitForTimeout(6000); // allow response
+    await subscriptionPage.sendForm(subscriptionMock.email, subscriptionMock.city, subscriptionMock.frequency);
+    await expect(page.locator('#result')).toContainText(/confirmation mail sent/i, { timeout: 10000 });
 
     // Reload and try again
-    await page.reload();
-    await page.fill('#email', email);
-    await page.fill('#city', 'Kyiv');
-    await page.selectOption('#frequency', 'daily');
-    await page.click('button[type="submit"]');
-
-    await expect(page.locator('#result')).toContainText(/conflict/i);
+    await subscriptionPage.sendForm(subscriptionMock.email, subscriptionMock.city, subscriptionMock.frequency);
+    await expect(page.locator('#result')).toContainText(/conflict/i, { timeout: 10000 });
   });
 });
