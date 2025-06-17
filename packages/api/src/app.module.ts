@@ -15,7 +15,7 @@ import { WeatherModule } from './weather/weather.module';
       envFilePath: '.env',
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', 'public'),
+      rootPath: process.env.STATIC_ROOT_PATH || join(__dirname, '..', '..', 'public'),
       serveRoot: '/weatherapi.app',
       exclude: ['/weatherapi.app/api*'],
     }),
