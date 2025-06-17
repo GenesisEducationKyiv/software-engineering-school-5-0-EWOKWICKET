@@ -6,7 +6,7 @@ import { WeatherController } from 'src/weather/weather.controller';
 import { WeatherModule } from 'src/weather/weather.module';
 import { mockFetch } from 'test/helpers/fetch.mock';
 
-const fetchResponse: CurrentWeatherAPI = {
+const fetchWeatherResponse: CurrentWeatherAPI = {
   location: {
     name: 'City',
     region: '',
@@ -28,10 +28,11 @@ const weatherResponse: CurrentWeatherResponseDto = {
 };
 
 describe('WeatherContoller (Integration)', () => {
+  let module: TestingModule;
   let weatherController: WeatherController;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+  beforeAll(async () => {
+    module = await Test.createTestingModule({
       imports: [WeatherModule],
     }).compile();
 
@@ -42,19 +43,23 @@ describe('WeatherContoller (Integration)', () => {
     jest.resetAllMocks();
   });
 
+  afterAll(async () => {
+    await module.close();
+  });
+
   describe('getCurrentWeather', () => {
     it('should return weather if city found', async () => {
-      mockFetch(fetchResponse, HttpStatus.OK);
+      mockFetch(fetchWeatherResponse, HttpStatus.OK);
 
-      const result = await weatherController.getCurrentWeather(fetchResponse.location.name);
-      expect(result).toMatchObject(weatherResponse);
+      const result = await weatherController.getCurrentWeather(fetchWeatherResponse.location.name);
+      expect(result).toMatchObject(weatherResponse); // matches structure of response
     });
 
-    it('should throw error if city not found', async () => {
+    it('should throw exception if city not found', async () => {
       mockFetch({}, 403);
 
       const result = weatherController.getCurrentWeather('InvalidCity');
-      await expect(result).rejects.toThrow(BadRequestException);
+      await expect(result).rejects.toThrow(BadRequestException); // exception is thrown
     });
   });
 });
