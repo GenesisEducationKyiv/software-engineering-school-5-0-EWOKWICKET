@@ -1,0 +1,24 @@
+services:
+  app:
+    build:
+      context: ./packages
+      dockerfile: Dockerfile
+    env_file:
+      - ./packages/api/.env
+    environment:
+      - HOST=0.0.0.0
+      - DB_URI=mongodb+srv://devUser:nvjkEgP0HBtzBe48@weatherapi-cluster.g0ogrf4.mongodb.net/weatherAPI?retryWrites=true&w=majority&appName=weatherapi-cluster
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
