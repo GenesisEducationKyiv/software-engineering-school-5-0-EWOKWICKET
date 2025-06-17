@@ -18,11 +18,9 @@
     "test:e2e": "playwright test",
     "docker:down": "docker compose down",
     "docker:up": "docker compose up --build",
-    "docker:test": "docker compose -f ../../docker-compose.test.yml up --build --abort-on-container-exit",
     "docker:integration": "docker compose -f ../../docker-compose.test.yml up --build --abort-on-container-exit integration-test",
     "docker:e2e": "docker compose -f ../../docker-compose.test.yml up --build --abort-on-container-exit e2e-test",
-    "docker:test:clear": "docker compose -f ../../docker-compose.test.yml down -v",
-    "test:ci": "npm-run-all --continue-on-error docker:test docker:test:clear"
+    "docker:test:clear": "docker compose -f ../../docker-compose.test.yml down -v"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",

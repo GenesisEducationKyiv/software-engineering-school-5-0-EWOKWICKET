@@ -26,29 +26,37 @@ test.describe('Subscription Page', () => {
     await expect(page.locator('button[type="submit"]')).toBeVisible();
   });
 
-  test('should handle invalid email', async ({ page }) => {
+  test('should handle invalid email', async () => {
     await subscriptionPage.sendForm('invalidEmail', 'Kyiv', NotificationsFrequencies.DAILY);
-    await expect(page.locator('#result')).toContainText(/must be an email/i, { timeout: 10000 });
+    await subscriptionPage.expectResultContains(/must be an email/i);
   });
 
-  test('should handle invalid city', async ({ page }) => {
+  test('should handle invalid city', async () => {
+    subscriptionPage.mockCitySearch('Kyiv');
     await subscriptionPage.sendForm('valid@mail.com', 'invalidCity', NotificationsFrequencies.DAILY);
-    await expect(page.locator('#result')).toContainText(/possible locations/i, { timeout: 10000 });
+    await subscriptionPage.expectResultContains(/possible locations/i);
   });
 
-  test('should handle whole flow(first subsscription created - second is conflict)', async ({ page }) => {
+  test('should successfully subscribe', async () => {
+    subscriptionPage.mockCitySearch('Kyiv');
+    await subscriptionPage.sendForm('valid@mail.com', 'Kyiv', NotificationsFrequencies.HOURLY);
+    await subscriptionPage.expectResultContains(/confirmation mail sent/i);
+  });
+
+  test('should handle whole flow(first subsscription created - second is conflict)', async () => {
     const subscriptionMock = {
       email: 'duplicate@mail.com',
       city: 'Kyiv',
       frequency: NotificationsFrequencies.HOURLY,
     };
+    subscriptionPage.mockCitySearch(subscriptionMock.city);
 
     // First subscription
     await subscriptionPage.sendForm(subscriptionMock.email, subscriptionMock.city, subscriptionMock.frequency);
-    await expect(page.locator('#result')).toContainText(/confirmation mail sent/i, { timeout: 10000 });
+    await subscriptionPage.expectResultContains(/confirmation mail sent/i);
 
     // Reload and try again
     await subscriptionPage.sendForm(subscriptionMock.email, subscriptionMock.city, subscriptionMock.frequency);
-    await expect(page.locator('#result')).toContainText(/conflict/i, { timeout: 10000 });
+    await subscriptionPage.expectResultContains(/conflict/i);
   });
 });
