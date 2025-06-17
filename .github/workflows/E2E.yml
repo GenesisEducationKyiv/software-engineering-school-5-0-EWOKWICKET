@@ -1,0 +1,21 @@
+name: E2e tests CI pipeline
+
+permissions:
+  contents: read
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-node
+
+      - name: Run e2e tests
+        run: yarn docker:e2e
+        working-directory: packages/api
+
+      - name: Clear containers
+        if: always()
+        run: yarn docker:test:clear
+        working-directory: packages/api

@@ -1,40 +1,21 @@
-name: CI pipeline
+name: Linter CI pipeline
 
 permissions:
   contents: read
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
+on: [push, pull_request]
 
 jobs:
-  CI:
+  linter:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22.x'
-          cache: yarn
-          cache-dependency-path: packages/api/yarn.lock
+      - uses: ./.github/actions/setup-node
 
       - name: Install dependencies in packages/api
-        run: |
-          cd packages/api
-          yarn install
+        run: yarn install
+        working-directory: packages/api
 
       - name: Run eslint
-        run: |
-          cd packages/api
-          yarn lint
-
-      - name: Run tests
-        run: |
-          cd packages/api
-          yarn test:ci
+        run: yarn lint
+        working-directory: packages/api

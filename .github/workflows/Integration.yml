@@ -1,0 +1,21 @@
+name: Integration tests CI pipeline
+
+permissions:
+  contents: read
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/setup-node
+
+      - name: Run integration tests
+        run: yarn docker:integration
+        working-directory: packages/api
+
+      - name: Clear containers
+        if: always()
+        run: yarn docker:test:clear
+        working-directory: packages/api
