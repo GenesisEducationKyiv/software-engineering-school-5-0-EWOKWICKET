@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  eslinter:
+  CI:
     runs-on: ubuntu-latest
 
     steps:

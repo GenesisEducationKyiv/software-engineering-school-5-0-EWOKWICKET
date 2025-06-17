@@ -1,8 +1,8 @@
-import { BadRequestException, ConflictException, HttpStatus } from '@nestjs/common';
+import { BadRequestException, ConflictException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import mongoose, { Model } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
 import { MailSubjects } from 'src/common/constants/enums/mail-subjects.enum';
 import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
 import { NotificationsFrequencies } from 'src/common/constants/enums/notifications-frequencies.enum';
@@ -98,7 +98,7 @@ describe('SubscriptionController (Integration)', () => {
     it('should successfully subscribe if subsription is unique and city found', async () => {
       const createRepoSpy = jest.spyOn(subscriptionRepository, 'create');
 
-      await subscriptionController.subscribe(succesfulSubscriptionDto);
+      await subscriptionController.subscribe(succesfulSubscriptionDto); // start flow
 
       expect(createRepoSpy).toHaveBeenCalledWith(succesfulSubscriptionDto); // create method of repo was called
       expect(notificationsServiceMock.sendConfirmationNotification).toHaveBeenCalledWith(
@@ -114,7 +114,7 @@ describe('SubscriptionController (Integration)', () => {
 
     it('should throw BadRequestException if city not found', async () => {
       const createRepoSpy = jest.spyOn(subscriptionRepository, 'create');
-      const result = subscriptionController.subscribe(invalidSubscriptionDto);
+      const result = subscriptionController.subscribe(invalidSubscriptionDto); // start flow
 
       await expect(result).rejects.toThrow(BadRequestException); // exception is thrown
       expect(createRepoSpy).not.toHaveBeenCalled(); // crate method of repo wasn't called
@@ -124,11 +124,112 @@ describe('SubscriptionController (Integration)', () => {
       await subscriptionModel.create(succesfulSubscriptionDto);
 
       const createRepoSpy = jest.spyOn(subscriptionRepository, 'create');
-      const result = subscriptionController.subscribe(succesfulSubscriptionDto);
+      const result = subscriptionController.subscribe(succesfulSubscriptionDto); // start flow
 
-      await expect(result).rejects.toThrow(ConflictException); // exception is thrown
+      await expect(result).rejects.toThrow(ConflictException); // ConflictException is thrown
       expect(createRepoSpy).toHaveBeenCalledWith(succesfulSubscriptionDto); // repo method called with valid data
-      expect(notificationsServiceMock.sendConfirmationNotification).not.toHaveBeenCalled(); // flow doesn't reach notifications
+      expect(notificationsServiceMock.sendConfirmationNotification).not.toHaveBeenCalled(); // flow didn't reach notifications
+    });
+  });
+
+  describe('confirm', () => {
+    it('successfully confirm if subscription exists', async () => {
+      const createdSubscription = await subscriptionModel.create({
+        ...succesfulSubscriptionDto,
+        confirmed: false,
+        expiresAt: new Date(Date.now() + 60 * 60 * 1000),
+      });
+      const subscriptionId = createdSubscription._id;
+
+      const updateByIdSpy = jest.spyOn(subscriptionRepository, 'updateById');
+      await subscriptionController.confirm(subscriptionId.toString()); // start flow
+      const updatedSubscription = await subscriptionModel.findById(subscriptionId);
+
+      // verifies new document's values
+      expect(updatedSubscription.confirmed).toBe(true);
+      expect(updatedSubscription.expiresAt).toBeNull();
+
+      // verifies repo method's call params
+      expect(updateByIdSpy).toHaveBeenCalledWith(subscriptionId, { confirmed: true, expiresAt: null });
+    });
+
+    it('should throw NotFoundException if subscription with token does not exist', async () => {
+      // Generate a valid mongo id that doesn't exist in the database
+      const nonExistentId = new Types.ObjectId();
+      const updateByIdSpy = jest.spyOn(subscriptionRepository, 'updateById');
+
+      const result = subscriptionController.confirm(nonExistentId.toString()); // start flow
+
+      // NotFoundException is thrown
+      await expect(result).rejects.toThrow(NotFoundException);
+      await expect(result).rejects.toThrow('Token Not Found');
+
+      // verifies repo method's call params
+      expect(updateByIdSpy).toHaveBeenCalledWith(nonExistentId, { confirmed: true, expiresAt: null });
+    });
+
+    it('should throw NotFoundException if token is not a valid mongo id', async () => {
+      const invalidToken = 'invalid-token';
+      const updateByIdSpy = jest.spyOn(subscriptionRepository, 'updateById');
+
+      const result = subscriptionController.confirm(invalidToken); // start flow
+
+      // NotFoundException is thrown
+      await expect(result).rejects.toThrow(NotFoundException);
+      await expect(result).rejects.toThrow('Token Not Found');
+
+      // flow didn't reach update method
+      expect(updateByIdSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('unsubscribe', () => {
+    it('successfully unsubscribe if subscription exists', async () => {
+      const createdSubscription = await subscriptionModel.create({
+        ...succesfulSubscriptionDto,
+        confirmed: true,
+        expiresAt: null,
+      });
+      const subscriptionId = createdSubscription._id;
+
+      const deleteByIdSpy = jest.spyOn(subscriptionRepository, 'deleteById');
+      await subscriptionController.unsubscribe(subscriptionId.toString()); // start flow
+      const deletedSubscription = await subscriptionModel.findById(subscriptionId);
+
+      // verifies document doesn't exist
+      expect(deletedSubscription).toBeNull();
+
+      // verifies repo method's call params
+      expect(deleteByIdSpy).toHaveBeenCalledWith(subscriptionId);
+    });
+
+    it('should throw NotFoundException if subscription with token does not exist', async () => {
+      // Generate a valid mongo id that doesn't exist in the database
+      const nonExistentId = new Types.ObjectId();
+      const deleteByIdSpy = jest.spyOn(subscriptionRepository, 'deleteById');
+
+      const result = subscriptionController.unsubscribe(nonExistentId.toString()); // start flow
+
+      // NotFoundException is thrown
+      await expect(result).rejects.toThrow(NotFoundException);
+      await expect(result).rejects.toThrow('Token Not Found');
+
+      // verifies repo method's call params
+      expect(deleteByIdSpy).toHaveBeenCalledWith(nonExistentId);
+    });
+
+    it('should throw NotFoundException if token is not a valid mongo id', async () => {
+      const invalidToken = 'invalid-token';
+      const deleteByIdSpy = jest.spyOn(subscriptionRepository, 'deleteById');
+
+      const result = subscriptionController.unsubscribe(invalidToken); // start flow
+
+      // NotFoundException is thrown
+      await expect(result).rejects.toThrow(NotFoundException);
+      await expect(result).rejects.toThrow('Token Not Found');
+
+      // flow didn't reach update method
+      expect(deleteByIdSpy).not.toHaveBeenCalled();
     });
   });
 });
