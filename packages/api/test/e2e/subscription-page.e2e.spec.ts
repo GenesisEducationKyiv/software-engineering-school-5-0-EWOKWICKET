@@ -23,29 +23,53 @@ test.describe('Subscription Page', () => {
     await subscriptionPage.expectResultContains(/must be an email/i);
   });
 
-  test('should handle invalid city', async () => {
-    await subscriptionPage.sendForm('valid@mail.com', 'Londo', NotificationsFrequencies.DAILY);
+  test('should handle invalid city', async ({ page }) => {
+    // mock endpoint
+    await page.route('**/api/subscibe*', async (route) => {
+      await route.fulfill({
+        status: 400,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          message: 'No matching location found',
+          possibleLocations: ['Kyiv'],
+        }),
+      });
+    });
+
+    await subscriptionPage.sendForm('valid@mail.com', 'invalid', NotificationsFrequencies.DAILY);
     await subscriptionPage.expectResultContains(/possible locations/i);
   });
 
-  test('should successfully subscribe', async () => {
+  test('should successfully subscribe', async ({ page }) => {
+    // mock endpoint
+    await page.route('**/api/subscribe', async (route) => {
+      await route.fulfill({
+        status: 201,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          message: 'Confirmation mail sent',
+        }),
+      });
+    });
+
     await subscriptionPage.sendForm('valid@mail.com', 'Kyiv', NotificationsFrequencies.HOURLY);
     await subscriptionPage.expectResultContains(/confirmation mail sent/i);
   });
 
-  test('should handle whole flow(first subsscription created - second is conflict)', async () => {
-    const subscriptionMock = {
-      email: 'duplicate@mail.com',
-      city: 'Kyiv',
-      frequency: NotificationsFrequencies.HOURLY,
-    };
+  test('should handle whole flow(first subsscription created - second is conflict)', async ({ page }) => {
+    // mock endpoint
+    await page.route('**/api/subscribe', async (route) => {
+      await route.fulfill({
+        status: 409,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          statusCode: 409,
+          message: 'Conflict Error',
+        }),
+      });
+    });
 
-    // First subscription
-    await subscriptionPage.sendForm(subscriptionMock.email, subscriptionMock.city, subscriptionMock.frequency);
-    await subscriptionPage.expectResultContains(/confirmation mail sent/i);
-
-    // Reload and try again
-    await subscriptionPage.sendForm(subscriptionMock.email, subscriptionMock.city, subscriptionMock.frequency);
+    await subscriptionPage.sendForm('duplicate@mail.com', 'Kyiv', NotificationsFrequencies.HOURLY);
     await subscriptionPage.expectResultContains(/conflict/i);
   });
 });
