@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test';
-import mongoose from 'mongoose';
 import { NotificationsFrequencies } from 'src/common/constants/enums/notifications-frequencies.enum';
 import { SubscriptionPage } from 'test/utils/subscription.page';
 
@@ -9,13 +8,6 @@ test.describe('Subscription Page', () => {
   test.beforeEach(async ({ page }) => {
     subscriptionPage = new SubscriptionPage(page);
     await subscriptionPage.goto();
-  });
-
-  test.afterEach(async () => {
-    const collections = mongoose.connection.collections;
-    for (const col in collections) {
-      collections[col].deleteMany();
-    }
   });
 
   test('elements should be displayed', async ({ page }) => {
@@ -32,13 +24,11 @@ test.describe('Subscription Page', () => {
   });
 
   test('should handle invalid city', async () => {
-    subscriptionPage.mockCitySearch('Kyiv');
-    await subscriptionPage.sendForm('valid@mail.com', 'invalidCity', NotificationsFrequencies.DAILY);
+    await subscriptionPage.sendForm('valid@mail.com', 'Londo', NotificationsFrequencies.DAILY);
     await subscriptionPage.expectResultContains(/possible locations/i);
   });
 
   test('should successfully subscribe', async () => {
-    subscriptionPage.mockCitySearch('Kyiv');
     await subscriptionPage.sendForm('valid@mail.com', 'Kyiv', NotificationsFrequencies.HOURLY);
     await subscriptionPage.expectResultContains(/confirmation mail sent/i);
   });
@@ -49,7 +39,6 @@ test.describe('Subscription Page', () => {
       city: 'Kyiv',
       frequency: NotificationsFrequencies.HOURLY,
     };
-    subscriptionPage.mockCitySearch(subscriptionMock.city);
 
     // First subscription
     await subscriptionPage.sendForm(subscriptionMock.email, subscriptionMock.city, subscriptionMock.frequency);

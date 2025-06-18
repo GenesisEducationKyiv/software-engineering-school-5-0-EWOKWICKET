@@ -1,6 +1,5 @@
 import { Page, expect } from '@playwright/test';
 import { NotificationsFrequencies } from 'src/common/constants/enums/notifications-frequencies.enum';
-import { City } from 'src/common/constants/types/city.interface';
 
 export class SubscriptionPage {
   page: Page;
@@ -22,16 +21,5 @@ export class SubscriptionPage {
 
   async expectResultContains(text: RegExp) {
     await expect(this.page.locator('#result')).toContainText(text);
-  }
-
-  async mockCitySearch(name: string) {
-    const cityApiMock: City[] = [{ name, region: '', country: '' }];
-    await this.page.route('**/search.json**', (route) => {
-      route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(cityApiMock),
-      });
-    });
   }
 }
