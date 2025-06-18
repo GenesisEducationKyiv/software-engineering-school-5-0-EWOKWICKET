@@ -25,13 +25,14 @@ test.describe('Subscription Page', () => {
 
   test('should handle invalid city', async ({ page }) => {
     // mock endpoint
-    await page.route('**/api/subscibe*', async (route) => {
+    await page.route('**/api/subscribe', async (route) => {
       await route.fulfill({
         status: 400,
         contentType: 'application/json',
         body: JSON.stringify({
+          statusCode: 400,
           message: 'No matching location found',
-          possibleLocations: ['Kyiv'],
+          possibleLocations: [],
         }),
       });
     });
