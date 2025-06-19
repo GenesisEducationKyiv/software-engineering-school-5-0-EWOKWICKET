@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import * as fs from 'fs';
 import Handlebars, { TemplateDelegate } from 'handlebars';
 import * as path from 'path';
-import { Url } from 'src/common/constants/enums/url.constants';
+import { Url } from 'src/common/enums/url.constants';
 import { WeatherUpdateInterface } from 'src/notifications/constants/types/weather-update.interface';
 import { Templates } from '../constants/enums/templates.enum';
 import { TemplateParams } from '../constants/types/template.type';

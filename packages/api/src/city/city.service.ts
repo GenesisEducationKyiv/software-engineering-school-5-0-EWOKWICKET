@@ -1,5 +1,6 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { Url } from 'src/common/constants/enums/url.constants';
+import { Injectable } from '@nestjs/common';
+import { Url } from 'src/common/enums/url.constants';
+import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { CityResponseDto } from 'src/weather/constants/city-response.dto';
 
 @Injectable()
@@ -11,7 +12,7 @@ export class CityService {
     const searchUrl = `${this.apiUrl}/search.json?key=${this.apiKey}&q=${city}`;
     const response = await fetch(searchUrl);
 
-    if (response.status !== 200) throw new InternalServerErrorException();
+    if (response.status !== 200) throw new ExternalApiException();
 
     return await response.json();
   }

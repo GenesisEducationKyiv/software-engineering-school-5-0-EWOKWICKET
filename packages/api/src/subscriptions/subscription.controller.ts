@@ -1,5 +1,4 @@
-import { Body, Controller, Get, HttpCode, Inject, Param, Post, UsePipes } from '@nestjs/common';
-import { CityValidationPipe } from 'src/common/pipes/city-validation.pipe';
+import { Body, Controller, Get, HttpCode, Inject, Param, Post } from '@nestjs/common';
 import { MongoIdValidationPipe } from 'src/common/pipes/mongo-id-validation.pipe';
 import { CreateSubscriptionDto } from './dtos/create-subscription.dto';
 import { ControllerSubscriptionService, ControllerSubscriptionServiceToken } from './interfaces/subcription-service.interface';
@@ -11,22 +10,19 @@ export class SubscriptionController {
     private readonly subscriptionService: ControllerSubscriptionService,
   ) {}
 
-  @UsePipes(CityValidationPipe)
   @HttpCode(200)
   @Post('subscribe')
   subscribe(@Body() subscribeDto: CreateSubscriptionDto) {
     this.subscriptionService.subscribe(subscribeDto);
   }
 
-  @UsePipes(MongoIdValidationPipe)
   @Get('confirm/:token')
-  confirm(@Param('token') token: string) {
+  confirm(@Param('token', MongoIdValidationPipe) token: string) {
     this.subscriptionService.confirm(token);
   }
 
-  @UsePipes(MongoIdValidationPipe)
   @Get('unsubscribe/:token')
-  unsubscribe(@Param('token') token: string) {
+  unsubscribe(@Param('token', MongoIdValidationPipe) token: string) {
     this.subscriptionService.unsubscribe(token);
   }
 }

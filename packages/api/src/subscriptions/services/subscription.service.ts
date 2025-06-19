@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { RootFilterQuery } from 'mongoose';
 import { Subscription, SubscriptionWithId } from 'src/database/schemas/subscription.schema';
 import { NotificationSubjects } from 'src/notifications/constants/enums/notification-subjects.enum';
@@ -7,6 +7,7 @@ import { NotificationsService, NotificationsServiceToken } from 'src/scheduler/i
 import { FindSubscriptionService } from 'src/scheduler/interfaces/subscription-service.interface';
 import { SubscriptionRepositoryInterface, SubscriptionRepositoryToken } from 'src/subscriptions/interfaces/subscription-repository.interface';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
+import { InvalidTokenException } from '../errors/invalid-token.error';
 import { ControllerSubscriptionService } from '../interfaces/subcription-service.interface';
 
 @Injectable()
@@ -34,12 +35,12 @@ export class SubscriptionService implements FindSubscriptionService, ControllerS
   async confirm(token: string) {
     const updateObject = { confirmed: true, expiresAt: null };
     const updated = await this.subscriptionRepository.updateById(token, updateObject);
-    if (!updated) throw new NotFoundException('Token Not Found');
+    if (!updated) throw new InvalidTokenException('Token Not Found');
   }
 
   async unsubscribe(token: string) {
     const deleted = await this.subscriptionRepository.deleteById(token);
-    if (!deleted) throw new NotFoundException('Token Not Found');
+    if (!deleted) throw new InvalidTokenException('Token Not Found');
   }
 
   async find(options: RootFilterQuery<Subscription>): Promise<SubscriptionWithId[]> {

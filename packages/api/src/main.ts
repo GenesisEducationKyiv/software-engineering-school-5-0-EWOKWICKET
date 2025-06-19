@@ -1,5 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { useContainer } from 'class-validator';
 import { AppModule } from './app.module';
 import { DatabaseExceptionFilter } from './common/filters/database-exception.filter';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
@@ -9,6 +10,8 @@ async function bootstrap() {
   app.setGlobalPrefix('weatherapi.app/api');
   app.enableCors();
 
+  // for correct injection of constraints into validators
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
   app.useGlobalFilters(new HttpExceptionFilter(), new DatabaseExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({
