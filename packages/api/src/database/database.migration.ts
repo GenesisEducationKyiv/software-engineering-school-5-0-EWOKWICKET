@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
-import { Subscription } from 'src/database/schemas/subscription.schema';
+import { Subscription } from './schemas/subscription.schema';
 
 @Injectable()
 export class DatabaseMigration {
@@ -12,32 +12,37 @@ export class DatabaseMigration {
 
   async migrateDatabase() {
     try {
-      await this.addSubscriptionCollection();
+      await this._addSubscriptionCollection();
+      await this._addSubscriptionIndexes();
     } catch (err) {
-      console.log(`Error occured on migration: ${err}`);
+      console.error(`Error occured on migration: ${err}`);
     }
   }
 
-  async addSubscriptionCollection() {
+  private async _addSubscriptionCollection() {
     const collectionName = this.subscriptionModel.collection.name;
 
     const collection = await this.connection.db.listCollections({ name: collectionName }).next();
 
     if (collection) {
-      console.log('Subscription collection already exists');
+      console.error('Subscription collection already exists');
     } else {
       console.log("Subscription collection doesn't exist. Creating a collection...");
       await this.connection.db.createCollection(collectionName);
       console.log('Subscription collection created');
     }
+  }
 
-    const indexInfo = await this.subscriptionModel.collection.indexExists('expiresAt_index');
+  private async _addSubscriptionIndexes() {
+    const indexName = 'expiresAt';
+    const collection = this.subscriptionModel.collection;
+    const indexExists = await collection.indexExists(indexName);
 
-    if (!indexInfo) {
-      await this.subscriptionModel.collection.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0, name: 'expiresAt_index' });
+    if (!indexExists) {
+      await collection.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0, name: indexName });
       console.log('TTL index created on expiresAt');
     } else {
-      console.log('TTL index on expiresAt already exists');
+      console.error('TTL index on expiresAt already exists');
     }
   }
 }

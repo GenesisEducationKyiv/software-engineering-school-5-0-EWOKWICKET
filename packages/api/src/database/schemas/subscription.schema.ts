@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { NotificationsFrequencies } from 'src/common/constants/enums/notifications-frequencies.enum';
+import { NotificationsFrequencies } from '../../common/constants/enums/notifications-frequencies.enum';
 
 @Schema()
 export class Subscription {

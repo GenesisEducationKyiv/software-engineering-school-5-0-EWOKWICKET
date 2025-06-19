@@ -13,6 +13,8 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint .",
+    "tscpaths": "ts-node -r tsconfig-paths/register",
+    "migrate": "yarn tscpaths src/scripts/run-migrations.ts",
     "test:unit": "jest --verbose --config jest.config.js",
     "test:e2e": "jest --verbose --config test/jest-e2e.config.js",
     "docker:up": "docker-compose up --build -d",
