@@ -2,12 +2,12 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
 import { Notification } from 'src/notifications/constants/notification.interface';
-import { ConfirmationEmail, UpdateEmail } from 'src/notifications/mail/constants/email.interface';
-import { INotificationsSender } from '../../interfaces/notifications-sender.interface';
+import { ConfirmationEmail, UpdateEmail } from 'src/notifications/mail/constants/email-notifications.interface';
+import { NotificationsSender } from '../../interfaces/notifications-sender.interface';
 import { MailTemplateService } from './mail-template.service';
 
 @Injectable()
-export class MailSender implements INotificationsSender {
+export class MailSender implements NotificationsSender {
   readonly type: NotificationType = NotificationType.EMAIL;
 
   constructor(

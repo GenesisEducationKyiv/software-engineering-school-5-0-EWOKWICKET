@@ -1,12 +1,12 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { CurrentWeatherResponseDto } from './dtos/current-weather-response.dto';
-import { ForecastWeatherServiceToken, IForecastWeatherService } from './interfaces/weather-service.interface';
+import { ForecastWeatherService, ForecastWeatherServiceToken } from './interfaces/weather-service.interface';
 
 @Controller('weather')
 export class WeatherController {
   constructor(
     @Inject(ForecastWeatherServiceToken)
-    private readonly weatherService: IForecastWeatherService,
+    private readonly weatherService: ForecastWeatherService,
   ) {}
 
   @Get()

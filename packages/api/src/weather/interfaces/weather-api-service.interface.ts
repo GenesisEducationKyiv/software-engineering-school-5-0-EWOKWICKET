@@ -1,9 +1,9 @@
-import { City } from 'src/common/constants/types/city.interface';
-import { CurrentWeatherAPI } from 'src/common/constants/types/current-weather-api.interface';
+import { CityResponseDto } from 'src/weather/constants/city-response.dto';
+import { CurrentWeatherApiResponseDto } from 'src/weather/constants/current-weather-api.interface';
 
-export interface IWeatherApiService {
-  searchCitiesRaw(city: string): Promise<City[]>;
-  getCurrentWeatherRaw(city: string): Promise<CurrentWeatherAPI>;
+export interface WeatherApiService {
+  searchCitiesRaw(city: string): Promise<CityResponseDto[]>;
+  getCurrentWeatherRaw(city: string): Promise<CurrentWeatherApiResponseDto>;
 }
 
 export const WeatherApiServiceToken = 'WeatherApiService';

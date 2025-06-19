@@ -1,4 +1,5 @@
-import { IsEmail, IsIn, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { NotificationsFrequencies } from 'src/common/constants/enums/notifications-frequencies.enum';
 
 export class CreateSubscriptionDto {
   @IsNotEmpty()
@@ -10,6 +11,6 @@ export class CreateSubscriptionDto {
   city: string;
 
   @IsNotEmpty()
-  @IsIn(['hourly', 'daily'])
-  frequency: 'daily' | 'hourly';
+  @IsEnum(NotificationsFrequencies)
+  frequency: NotificationsFrequencies;
 }

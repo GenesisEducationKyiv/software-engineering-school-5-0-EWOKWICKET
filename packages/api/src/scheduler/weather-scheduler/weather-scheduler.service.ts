@@ -3,21 +3,21 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { MailSubjects } from 'src/common/constants/enums/mail-subjects.enum';
 import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
 import { NotificationsFrequencies } from 'src/common/constants/enums/notifications-frequencies.enum';
-import { WeatherUpdateNotificationsOptions } from 'src/common/constants/types/updates.options';
 import { Subscription } from 'src/database/schemas/subscription.schema';
-import { ForecastWeatherServiceToken, IForecastWeatherService } from 'src/weather/interfaces/weather-service.interface';
-import { INotificationsService, NotificationsServiceToken } from '../interfaces/notifications-service.interface';
-import { FindSubscriptionServiceToken, IFindSubscriptionService } from '../interfaces/subscription-service.interface';
+import { WeatherUpdateNotificationsOptions } from 'src/notifications/constants/updates.options';
+import { ForecastWeatherService, ForecastWeatherServiceToken } from 'src/weather/interfaces/weather-service.interface';
+import { NotificationsService, NotificationsServiceToken } from '../interfaces/notifications-service.interface';
+import { FindSubscriptionService, FindSubscriptionServiceToken } from '../interfaces/subscription-service.interface';
 
 @Injectable()
 export class WeatherSchedulerService {
   constructor(
     @Inject(FindSubscriptionServiceToken)
-    private readonly subscriptionService: IFindSubscriptionService,
+    private readonly subscriptionService: FindSubscriptionService,
     @Inject(NotificationsServiceToken)
-    private readonly notificationsService: INotificationsService,
+    private readonly notificationsService: NotificationsService,
     @Inject(ForecastWeatherServiceToken)
-    private readonly weatherService: IForecastWeatherService,
+    private readonly weatherService: ForecastWeatherService,
   ) {}
 
   @Cron(CronExpression.EVERY_HOUR)

@@ -1,12 +1,12 @@
 import { Body, Controller, Get, HttpCode, Inject, Param, Post } from '@nestjs/common';
 import { CreateSubscriptionDto } from './dtos/create-subscription.dto';
-import { ControllerSubscriptionServiceToken, IControllerSubscriptionService } from './interfaces/subcription-service.interface';
+import { ControllerSubscriptionService, ControllerSubscriptionServiceToken } from './interfaces/subcription-service.interface';
 
 @Controller()
 export class SubscriptionController {
   constructor(
     @Inject(ControllerSubscriptionServiceToken)
-    private readonly subscriptionService: IControllerSubscriptionService,
+    private readonly subscriptionService: ControllerSubscriptionService,
   ) {}
 
   //validates globally

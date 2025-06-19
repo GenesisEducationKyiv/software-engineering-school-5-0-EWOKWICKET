@@ -1,4 +1,4 @@
-export interface ICitiesWeatherService {
+export interface CitiesWeatherService {
   searchCities(city: string): Promise<string[]>;
 }
 

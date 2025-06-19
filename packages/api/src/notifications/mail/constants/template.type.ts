@@ -1,4 +1,4 @@
-import { WeatherUpdateInterface } from 'src/common/constants/types/weather-update.interface';
+import { WeatherUpdateInterface } from 'src/notifications/constants/weather-update.interface';
 import { Templates } from './templates.enum';
 
 export type TemplateParams =

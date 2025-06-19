@@ -1,4 +1,4 @@
-export class City {
+export class CityResponseDto {
   name: string;
   region: string;
   country: string;

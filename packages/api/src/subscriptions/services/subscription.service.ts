@@ -2,24 +2,23 @@ import { BadRequestException, Inject, Injectable, NotFoundException } from '@nes
 import { RootFilterQuery, Types } from 'mongoose';
 import { MailSubjects } from 'src/common/constants/enums/mail-subjects.enum';
 import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
-import { ISubscription } from 'src/common/constants/types/subscription.interface';
-import { Subscription } from 'src/database/schemas/subscription.schema';
-import { INotificationsService, NotificationsServiceToken } from 'src/scheduler/interfaces/notifications-service.interface';
-import { IFindSubscriptionService } from 'src/scheduler/interfaces/subscription-service.interface';
-import { ISubscriptionRepository, SubscriptionRepositoryToken } from 'src/subscriptions/interfaces/subscription-repository.interface';
+import { Subscription, SubscriptionWithId } from 'src/database/schemas/subscription.schema';
+import { NotificationsService, NotificationsServiceToken } from 'src/scheduler/interfaces/notifications-service.interface';
+import { FindSubscriptionService } from 'src/scheduler/interfaces/subscription-service.interface';
+import { SubscriptionRepository, SubscriptionRepositoryToken } from 'src/subscriptions/interfaces/subscription-repository.interface';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
-import { IControllerSubscriptionService } from '../interfaces/subcription-service.interface';
-import { CitiesWeatherServiceToken, ICitiesWeatherService } from '../interfaces/weather-service.interface';
+import { ControllerSubscriptionService } from '../interfaces/subcription-service.interface';
+import { CitiesWeatherService, CitiesWeatherServiceToken } from '../interfaces/weather-service.interface';
 
 @Injectable()
-export class SubscriptionService implements IFindSubscriptionService, IControllerSubscriptionService {
+export class SubscriptionService implements FindSubscriptionService, ControllerSubscriptionService {
   constructor(
     @Inject(SubscriptionRepositoryToken)
-    private readonly subscriptionRepository: ISubscriptionRepository,
+    private readonly subscriptionRepository: SubscriptionRepository,
     @Inject(NotificationsServiceToken)
-    private readonly notificationsService: INotificationsService,
+    private readonly notificationsService: NotificationsService,
     @Inject(CitiesWeatherServiceToken)
-    private readonly weatherService: ICitiesWeatherService,
+    private readonly weatherService: CitiesWeatherService,
   ) {}
 
   async subscribe(subscribeDto: CreateSubscriptionDto): Promise<void> {
@@ -55,7 +54,7 @@ export class SubscriptionService implements IFindSubscriptionService, IControlle
     if (!deleted) throw new NotFoundException('Token Not Found');
   }
 
-  async find(options: RootFilterQuery<Subscription>): Promise<ISubscription[]> {
+  async find(options: RootFilterQuery<Subscription>): Promise<SubscriptionWithId[]> {
     const found = await this.subscriptionRepository.find(options);
     return found;
   }

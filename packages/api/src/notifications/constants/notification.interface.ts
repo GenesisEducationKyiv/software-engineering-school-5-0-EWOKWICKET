@@ -1,4 +1,4 @@
-import { WeatherUpdateInterface } from '../../common/constants/types/weather-update.interface';
+import { WeatherUpdateInterface } from './weather-update.interface';
 
 export interface Notification {
   to: string;
