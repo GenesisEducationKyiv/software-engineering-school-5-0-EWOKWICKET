@@ -40,6 +40,6 @@ import { SubscriptionController } from './subscription.controller';
       useExisting: SubscriptionService,
     },
   ],
-  exports: [FindSubscriptionServiceToken, ControllerSubscriptionServiceToken],
+  exports: [FindSubscriptionServiceToken, ControllerSubscriptionServiceToken, SubscriptionRepository],
 })
 export class SubscriptionModule {}

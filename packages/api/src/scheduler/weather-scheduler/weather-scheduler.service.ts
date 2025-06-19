@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { Subscription } from 'src/database/schemas/subscription.schema';
 import { NotificationsFrequencies } from 'src/notifications/constants/enums/notification-frequencies.enum';
 import { NotificationSubjects } from 'src/notifications/constants/enums/notification-subjects.enum';
 import { NotificationType } from 'src/notifications/constants/enums/notification-type.enum';
 import { WeatherUpdateNotificationsOptions } from 'src/notifications/constants/types/updates.options';
+import { SubscriptionRepository } from 'src/subscriptions/services/subscription.repository';
 import { ForecastWeatherService, ForecastWeatherServiceToken } from 'src/weather/interfaces/weather-service.interface';
 import { NotificationsService, NotificationsServiceToken } from '../interfaces/notifications-service.interface';
 import { FindSubscriptionService, FindSubscriptionServiceToken } from '../interfaces/subscription-service.interface';
@@ -18,6 +18,7 @@ export class WeatherSchedulerService {
     private readonly notificationsService: NotificationsService,
     @Inject(ForecastWeatherServiceToken)
     private readonly weatherService: ForecastWeatherService,
+    private readonly subscriptionRepository: SubscriptionRepository,
   ) {}
 
   @Cron(CronExpression.EVERY_HOUR)
@@ -33,14 +34,13 @@ export class WeatherSchedulerService {
   }
 
   private async _sendUpdates({ frequency, subject }: WeatherUpdateNotificationsOptions) {
-    const subscriptions = await this.subscriptionService.find({ confirmed: true, frequency });
+    const grouped = await this.subscriptionRepository.findGroupedByCities(frequency);
 
-    const groupedByCity = this._groupByCity(subscriptions);
-
-    for (const city of Object.keys(groupedByCity)) {
+    for (const group of grouped) {
+      const city = group._id;
       const weather = await this.weatherService.getCurrentWeather(city);
 
-      for (const subscription of groupedByCity[city]) {
+      for (const subscription of group.subscriptions) {
         await this.notificationsService.sendWeatherUpdateNotification(
           {
             to: subscription.email,
@@ -54,18 +54,5 @@ export class WeatherSchedulerService {
         );
       }
     }
-  }
-
-  private _groupByCity(subscriptions: Subscription[]) {
-    const groupedByCity = subscriptions.reduce(
-      (res, sub) => {
-        if (!res[sub.city]) res[sub.city] = [];
-        res[sub.city].push(sub);
-        return res;
-      },
-      {} as Record<string, Subscription[]>,
-    );
-
-    return groupedByCity;
   }
 }

@@ -33,4 +33,16 @@ export class SubscriptionRepository implements SubscriptionRepositoryInterface {
     const deleted = await this.subscriptionModel.findByIdAndDelete(id).exec();
     return deleted;
   }
+
+  async findGroupedByCities(frequency: string) {
+    return this.subscriptionModel.aggregate([
+      { $match: { frequency: frequency } },
+      {
+        $group: {
+          _id: '$city',
+          subscriptions: { $push: '$$ROOT' },
+        },
+      },
+    ]);
+  }
 }

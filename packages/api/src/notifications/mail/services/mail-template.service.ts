@@ -32,7 +32,7 @@ export class MailTemplateService {
   buildWeatherUpdateNotification(data: WeatherUpdateInterface) {
     const html = this._renderTemplate({
       template: Templates.WEATHER_UPDATE,
-      params: data,
+      params: { ...data },
     });
 
     return html;
