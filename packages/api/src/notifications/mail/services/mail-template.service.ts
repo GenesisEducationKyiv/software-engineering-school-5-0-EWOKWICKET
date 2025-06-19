@@ -3,9 +3,9 @@ import * as fs from 'fs';
 import Handlebars, { TemplateDelegate } from 'handlebars';
 import * as path from 'path';
 import { Url } from 'src/common/constants/enums/url.constants';
-import { WeatherUpdateInterface } from 'src/notifications/constants/weather-update.interface';
-import { TemplateParams } from '../constants/template.type';
-import { Templates } from '../constants/templates.enum';
+import { WeatherUpdateInterface } from 'src/notifications/constants/types/weather-update.interface';
+import { Templates } from '../constants/enums/templates.enum';
+import { TemplateParams } from '../constants/types/template.type';
 
 @Injectable()
 export class MailTemplateService {

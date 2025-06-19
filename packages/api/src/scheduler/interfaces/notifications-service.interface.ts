@@ -1,5 +1,5 @@
-import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
-import { ConfirmationNotification, WeatherUpdateNotification } from 'src/notifications/constants/notification.interface';
+import { NotificationType } from 'src/notifications/constants/enums/notification-type.enum';
+import { ConfirmationNotification, WeatherUpdateNotification } from 'src/notifications/constants/types/notification.interface';
 
 export interface NotificationsService {
   sendConfirmationNotification(data: ConfirmationNotification, type: NotificationType): Promise<void>;

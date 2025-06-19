@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CityModule } from 'src/city/city.module';
 import { NotificationsModule } from 'src/notifications/notifications.module';
 import { FindSubscriptionServiceToken } from 'src/scheduler/interfaces/subscription-service.interface';
 import { WeatherModule } from 'src/weather/weather.module';
@@ -20,6 +21,7 @@ import { SubscriptionController } from './subscription.controller';
     ]),
     NotificationsModule,
     WeatherModule,
+    CityModule,
   ],
   controllers: [SubscriptionController],
   providers: [

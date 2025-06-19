@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { CitiesWeatherServiceToken } from 'src/subscriptions/interfaces/weather-service.interface';
 import { WeatherApiServiceToken } from './interfaces/weather-api-service.interface';
 import { ForecastWeatherServiceToken } from './interfaces/weather-service.interface';
 import { WeatherApiService } from './services/weather-api.service';
@@ -12,10 +11,6 @@ import { WeatherController } from './weather.controller';
     WeatherService,
     WeatherApiService,
     {
-      provide: CitiesWeatherServiceToken,
-      useExisting: WeatherService,
-    },
-    {
       provide: ForecastWeatherServiceToken,
       useExisting: WeatherService,
     },
@@ -24,6 +19,6 @@ import { WeatherController } from './weather.controller';
       useExisting: WeatherApiService,
     },
   ],
-  exports: [CitiesWeatherServiceToken, ForecastWeatherServiceToken],
+  exports: [ForecastWeatherServiceToken],
 })
 export class WeatherModule {}

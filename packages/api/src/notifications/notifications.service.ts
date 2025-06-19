@@ -1,6 +1,6 @@
 import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
-import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
-import { ConfirmationNotification, WeatherUpdateNotification } from 'src/notifications/constants/notification.interface';
+import { NotificationType } from 'src/notifications/constants/enums/notification-type.enum';
+import { ConfirmationNotification, WeatherUpdateNotification } from 'src/notifications/constants/types/notification.interface';
 import { NotificationsService as NotificationsServiceInterface } from 'src/scheduler/interfaces/notifications-service.interface';
 import { NotificationsSender, NotificationsSenderToken } from './interfaces/notifications-sender.interface';
 

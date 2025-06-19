@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { MailSubjects } from 'src/common/constants/enums/mail-subjects.enum';
-import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
-import { NotificationsFrequencies } from 'src/common/constants/enums/notifications-frequencies.enum';
 import { Subscription } from 'src/database/schemas/subscription.schema';
-import { WeatherUpdateNotificationsOptions } from 'src/notifications/constants/updates.options';
+import { NotificationsFrequencies } from 'src/notifications/constants/enums/notification-frequencies.enum';
+import { NotificationSubjects } from 'src/notifications/constants/enums/notification-subjects.enum';
+import { NotificationType } from 'src/notifications/constants/enums/notification-type.enum';
+import { WeatherUpdateNotificationsOptions } from 'src/notifications/constants/types/updates.options';
 import { ForecastWeatherService, ForecastWeatherServiceToken } from 'src/weather/interfaces/weather-service.interface';
 import { NotificationsService, NotificationsServiceToken } from '../interfaces/notifications-service.interface';
 import { FindSubscriptionService, FindSubscriptionServiceToken } from '../interfaces/subscription-service.interface';
@@ -22,14 +22,14 @@ export class WeatherSchedulerService {
 
   @Cron(CronExpression.EVERY_HOUR)
   private async sendHourlyUpdates() {
-    console.log(MailSubjects.WEATHER_UPDATES_HOURLY);
-    this._sendUpdates({ frequency: NotificationsFrequencies.HOURLY, subject: MailSubjects.WEATHER_UPDATES_HOURLY });
+    console.log(NotificationSubjects.WEATHER_UPDATES_HOURLY);
+    this._sendUpdates({ frequency: NotificationsFrequencies.HOURLY, subject: NotificationSubjects.WEATHER_UPDATES_HOURLY });
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_8AM)
   private async sendDailyUpdates() {
-    console.log(MailSubjects.WEATHER_UPDATES_DAILY);
-    this._sendUpdates({ frequency: NotificationsFrequencies.DAILY, subject: MailSubjects.WEATHER_UPDATES_DAILY });
+    console.log(NotificationSubjects.WEATHER_UPDATES_DAILY);
+    this._sendUpdates({ frequency: NotificationsFrequencies.DAILY, subject: NotificationSubjects.WEATHER_UPDATES_DAILY });
   }
 
   private async _sendUpdates({ frequency, subject }: WeatherUpdateNotificationsOptions) {
