@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-import { WeatherUpdateInterface } from './weather-update.interface';
+import { WeatherUpdateInterface } from '../../common/constants/types/weather-update.interface';
 
 export interface Notification {
   to: string;
@@ -7,7 +6,7 @@ export interface Notification {
 }
 
 export interface ConfirmationNotification extends Notification {
-  token: mongoose.Types.ObjectId;
+  token: string;
 }
 
 export interface WeatherUpdateNotification extends Notification {

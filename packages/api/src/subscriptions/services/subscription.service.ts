@@ -37,7 +37,7 @@ export class SubscriptionService implements IFindSubscriptionService, IControlle
       {
         to: newSubscription.email,
         subject: MailSubjects.SUBSCRIPTION_CONFIRMATION,
-        token: newSubscription._id,
+        token: newSubscription._id.toString(),
       },
       NotificationType.EMAIL,
     );

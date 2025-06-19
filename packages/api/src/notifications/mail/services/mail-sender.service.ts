@@ -1,22 +1,22 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
-import { ConfirmationEmail, UpdateEmail } from 'src/common/constants/types/email.interface';
-import { Notification } from 'src/common/constants/types/notification.interface';
+import { Notification } from 'src/notifications/constants/notification.interface';
+import { ConfirmationEmail, UpdateEmail } from 'src/notifications/mail/constants/email.interface';
 import { INotificationsSender } from '../../interfaces/notifications-sender.interface';
-import { MailFormatter } from './mail-formatter.service';
+import { MailTemplateService } from './mail-template.service';
 
 @Injectable()
 export class MailSender implements INotificationsSender {
   readonly type: NotificationType = NotificationType.EMAIL;
 
   constructor(
-    private readonly mailFormatter: MailFormatter,
+    private readonly mailTemplateService: MailTemplateService,
     private readonly mailerService: MailerService,
   ) {}
 
   async sendConfirmationNotification({ to, token, subject }: ConfirmationEmail): Promise<void> {
-    const html = this.mailFormatter.buildConfirmationNotification(token);
+    const html = this.mailTemplateService.buildConfirmationNotification(token);
 
     await this._sendEmail<ConfirmationEmail>({
       to,
@@ -26,7 +26,7 @@ export class MailSender implements INotificationsSender {
   }
 
   async sendWeatherUpdateNotification({ to, subject, data }: UpdateEmail): Promise<void> {
-    const html = this.mailFormatter.buildWeatherUpdateNotification(data);
+    const html = this.mailTemplateService.buildWeatherUpdateNotification(data);
 
     await this._sendEmail<UpdateEmail>({
       to,
