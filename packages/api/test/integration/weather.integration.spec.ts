@@ -1,12 +1,12 @@
 import { BadRequestException, HttpStatus } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { CurrentWeatherAPI } from 'src/common/constants/types/current-weather-api.interface';
+import { CurrentWeatherApiResponseDto } from 'src/weather/constants/current-weather-api.interface';
 import { CurrentWeatherResponseDto } from 'src/weather/dtos/current-weather-response.dto';
 import { WeatherController } from 'src/weather/weather.controller';
 import { WeatherModule } from 'src/weather/weather.module';
 import { mockFetch } from 'test/utils/fetch.mock';
 
-const fetchWeatherResponse: CurrentWeatherAPI = {
+const fetchWeatherResponse: CurrentWeatherApiResponseDto = {
   location: {
     name: 'City',
     region: '',

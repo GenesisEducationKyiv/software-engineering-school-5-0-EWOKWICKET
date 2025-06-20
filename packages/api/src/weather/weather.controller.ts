@@ -10,7 +10,7 @@ export class WeatherController {
   ) {}
 
   @Get()
-  getCurrentWeather(@Query('city') city: string): Promise<CurrentWeatherResponseDto> {
+  async getCurrentWeather(@Query('city') city: string): Promise<CurrentWeatherResponseDto> {
     return this.weatherService.getCurrentWeather(city);
   }
 }

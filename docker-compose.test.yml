@@ -7,7 +7,7 @@ services:
       - ./packages/api/.env.test
     depends_on:
       - mongo-test
-    command: sh -c "yarn start:dev"
+    command: sh -c "yarn start:dev && yarn migrate"
 
   integration-test:
     build:
@@ -17,7 +17,7 @@ services:
       - ./packages/api/.env.test
     depends_on:
       - mongo-test
-    command: sh -c "yarn test:integration"
+    command: sh -c "yarn migrate && yarn test:integration"
 
   e2e-test:
     build:

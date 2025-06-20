@@ -6,9 +6,10 @@ import { CityFetch } from './interfaces/city-fetch.interface';
 
 @Module({
   providers: [
+    CityFetchService,
     {
       provide: CityFetch,
-      useClass: CityFetchService,
+      useExisting: CityFetchService,
     },
     CityValidationService,
     CityExistsConstraint,

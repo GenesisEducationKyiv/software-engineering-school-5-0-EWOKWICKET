@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DatabaseMigration } from './database.migration';
+import { Subscription, SubscriptionSchema } from './schemas/subscription.schema';
 
 @Module({
   imports: [
@@ -16,6 +17,12 @@ import { DatabaseMigration } from './database.migration';
         return { uri };
       },
     }),
+    MongooseModule.forFeature([
+      {
+        name: Subscription.name,
+        schema: SubscriptionSchema,
+      },
+    ]),
   ],
   providers: [DatabaseMigration],
 })

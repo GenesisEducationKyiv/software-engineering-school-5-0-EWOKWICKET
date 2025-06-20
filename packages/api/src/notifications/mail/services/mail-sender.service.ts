@@ -41,7 +41,7 @@ export class MailSender implements NotificationsSender {
 
       console.log(`Email sent to ${mailOptions.to}`);
     } catch (err) {
-      console.error(`Error occured on sending email to ${mailOptions.to}: ${err.message}`);
+      console.error(`Error occured on sending email to ${mailOptions.to}: ${err}`);
     }
   }
 }

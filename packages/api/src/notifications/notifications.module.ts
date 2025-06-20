@@ -8,9 +8,10 @@ import { NotificationsService } from './notifications.service';
 @Module({
   imports: [MailModule],
   providers: [
+    NotificationsService,
     {
       provide: NotificationsServiceInterface,
-      useClass: NotificationsService,
+      useExisting: NotificationsService,
     },
     {
       provide: NotificationsSenderToken,

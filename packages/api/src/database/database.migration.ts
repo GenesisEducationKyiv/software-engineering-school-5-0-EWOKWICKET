@@ -24,24 +24,34 @@ export class DatabaseMigration {
     const collection = await this.connection.db.listCollections({ name: collectionName }).next();
 
     if (collection) {
-      console.error('Subscription collection already exists');
+      console.error(`${collectionName} collection already exists`);
     } else {
-      console.log("Subscription collection doesn't exist. Creating a collection...");
       await this.connection.db.createCollection(collectionName);
-      console.log('Subscription collection created');
+      console.log(`${collectionName} collection created`);
     }
   }
 
   private async _addSubscriptionIndexes() {
-    const indexName = 'expiresAt';
+    const ttlIndexName = 'expiresAt';
+    const uniqueIndexName = 'unique_email_city';
     const collection = this.subscriptionModel.collection;
-    const indexExists = await collection.indexExists(indexName);
 
-    if (!indexExists) {
-      await collection.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0, name: indexName });
-      console.log('TTL index created on expiresAt');
+    // Create TTL index
+    const ttlIndexExists = await collection.indexExists(ttlIndexName);
+    if (!ttlIndexExists) {
+      await collection.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0, name: ttlIndexName });
+      console.log(`Index ${ttlIndexName} created`);
     } else {
-      console.error('TTL index on expiresAt already exists');
+      console.log(`Index ${ttlIndexName} already exists`);
+    }
+
+    // Create Unique index
+    const uniqueIndexExists = await collection.indexExists(uniqueIndexName);
+    if (!uniqueIndexExists) {
+      await collection.createIndex({ email: 1, city: 1 }, { unique: true, name: uniqueIndexName });
+      console.log(`Index ${uniqueIndexName} created`);
+    } else {
+      console.log(`Index ${uniqueIndexName} already exists`);
     }
   }
 }

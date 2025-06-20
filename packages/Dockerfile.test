@@ -4,7 +4,7 @@ WORKDIR /app/api
 
 COPY api/package.json api/yarn.lock ./
 
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 COPY api ./
 COPY public ../public

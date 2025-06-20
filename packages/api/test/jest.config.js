@@ -1,5 +1,3 @@
-const { testMatch } = require('./jest-integration.config');
-
 module.exports = {
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: './',
