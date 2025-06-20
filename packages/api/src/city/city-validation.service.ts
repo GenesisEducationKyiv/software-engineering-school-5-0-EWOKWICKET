@@ -5,17 +5,17 @@ import { CityFetch } from './interfaces/city-fetch.interface';
 
 @Injectable()
 export class CityValidationService {
-  private TEST_ENV: boolean;
+  private E2E_ENV: boolean;
   constructor(
     @Inject(CityFetch)
     private readonly cityFetchService: CityFetch,
     private readonly configService: ConfigService,
   ) {
-    this.TEST_ENV = this.configService.get('NODE_ENV') === 'test';
+    this.E2E_ENV = this.configService.get('NODE_ENV') === 'e2e';
   }
 
   async validate(city: string): Promise<void> {
-    if (this.TEST_ENV) {
+    if (this.E2E_ENV) {
       if (city === 'Valid') return;
       else throw new CityNotFoundException();
     }
