@@ -1,22 +1,22 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
-import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
-import { ConfirmationEmail, UpdateEmail } from 'src/common/constants/types/email.interface';
-import { Notification } from 'src/common/constants/types/notification.interface';
-import { INotificationsSender } from '../../interfaces/notifications-sender.interface';
-import { MailFormatter } from './mail-formatter.service';
+import { NotificationType } from 'src/notifications/constants/enums/notification-type.enum';
+import { Notification } from 'src/notifications/constants/types/notification.interface';
+import { ConfirmationEmail, UpdateEmail } from 'src/notifications/mail/constants/types/email-notifications.interface';
+import { NotificationsSender } from '../../interfaces/notifications-sender.interface';
+import { MailTemplateService } from './mail-template.service';
 
 @Injectable()
-export class MailSender implements INotificationsSender {
+export class MailSender implements NotificationsSender {
   readonly type: NotificationType = NotificationType.EMAIL;
 
   constructor(
-    private readonly mailFormatter: MailFormatter,
+    private readonly mailTemplateService: MailTemplateService,
     private readonly mailerService: MailerService,
   ) {}
 
   async sendConfirmationNotification({ to, token, subject }: ConfirmationEmail): Promise<void> {
-    const html = this.mailFormatter.buildConfirmationNotification(token);
+    const html = this.mailTemplateService.buildConfirmationNotification(token);
 
     await this._sendEmail<ConfirmationEmail>({
       to,
@@ -26,7 +26,7 @@ export class MailSender implements INotificationsSender {
   }
 
   async sendWeatherUpdateNotification({ to, subject, data }: UpdateEmail): Promise<void> {
-    const html = this.mailFormatter.buildWeatherUpdateNotification(data);
+    const html = this.mailTemplateService.buildWeatherUpdateNotification(data);
 
     await this._sendEmail<UpdateEmail>({
       to,
@@ -41,7 +41,7 @@ export class MailSender implements INotificationsSender {
 
       console.log(`Email sent to ${mailOptions.to}`);
     } catch (err) {
-      console.log(`Error occured on sending email to ${mailOptions.to}: ${err.message}`);
+      console.error(`Error occured on sending email to ${mailOptions.to}: ${err.message}`);
     }
   }
 }

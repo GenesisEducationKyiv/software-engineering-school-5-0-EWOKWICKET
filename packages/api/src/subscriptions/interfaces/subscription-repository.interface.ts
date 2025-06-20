@@ -1,13 +1,14 @@
-import { RootFilterQuery, Types } from 'mongoose';
-import { ISubscription } from 'src/common/constants/types/subscription.interface';
-import { Subscription } from 'src/database/schemas/subscription.schema';
+import { RootFilterQuery } from 'mongoose';
+import { Subscription, SubscriptionWithId } from 'src/database/schemas/subscription.schema';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
 
-export interface ISubscriptionRepository {
-  find(options: RootFilterQuery<Subscription>): Promise<ISubscription[]>;
-  create(createDto: CreateSubscriptionDto): Promise<ISubscription>;
-  updateById(id: Types.ObjectId, updateDto: Partial<Subscription>): Promise<ISubscription | null>;
-  deleteById(id: Types.ObjectId): Promise<ISubscription | null>;
+export abstract class ServiceSubscriptionRepository {
+  abstract find(options: RootFilterQuery<Subscription>): Promise<SubscriptionWithId[]>;
+  abstract create(createDto: CreateSubscriptionDto): Promise<SubscriptionWithId>;
+  abstract updateById(id: string, updateDto: Partial<Subscription>): Promise<SubscriptionWithId | null>;
+  abstract deleteById(id: string): Promise<SubscriptionWithId | null>;
 }
 
-export const SubscriptionRepositoryToken = 'SubscriptionRepository';
+export abstract class GroupSubscriptionRepository {
+  abstract findGroupedByCities(frequency: string);
+}

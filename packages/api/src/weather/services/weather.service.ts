@@ -1,20 +1,18 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { City } from 'src/common/constants/types/city.interface';
-import { CurrentWeatherAPI } from 'src/common/constants/types/current-weather-api.interface';
-import { ICitiesWeatherService } from 'src/subscriptions/interfaces/weather-service.interface';
+import { CurrentWeatherApiResponseDto } from 'src/weather/constants/current-weather-api.interface';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
-import { IWeatherApiService, WeatherApiServiceToken } from '../interfaces/weather-api-service.interface';
-import { IForecastWeatherService } from '../interfaces/weather-service.interface';
+import { CurrentWeather } from '../interfaces/current-weather.interface';
+import { WeatherFetch } from '../interfaces/weather-fetch.interface';
 
 @Injectable()
-export class WeatherService implements ICitiesWeatherService, IForecastWeatherService {
+export class WeatherService implements CurrentWeather {
   constructor(
-    @Inject(WeatherApiServiceToken)
-    private readonly weatherApiService: IWeatherApiService,
+    @Inject(WeatherFetch)
+    private readonly weatherApiService: WeatherFetch,
   ) {}
 
   async getCurrentWeather(city: string): Promise<CurrentWeatherResponseDto> {
-    const rawWeather: CurrentWeatherAPI = await this.weatherApiService.getCurrentWeatherRaw(city);
+    const rawWeather: CurrentWeatherApiResponseDto = await this.weatherApiService.getCurrentWeatherRaw(city);
     const current = rawWeather.current;
 
     const result: CurrentWeatherResponseDto = {
@@ -24,11 +22,5 @@ export class WeatherService implements ICitiesWeatherService, IForecastWeatherSe
     };
 
     return result;
-  }
-
-  async searchCities(city: string): Promise<string[]> {
-    const rawCities: City[] = await this.weatherApiService.searchCitiesRaw(city);
-    const cityNames: string[] = rawCities.map((city) => city.name);
-    return cityNames;
   }
 }

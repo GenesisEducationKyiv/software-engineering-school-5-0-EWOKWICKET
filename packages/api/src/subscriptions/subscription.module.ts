@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CityModule } from 'src/city/city.module';
 import { NotificationsModule } from 'src/notifications/notifications.module';
-import { FindSubscriptionServiceToken } from 'src/scheduler/interfaces/subscription-service.interface';
 import { WeatherModule } from 'src/weather/weather.module';
 import { Subscription, SubscriptionSchema } from '../database/schemas/subscription.schema';
-import { ControllerSubscriptionServiceToken } from './interfaces/subcription-service.interface';
-import { SubscriptionRepositoryToken } from './interfaces/subscription-repository.interface';
+import { ControllerSubscriptionService, FindSubscriptionService } from './interfaces/subcription-service.interface';
+import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from './interfaces/subscription-repository.interface';
 import { SubscriptionRepository } from './services/subscription.repository';
 import { SubscriptionService } from './services/subscription.service';
 import { SubscriptionController } from './subscription.controller';
@@ -20,24 +20,29 @@ import { SubscriptionController } from './subscription.controller';
     ]),
     NotificationsModule,
     WeatherModule,
+    CityModule,
   ],
   controllers: [SubscriptionController],
   providers: [
     SubscriptionService,
+    {
+      provide: FindSubscriptionService,
+      useExisting: SubscriptionService,
+    },
+    {
+      provide: ControllerSubscriptionService,
+      useExisting: SubscriptionService,
+    },
     SubscriptionRepository,
     {
-      provide: SubscriptionRepositoryToken,
+      provide: ServiceSubscriptionRepository,
       useExisting: SubscriptionRepository,
     },
     {
-      provide: FindSubscriptionServiceToken,
-      useExisting: SubscriptionService,
-    },
-    {
-      provide: ControllerSubscriptionServiceToken,
-      useExisting: SubscriptionService,
+      provide: GroupSubscriptionRepository,
+      useExisting: SubscriptionRepository,
     },
   ],
-  exports: [FindSubscriptionServiceToken, ControllerSubscriptionServiceToken],
+  exports: [FindSubscriptionService, ControllerSubscriptionService, ServiceSubscriptionRepository, GroupSubscriptionRepository],
 })
 export class SubscriptionModule {}

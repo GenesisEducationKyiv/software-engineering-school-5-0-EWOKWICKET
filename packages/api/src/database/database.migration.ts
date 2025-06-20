@@ -1,40 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { InjectConnection } from '@nestjs/mongoose';
-import { Connection } from 'mongoose';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
+import { Connection, Model } from 'mongoose';
+import { Subscription } from './schemas/subscription.schema';
 
 @Injectable()
 export class DatabaseMigration {
-  constructor(@InjectConnection() private readonly connection: Connection) {}
+  constructor(
+    @InjectModel(Subscription.name) private readonly subscriptionModel: Model<Subscription>,
+    @InjectConnection() private readonly connection: Connection,
+  ) {}
 
   async migrateDatabase() {
     try {
-      await this.addSubscriptionCollection();
+      await this._addSubscriptionCollection();
+      await this._addSubscriptionIndexes();
     } catch (err) {
-      console.log(`Error occured on migration: ${err}`);
+      console.error(`Error occured on migration: ${err}`);
     }
   }
 
-  async addSubscriptionCollection() {
-    const collectionName = 'subscriptions';
-    const collectionExists = await this.connection.db.listCollections({ name: collectionName }).hasNext();
+  private async _addSubscriptionCollection() {
+    const collectionName = this.subscriptionModel.collection.name;
+    const collection = await this.connection.db.listCollections({ name: collectionName }).next();
 
-    if (collectionExists) {
-      console.log('Subscription collection already exists');
+    if (collection) {
+      console.error('Subscription collection already exists');
     } else {
       console.log("Subscription collection doesn't exist. Creating a collection...");
       await this.connection.db.createCollection(collectionName);
       console.log('Subscription collection created');
     }
+  }
 
-    const collection = this.connection.db.collection(collectionName);
-    const indexInfo = await collection.indexExists('expiresAt_index');
+  private async _addSubscriptionIndexes() {
+    const indexName = 'expiresAt';
+    const collection = this.subscriptionModel.collection;
+    const indexExists = await collection.indexExists(indexName);
 
-    if (!indexInfo) {
-      await collection.createIndex({ email: 1, city: 1 }, { unique: true });
-      await collection.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+    if (!indexExists) {
+      await collection.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0, name: indexName });
       console.log('TTL index created on expiresAt');
     } else {
-      console.log('TTL index on expiresAt already exists');
+      console.error('TTL index on expiresAt already exists');
     }
   }
 }

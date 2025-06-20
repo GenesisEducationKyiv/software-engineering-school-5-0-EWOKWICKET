@@ -1,17 +1,22 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DatabaseConfig } from './config/database.config';
 import { DatabaseMigration } from './database.migration';
-import { DatabaseService } from './database.service';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+    }),
     MongooseModule.forRootAsync({
-      inject: [DatabaseConfig],
-      useClass: DatabaseConfig,
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        const uri = configService.get<string>('DB_URI') || 'mongodb://localhost:27017/weatherAPI';
+        return { uri };
+      },
     }),
   ],
-  providers: [DatabaseService, DatabaseMigration],
-  exports: [DatabaseService],
+  providers: [DatabaseMigration],
 })
 export class DatabaseModule {}

@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { NotificationsFrequencies } from 'src/common/constants/enums/notifications-frequencies.enum';
+import { Types } from 'mongoose';
+import { NotificationsFrequencies } from '../../notifications/constants/enums/notification-frequencies.enum';
 
 @Schema()
 export class Subscription {
@@ -20,6 +21,10 @@ export class Subscription {
 }
 
 export const SubscriptionSchema = SchemaFactory.createForClass(Subscription);
+
+export class SubscriptionWithId extends Subscription {
+  _id: Types.ObjectId;
+}
 
 // SubscriptionSchema.index({ email: 1, city: 1 }, { unique: true });
 // SubscriptionSchema.index({ expiresAt: 1 }, { expires: '1h' });

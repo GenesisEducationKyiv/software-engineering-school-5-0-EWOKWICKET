@@ -1,46 +1,44 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { MailSubjects } from 'src/common/constants/enums/mail-subjects.enum';
-import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
-import { NotificationsFrequencies } from 'src/common/constants/enums/notifications-frequencies.enum';
-import { WeatherUpdateNotificationsOptions } from 'src/common/constants/types/updates.options';
-import { Subscription } from 'src/database/schemas/subscription.schema';
-import { ForecastWeatherServiceToken, IForecastWeatherService } from 'src/weather/interfaces/weather-service.interface';
-import { INotificationsService, NotificationsServiceToken } from '../interfaces/notifications-service.interface';
-import { FindSubscriptionServiceToken, IFindSubscriptionService } from '../interfaces/subscription-service.interface';
+import { NotificationsFrequencies } from 'src/notifications/constants/enums/notification-frequencies.enum';
+import { NotificationSubjects } from 'src/notifications/constants/enums/notification-subjects.enum';
+import { NotificationType } from 'src/notifications/constants/enums/notification-type.enum';
+import { WeatherUpdateNotificationsOptions } from 'src/notifications/constants/types/updates.options';
+import { NotificationsServiceInterface } from 'src/notifications/interfaces/notifications-service.interface';
+import { GroupSubscriptionRepository } from 'src/subscriptions/interfaces/subscription-repository.interface';
+import { CurrentWeather } from 'src/weather/interfaces/current-weather.interface';
 
 @Injectable()
 export class WeatherSchedulerService {
   constructor(
-    @Inject(FindSubscriptionServiceToken)
-    private readonly subscriptionService: IFindSubscriptionService,
-    @Inject(NotificationsServiceToken)
-    private readonly notificationsService: INotificationsService,
-    @Inject(ForecastWeatherServiceToken)
-    private readonly weatherService: IForecastWeatherService,
+    @Inject(NotificationsServiceInterface)
+    private readonly notificationsService: NotificationsServiceInterface,
+    @Inject(CurrentWeather)
+    private readonly weatherService: CurrentWeather,
+    @Inject(GroupSubscriptionRepository)
+    private readonly subscriptionRepository: GroupSubscriptionRepository,
   ) {}
 
   @Cron(CronExpression.EVERY_HOUR)
   private async sendHourlyUpdates() {
-    console.log(MailSubjects.WEATHER_UPDATES_HOURLY);
-    this._sendUpdates({ frequency: NotificationsFrequencies.HOURLY, subject: MailSubjects.WEATHER_UPDATES_HOURLY });
+    console.log(NotificationSubjects.WEATHER_UPDATES_HOURLY);
+    this._sendUpdates({ frequency: NotificationsFrequencies.HOURLY, subject: NotificationSubjects.WEATHER_UPDATES_HOURLY });
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_8AM)
   private async sendDailyUpdates() {
-    console.log(MailSubjects.WEATHER_UPDATES_DAILY);
-    this._sendUpdates({ frequency: NotificationsFrequencies.DAILY, subject: MailSubjects.WEATHER_UPDATES_DAILY });
+    console.log(NotificationSubjects.WEATHER_UPDATES_DAILY);
+    this._sendUpdates({ frequency: NotificationsFrequencies.DAILY, subject: NotificationSubjects.WEATHER_UPDATES_DAILY });
   }
 
   private async _sendUpdates({ frequency, subject }: WeatherUpdateNotificationsOptions) {
-    const subscriptions = await this.subscriptionService.find({ confirmed: true, frequency });
+    const grouped = await this.subscriptionRepository.findGroupedByCities(frequency);
 
-    const groupedByCity = this._groupByCity(subscriptions);
-
-    for (const city of Object.keys(groupedByCity)) {
+    for (const group of grouped) {
+      const city = group._id;
       const weather = await this.weatherService.getCurrentWeather(city);
 
-      for (const subscription of groupedByCity[city]) {
+      for (const subscription of group.subscriptions) {
         await this.notificationsService.sendWeatherUpdateNotification(
           {
             to: subscription.email,
@@ -54,18 +52,5 @@ export class WeatherSchedulerService {
         );
       }
     }
-  }
-
-  private _groupByCity(subscriptions: Subscription[]) {
-    const groupedByCity = subscriptions.reduce(
-      (res, sub) => {
-        if (!res[sub.city]) res[sub.city] = [];
-        res[sub.city].push(sub);
-        return res;
-      },
-      {} as Record<string, Subscription[]>,
-    );
-
-    return groupedByCity;
   }
 }

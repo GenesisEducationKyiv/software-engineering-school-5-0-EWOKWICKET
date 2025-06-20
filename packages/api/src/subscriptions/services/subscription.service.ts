@@ -1,68 +1,50 @@
-import { BadRequestException, ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { RootFilterQuery, Types } from 'mongoose';
-import { MailSubjects } from 'src/common/constants/enums/mail-subjects.enum';
-import { NotificationType } from 'src/common/constants/enums/notification-type.enum';
-import { ISubscription } from 'src/common/constants/types/subscription.interface';
-import { Subscription } from 'src/database/schemas/subscription.schema';
-import { INotificationsService, NotificationsServiceToken } from 'src/scheduler/interfaces/notifications-service.interface';
-import { IFindSubscriptionService } from 'src/scheduler/interfaces/subscription-service.interface';
-import { ISubscriptionRepository, SubscriptionRepositoryToken } from 'src/subscriptions/interfaces/subscription-repository.interface';
+import { ConflictException, Inject, Injectable } from '@nestjs/common';
+import { RootFilterQuery } from 'mongoose';
+import { Subscription, SubscriptionWithId } from 'src/database/schemas/subscription.schema';
+import { NotificationSubjects } from 'src/notifications/constants/enums/notification-subjects.enum';
+import { NotificationType } from 'src/notifications/constants/enums/notification-type.enum';
+import { NotificationsServiceInterface } from 'src/notifications/interfaces/notifications-service.interface';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
-import { IControllerSubscriptionService } from '../interfaces/subcription-service.interface';
-import { CitiesWeatherServiceToken, ICitiesWeatherService } from '../interfaces/weather-service.interface';
+import { InvalidTokenException } from '../errors/invalid-token.error';
+import { ControllerSubscriptionService, FindSubscriptionService } from '../interfaces/subcription-service.interface';
+import { ServiceSubscriptionRepository } from '../interfaces/subscription-repository.interface';
 
 @Injectable()
-export class SubscriptionService implements IFindSubscriptionService, IControllerSubscriptionService {
+export class SubscriptionService implements FindSubscriptionService, ControllerSubscriptionService {
   constructor(
-    @Inject(SubscriptionRepositoryToken)
-    private readonly subscriptionRepository: ISubscriptionRepository,
-    @Inject(NotificationsServiceToken)
-    private readonly notificationsService: INotificationsService,
-    @Inject(CitiesWeatherServiceToken)
-    private readonly weatherService: ICitiesWeatherService,
+    @Inject(ServiceSubscriptionRepository)
+    private readonly subscriptionRepository: ServiceSubscriptionRepository,
+    @Inject(NotificationsServiceInterface)
+    private readonly notificationsService: NotificationsServiceInterface,
   ) {}
 
   async subscribe(subscribeDto: CreateSubscriptionDto): Promise<void> {
-    const citiesFound = await this.weatherService.searchCities(subscribeDto.city);
-    if (!citiesFound.includes(subscribeDto.city)) {
-      throw new BadRequestException({
-        message: 'No matching location found',
-        possibleLocations: citiesFound,
-      });
-    }
-
     const newSubscription = await this.subscriptionRepository.create(subscribeDto);
     if (!newSubscription) throw new ConflictException(); // cause db is silencing error during test
 
     await this.notificationsService.sendConfirmationNotification(
       {
         to: newSubscription.email,
-        subject: MailSubjects.SUBSCRIPTION_CONFIRMATION,
-        token: newSubscription._id,
+        subject: NotificationSubjects.SUBSCRIPTION_CONFIRMATION,
+        token: newSubscription._id.toString(),
       },
       NotificationType.EMAIL,
     );
   }
 
   async confirm(token: string) {
-    const objectId = this._transformId(token);
-    const updated = await this.subscriptionRepository.updateById(objectId, { confirmed: true, expiresAt: null });
-    if (!updated) throw new NotFoundException('Token Not Found');
+    const updateObject = { confirmed: true, expiresAt: null };
+    const updated = await this.subscriptionRepository.updateById(token, updateObject);
+    if (!updated) throw new InvalidTokenException('Token Not Found');
   }
 
   async unsubscribe(token: string) {
-    const objectId = this._transformId(token);
-    const deleted = await this.subscriptionRepository.deleteById(objectId);
-    if (!deleted) throw new NotFoundException('Token Not Found');
+    const deleted = await this.subscriptionRepository.deleteById(token);
+    if (!deleted) throw new InvalidTokenException('Token Not Found');
   }
 
-  async find(options: RootFilterQuery<Subscription>): Promise<ISubscription[]> {
+  async find(options: RootFilterQuery<Subscription>): Promise<SubscriptionWithId[]> {
     const found = await this.subscriptionRepository.find(options);
     return found;
-  }
-
-  private _transformId(token: string): Types.ObjectId {
-    if (!Types.ObjectId.isValid(token)) throw new NotFoundException('Token Not Found');
-    return new Types.ObjectId(token);
   }
 }

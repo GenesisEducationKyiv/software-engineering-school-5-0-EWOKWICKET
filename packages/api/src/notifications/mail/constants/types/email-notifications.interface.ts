@@ -1,4 +1,4 @@
-import { ConfirmationNotification, WeatherUpdateNotification } from './notification.interface';
+import { ConfirmationNotification, WeatherUpdateNotification } from '../../../constants/types/notification.interface';
 
 export interface EmailNotification {
   html?: string;

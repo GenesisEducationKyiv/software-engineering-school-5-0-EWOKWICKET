@@ -1,4 +1,4 @@
-import { NotificationsFrequencies } from '../enums/notifications-frequencies.enum';
+import { NotificationsFrequencies } from '../enums/notification-frequencies.enum';
 
 export interface WeatherUpdateNotificationsOptions {
   frequency: NotificationsFrequencies;
