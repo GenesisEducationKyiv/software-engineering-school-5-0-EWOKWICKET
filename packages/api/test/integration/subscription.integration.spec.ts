@@ -7,7 +7,6 @@ import mongoose, { Model, Types } from 'mongoose';
 import { CityModule } from 'src/city/city.module';
 import { CityFetch } from 'src/city/interfaces/city-fetch.interface';
 import { DatabaseExceptionFilter } from 'src/common/filters/database-exception.filter';
-import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 import { DatabaseModule } from 'src/database/database.module';
 import { Subscription, SubscriptionSchema } from 'src/database/schemas/subscription.schema';
 import { NotificationsFrequencies } from 'src/notifications/constants/enums/notification-frequencies.enum';
@@ -76,7 +75,7 @@ describe('SubscriptionController (Integration)', () => {
         whitelist: true,
       }),
     );
-    app.useGlobalFilters(new DatabaseExceptionFilter(), new HttpExceptionFilter());
+    app.useGlobalFilters(new DatabaseExceptionFilter());
     app.setGlobalPrefix('weatherapi.app/api');
     app.init();
 
@@ -161,7 +160,6 @@ describe('SubscriptionController (Integration)', () => {
       const nonExistingId = new Types.ObjectId().toString();
 
       const response = await request(app.getHttpServer()).get(`${TestsUrl.CONFIRM}/${nonExistingId}`).expect(404);
-
       expect(response.body).toHaveProperty('message', 'Token Not Found');
     });
 
@@ -195,7 +193,6 @@ describe('SubscriptionController (Integration)', () => {
       const nonExistingId = new Types.ObjectId().toString();
 
       const response = await request(app.getHttpServer()).get(`${TestsUrl.UNSUBSCRIBE}/${nonExistingId}`).expect(404);
-
       expect(response.body).toHaveProperty('message', 'Token Not Found');
     });
 
