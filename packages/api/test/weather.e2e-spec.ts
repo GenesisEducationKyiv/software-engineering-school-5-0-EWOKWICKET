@@ -43,17 +43,13 @@ describe('WeatherController', () => {
         description: expect.any(String),
       };
 
-      const res = await request(app.getHttpServer())
-        .get('/weatherapi.app/api/weather?city=London')
-        .expect(200);
+      const res = await request(app.getHttpServer()).get('/weatherapi.app/api/weather?city=London').expect(200);
 
       expect(res.body).toMatchObject(expectedResponse);
     });
 
     it('should throw BadRequestException if location not found', async () => {
-      const res = await request(app.getHttpServer())
-        .get('/weatherapi.app/api/weather?city=NoCity')
-        .expect(400);
+      const res = await request(app.getHttpServer()).get('/weatherapi.app/api/weather?city=NoCity').expect(400);
 
       expect(res.body.message).toBe('No matching location found.');
     });

@@ -1,18 +1,18 @@
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { WeatherApiService } from '../services/weather-api.service';
+import { WeatherFetchService } from '../services/weather-fetch.service';
 
 describe('WeatherApiService', () => {
-  let weatherApiService: WeatherApiService;
+  let weatherApiService: WeatherFetchService;
 
   beforeAll(async () => {
     process.env.WEATHER_API_KEY = 'test_key';
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [WeatherApiService],
+      providers: [WeatherFetchService],
     }).compile();
 
-    weatherApiService = module.get<WeatherApiService>(WeatherApiService);
+    weatherApiService = module.get<WeatherFetchService>(WeatherFetchService);
   });
 
   afterEach(() => {

@@ -1,15 +1,16 @@
-import { IsEmail, IsIn, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty } from 'class-validator';
+import { CityExists } from 'src/common/validators/city-exists.validator';
+import { NotificationsFrequencies } from 'src/notifications/constants/enums/notification-frequencies.enum';
 
 export class CreateSubscriptionDto {
-  @IsNotEmpty()
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @IsNotEmpty()
-  @IsString()
+  @CityExists()
   city: string;
 
-  @IsNotEmpty()
-  @IsIn(['hourly', 'daily'])
-  frequency: 'daily' | 'hourly';
+  @IsEnum(NotificationsFrequencies)
+  frequency: NotificationsFrequencies;
 }

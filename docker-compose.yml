@@ -7,7 +7,7 @@ services:
       - ./packages/api/.env
     environment:
       - HOST=0.0.0.0
-      - DB_URI=mongodb+srv://devUser:nvjkEgP0HBtzBe48@weatherapi-cluster.g0ogrf4.mongodb.net/weatherAPI?retryWrites=true&w=majority&appName=weatherapi-cluster
+      - DB_URI=mongodb://mongo:27017/weatherAPI
     ports:
       - ${PORT}:${PORT}
     depends_on:
