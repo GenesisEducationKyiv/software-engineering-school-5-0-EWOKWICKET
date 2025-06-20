@@ -3,10 +3,10 @@ import { Url } from 'src/common/enums/url.constants';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { CurrentWeatherApiResponseDto } from 'src/weather/constants/current-weather-api.interface';
-import { WeatherFetchService } from '../interfaces/weather-api-service.interface';
+import { WeatherFetch } from '../interfaces/weather-fetch.interface';
 
 @Injectable()
-export class WeatherApiService implements WeatherFetchService {
+export class WeatherFetchService implements WeatherFetch {
   private readonly apiUrl = Url.OUTER_WEATHER_API;
   private readonly apiKey = process.env.WEATHER_API_KEY;
 

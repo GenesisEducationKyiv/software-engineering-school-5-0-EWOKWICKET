@@ -7,4 +7,4 @@ export interface NotificationsSender {
   sendWeatherUpdateNotification(data: Notification): Promise<void>;
 }
 
-export const NotificationsSenderToken = 'INotificationsSender';
+export const NotificationsSenderToken = 'NotificationsSender';

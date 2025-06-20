@@ -4,21 +4,19 @@ import { NotificationsFrequencies } from 'src/notifications/constants/enums/noti
 import { NotificationSubjects } from 'src/notifications/constants/enums/notification-subjects.enum';
 import { NotificationType } from 'src/notifications/constants/enums/notification-type.enum';
 import { WeatherUpdateNotificationsOptions } from 'src/notifications/constants/types/updates.options';
-import { SubscriptionRepository } from 'src/subscriptions/services/subscription.repository';
-import { ForecastWeatherService, ForecastWeatherServiceToken } from 'src/weather/interfaces/weather-service.interface';
-import { NotificationsService, NotificationsServiceToken } from '../interfaces/notifications-service.interface';
-import { FindSubscriptionService, FindSubscriptionServiceToken } from '../interfaces/subscription-service.interface';
+import { NotificationsServiceInterface } from 'src/notifications/interfaces/notifications-service.interface';
+import { GroupSubscriptionRepository } from 'src/subscriptions/interfaces/subscription-repository.interface';
+import { CurrentWeather } from 'src/weather/interfaces/current-weather.interface';
 
 @Injectable()
 export class WeatherSchedulerService {
   constructor(
-    @Inject(FindSubscriptionServiceToken)
-    private readonly subscriptionService: FindSubscriptionService,
-    @Inject(NotificationsServiceToken)
-    private readonly notificationsService: NotificationsService,
-    @Inject(ForecastWeatherServiceToken)
-    private readonly weatherService: ForecastWeatherService,
-    private readonly subscriptionRepository: SubscriptionRepository,
+    @Inject(NotificationsServiceInterface)
+    private readonly notificationsService: NotificationsServiceInterface,
+    @Inject(CurrentWeather)
+    private readonly weatherService: CurrentWeather,
+    @Inject(GroupSubscriptionRepository)
+    private readonly subscriptionRepository: GroupSubscriptionRepository,
   ) {}
 
   @Cron(CronExpression.EVERY_HOUR)

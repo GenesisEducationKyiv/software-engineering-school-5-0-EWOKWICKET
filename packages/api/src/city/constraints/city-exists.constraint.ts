@@ -9,7 +9,7 @@ export class CityExistsConstraint implements ValidatorConstraintInterface {
 
   async validate(value: string) {
     try {
-      await this.cityValidationService.validateCity(value);
+      await this.cityValidationService.validate(value);
       return true;
     } catch {
       return false;

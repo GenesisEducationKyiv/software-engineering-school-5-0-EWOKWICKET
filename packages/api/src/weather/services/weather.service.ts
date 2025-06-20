@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CurrentWeatherApiResponseDto } from 'src/weather/constants/current-weather-api.interface';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
-import { WeatherApiServiceToken, WeatherFetchService } from '../interfaces/weather-api-service.interface';
-import { ForecastWeatherService } from '../interfaces/weather-service.interface';
+import { CurrentWeather } from '../interfaces/current-weather.interface';
+import { WeatherFetch } from '../interfaces/weather-fetch.interface';
 
 @Injectable()
-export class WeatherService implements ForecastWeatherService {
+export class WeatherService implements CurrentWeather {
   constructor(
-    @Inject(WeatherApiServiceToken)
-    private readonly weatherApiService: WeatherFetchService,
+    @Inject(WeatherFetch)
+    private readonly weatherApiService: WeatherFetch,
   ) {}
 
   async getCurrentWeather(city: string): Promise<CurrentWeatherResponseDto> {

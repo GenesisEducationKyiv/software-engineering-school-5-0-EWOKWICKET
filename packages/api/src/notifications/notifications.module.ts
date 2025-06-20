@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { NotificationsServiceToken } from 'src/scheduler/interfaces/notifications-service.interface';
+import { NotificationsServiceInterface } from 'src/notifications/interfaces/notifications-service.interface';
 import { NotificationsSender, NotificationsSenderToken } from './interfaces/notifications-sender.interface';
 import { MailModule } from './mail/mail.module';
 import { MailSender } from './mail/services/mail-sender.service';
@@ -8,10 +8,9 @@ import { NotificationsService } from './notifications.service';
 @Module({
   imports: [MailModule],
   providers: [
-    NotificationsService,
     {
-      provide: NotificationsServiceToken,
-      useExisting: NotificationsService,
+      provide: NotificationsServiceInterface,
+      useClass: NotificationsService,
     },
     {
       provide: NotificationsSenderToken,
@@ -21,6 +20,6 @@ import { NotificationsService } from './notifications.service';
       inject: [MailSender],
     },
   ],
-  exports: [NotificationsServiceToken],
+  exports: [NotificationsServiceInterface],
 })
 export class NotificationsModule {}

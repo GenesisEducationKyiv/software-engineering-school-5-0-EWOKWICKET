@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, RootFilterQuery } from 'mongoose';
-import { SubscriptionRepositoryInterface } from 'src/subscriptions/interfaces/subscription-repository.interface';
+import { ServiceSubscriptionRepository } from 'src/subscriptions/interfaces/subscription-repository.interface';
 import { HOUR } from 'src/utils/time-units';
 import { Subscription, SubscriptionWithId } from '../../database/schemas/subscription.schema';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
 
 @Injectable()
-export class SubscriptionRepository implements SubscriptionRepositoryInterface {
+export class SubscriptionRepository implements ServiceSubscriptionRepository {
   constructor(@InjectModel(Subscription.name) private readonly subscriptionModel: Model<Subscription>) {}
   async find(options: RootFilterQuery<Subscription>): Promise<SubscriptionWithId[]> {
     const found = await this.subscriptionModel.find(options);

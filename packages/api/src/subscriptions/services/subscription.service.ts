@@ -3,20 +3,19 @@ import { RootFilterQuery } from 'mongoose';
 import { Subscription, SubscriptionWithId } from 'src/database/schemas/subscription.schema';
 import { NotificationSubjects } from 'src/notifications/constants/enums/notification-subjects.enum';
 import { NotificationType } from 'src/notifications/constants/enums/notification-type.enum';
-import { NotificationsService, NotificationsServiceToken } from 'src/scheduler/interfaces/notifications-service.interface';
-import { FindSubscriptionService } from 'src/scheduler/interfaces/subscription-service.interface';
-import { SubscriptionRepositoryInterface, SubscriptionRepositoryToken } from 'src/subscriptions/interfaces/subscription-repository.interface';
+import { NotificationsServiceInterface } from 'src/notifications/interfaces/notifications-service.interface';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
 import { InvalidTokenException } from '../errors/invalid-token.error';
-import { ControllerSubscriptionService } from '../interfaces/subcription-service.interface';
+import { ControllerSubscriptionService, FindSubscriptionService } from '../interfaces/subcription-service.interface';
+import { ServiceSubscriptionRepository } from '../interfaces/subscription-repository.interface';
 
 @Injectable()
 export class SubscriptionService implements FindSubscriptionService, ControllerSubscriptionService {
   constructor(
-    @Inject(SubscriptionRepositoryToken)
-    private readonly subscriptionRepository: SubscriptionRepositoryInterface,
-    @Inject(NotificationsServiceToken)
-    private readonly notificationsService: NotificationsService,
+    @Inject(ServiceSubscriptionRepository)
+    private readonly subscriptionRepository: ServiceSubscriptionRepository,
+    @Inject(NotificationsServiceInterface)
+    private readonly notificationsService: NotificationsServiceInterface,
   ) {}
 
   async subscribe(subscribeDto: CreateSubscriptionDto): Promise<void> {
