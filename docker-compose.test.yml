@@ -1,14 +1,4 @@
 services:
-  test-server:
-    build:
-      context: ./packages
-      dockerfile: Dockerfile.test
-    env_file:
-      - ./packages/api/.env.test
-    depends_on:
-      - mongo-test
-    command: sh -c "yarn start:dev && yarn migrate"
-
   integration-test:
     build:
       context: ./packages
@@ -27,8 +17,7 @@ services:
       - ./packages/api/.env.test
     depends_on:
       - mongo-test
-      - test-server
-    command: sh -c "yarn test:e2e"
+    command: sh -c "yarn migrate && yarn test:e2e"
 
   mongo-test:
     container_name: mongo-test

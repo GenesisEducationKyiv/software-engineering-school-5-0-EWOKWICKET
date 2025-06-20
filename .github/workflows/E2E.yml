@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-node
 
-      - name: Run e2e tests
+      - name: Run e2e tests in docker
         run: yarn docker:e2e
         working-directory: packages/api
 

@@ -5,9 +5,11 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:3000',
     headless: true,
+    trace: 'off',
   },
   webServer: {
-    command: 'yarn start:dev',
+    command: 'sh -c "yarn start:prod"',
+    cwd: '/app/api',
     port: 3000,
   },
 });

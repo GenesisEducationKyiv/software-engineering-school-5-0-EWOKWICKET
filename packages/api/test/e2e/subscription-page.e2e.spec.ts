@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { NotificationsFrequencies } from 'src/common/constants/enums/notifications-frequencies.enum';
+import { NotificationsFrequencies } from 'src/notifications/constants/enums/notification-frequencies.enum';
 import { SubscriptionPage } from 'test/utils/subscription.page';
 
 test.describe('Subscription Page', () => {
@@ -7,7 +7,7 @@ test.describe('Subscription Page', () => {
 
   test.beforeEach(async ({ page }) => {
     subscriptionPage = new SubscriptionPage(page);
-    await subscriptionPage.goto();
+    await subscriptionPage.gotoSubscriptionPage();
   });
 
   test('elements should be displayed', async ({ page }) => {
@@ -23,54 +23,20 @@ test.describe('Subscription Page', () => {
     await subscriptionPage.expectResultContains(/must be an email/i);
   });
 
-  test('should handle invalid city', async ({ page }) => {
-    // mock endpoint
-    await page.route('**/api/subscribe', async (route) => {
-      await route.fulfill({
-        status: 400,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          statusCode: 400,
-          message: 'No matching location found',
-          possibleLocations: [],
-        }),
-      });
-    });
-
+  test('should handle invalid city', async () => {
     await subscriptionPage.sendForm('valid@mail.com', 'invalid', NotificationsFrequencies.DAILY);
-    await subscriptionPage.expectResultContains(/possible locations/i);
+    await subscriptionPage.expectResultContains(/City Not Found/i, 10000);
   });
 
-  test('should successfully subscribe', async ({ page }) => {
-    // mock endpoint
-    await page.route('**/api/subscribe', async (route) => {
-      await route.fulfill({
-        status: 201,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          message: 'Confirmation mail sent',
-        }),
-      });
-    });
-
+  test('should successfully subscribe', async () => {
     await subscriptionPage.sendForm('valid@mail.com', 'Kyiv', NotificationsFrequencies.HOURLY);
-    await subscriptionPage.expectResultContains(/confirmation mail sent/i);
+    await subscriptionPage.expectResultContains(/confirmation mail sent/i, 10000);
   });
 
-  test('should handle whole flow(first subsscription created - second is conflict)', async ({ page }) => {
-    // mock endpoint
-    await page.route('**/api/subscribe', async (route) => {
-      await route.fulfill({
-        status: 409,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          statusCode: 409,
-          message: 'Conflict Error',
-        }),
-      });
-    });
-
+  test('should handle whole flow(first subscription created - second throws conflict)', async () => {
     await subscriptionPage.sendForm('duplicate@mail.com', 'Kyiv', NotificationsFrequencies.HOURLY);
-    await subscriptionPage.expectResultContains(/conflict/i);
+    await subscriptionPage.sendForm('duplicate@mail.com', 'Kyiv', NotificationsFrequencies.HOURLY);
+    
+    await subscriptionPage.expectResultContains(/conflict/i, 10000);
   });
 });

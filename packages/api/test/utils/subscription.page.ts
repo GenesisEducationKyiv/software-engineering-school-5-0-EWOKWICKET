@@ -1,5 +1,5 @@
 import { Page, expect } from '@playwright/test';
-import { NotificationsFrequencies } from 'src/common/constants/enums/notifications-frequencies.enum';
+import { NotificationsFrequencies } from 'src/notifications/constants/enums/notification-frequencies.enum';
 
 export class SubscriptionPage {
   page: Page;
@@ -8,7 +8,7 @@ export class SubscriptionPage {
     this.page = page;
   }
 
-  async goto() {
+  async gotoSubscriptionPage() {
     await this.page.goto('http://localhost:3000/weatherapi.app/');
   }
 
@@ -19,7 +19,8 @@ export class SubscriptionPage {
     await this.page.click('button[type="submit"]');
   }
 
-  async expectResultContains(text: RegExp) {
-    await expect(this.page.locator('#result')).toContainText(text);
+  async expectResultContains(text: RegExp, timeout: number = 5000) {
+    const locator = this.page.locator('#result');
+    await expect(locator).toContainText(text, { timeout });
   }
 }
