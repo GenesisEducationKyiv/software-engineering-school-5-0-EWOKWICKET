@@ -24,7 +24,7 @@ import { TestsUrl } from 'test/utils/test-urls.constant';
 const fetchCityResponse: CityResponseDto[] = [{ name: 'CityValid', region: '', country: '' }];
 
 const succesfulSubscriptionDto: CreateSubscriptionDto = {
-  email: 'test@email.com',
+  email: 'oopsgu2006@gmail.com',
   city: fetchCityResponse[0].name,
   frequency: NotificationsFrequencies.HOURLY,
 };
@@ -117,7 +117,7 @@ describe('SubscriptionController (Integration)', () => {
       cityFetchServiceMock.searchCitiesRaw.mockResolvedValue(fetchCityResponse);
 
       const invalidDto = {
-        email: 'mail@test@.com',
+        email: '@@@@',
         city: '',
         frequency: '',
       };

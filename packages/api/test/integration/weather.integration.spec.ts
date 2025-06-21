@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { CurrentWeatherApiResponseDto } from 'src/weather/constants/current-weather-api.interface';
 import { CurrentWeatherResponseDto } from 'src/weather/dtos/current-weather-response.dto';
-import { WeatherController } from 'src/weather/weather.controller';
 import { WeatherModule } from 'src/weather/weather.module';
 import * as request from 'supertest';
 import { mockFetch } from 'test/utils/fetch.mock';
@@ -35,7 +34,6 @@ const weatherResponse: CurrentWeatherResponseDto = {
 
 describe('WeatherContoller (Integration)', () => {
   let app: INestApplication;
-  let weatherController: WeatherController;
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
@@ -56,8 +54,6 @@ describe('WeatherContoller (Integration)', () => {
     );
     app.setGlobalPrefix('weatherapi.app/api');
     app.init();
-
-    weatherController = module.get<WeatherController>(WeatherController);
   });
 
   afterEach(() => {
