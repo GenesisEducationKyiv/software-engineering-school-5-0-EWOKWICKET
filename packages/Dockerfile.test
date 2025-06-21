@@ -4,11 +4,11 @@ WORKDIR /app/api
 
 COPY api/package.json api/yarn.lock ./
 
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 COPY api ./
 COPY public ../public
 
-EXPOSE 3000
+RUN yarn build
 
-CMD [ "yarn", "start" ]
+EXPOSE 3000

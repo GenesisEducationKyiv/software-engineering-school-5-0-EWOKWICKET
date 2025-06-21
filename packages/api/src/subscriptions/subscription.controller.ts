@@ -12,17 +12,17 @@ export class SubscriptionController {
 
   @HttpCode(200)
   @Post('subscribe')
-  subscribe(@Body() subscribeDto: CreateSubscriptionDto) {
-    this.subscriptionService.subscribe(subscribeDto);
+  async subscribe(@Body() subscribeDto: CreateSubscriptionDto) {
+    await this.subscriptionService.subscribe(subscribeDto);
   }
 
   @Get('confirm/:token')
-  confirm(@Param('token', MongoIdValidationPipe) token: string) {
-    this.subscriptionService.confirm(token);
+  async confirm(@Param('token', MongoIdValidationPipe) token: string) {
+    await this.subscriptionService.confirm(token);
   }
 
   @Get('unsubscribe/:token')
-  unsubscribe(@Param('token', MongoIdValidationPipe) token: string) {
-    this.subscriptionService.unsubscribe(token);
+  async unsubscribe(@Param('token', MongoIdValidationPipe) token: string) {
+    await this.subscriptionService.unsubscribe(token);
   }
 }

@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CityModule } from 'src/city/city.module';
 import { NotificationsModule } from 'src/notifications/notifications.module';
-import { WeatherModule } from 'src/weather/weather.module';
 import { Subscription, SubscriptionSchema } from '../database/schemas/subscription.schema';
 import { ControllerSubscriptionService, FindSubscriptionService } from './interfaces/subcription-service.interface';
 import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from './interfaces/subscription-repository.interface';
@@ -19,7 +18,6 @@ import { SubscriptionController } from './subscription.controller';
       },
     ]),
     NotificationsModule,
-    WeatherModule,
     CityModule,
   ],
   controllers: [SubscriptionController],
