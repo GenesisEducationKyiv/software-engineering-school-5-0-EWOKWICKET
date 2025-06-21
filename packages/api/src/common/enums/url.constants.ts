@@ -8,5 +8,6 @@ export const Url = Object.freeze({
   SUBSCRIBE: `${BASE}/subscribe`,
   CONFIRM: `${BASE}/confirm`,
   UNSUBSCRIBE: `${BASE}/unsubscribe`,
-  OUTER_WEATHER_API: 'http://api.weatherapi.com/v1',
+  WEATHER_API: 'http://api.weatherapi.com/v1',
+  OPENWEATHER: 'https://api.openweathermap.org/data/2.5',
 });

@@ -6,7 +6,7 @@ import { CityFetch } from './interfaces/city-fetch.interface';
 
 @Injectable()
 export class CityFetchService implements CityFetch {
-  private readonly apiUrl = Url.OUTER_WEATHER_API;
+  private readonly apiUrl = Url.WEATHER_API;
   private readonly apiKey = process.env.WEATHER_API_KEY;
 
   async searchCitiesRaw(city: string): Promise<CityResponseDto[]> {

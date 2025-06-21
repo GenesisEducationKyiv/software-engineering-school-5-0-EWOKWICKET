@@ -1,26 +1,23 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { CurrentWeatherApiResponseDto } from 'src/weather/constants/current-weather-api.interface';
+import { Injectable } from '@nestjs/common';
+import { Handler } from '../../common/interfaces/handler.interface';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
 import { CurrentWeather } from '../interfaces/current-weather.interface';
-import { WeatherFetch } from '../interfaces/weather-fetch.interface';
+import { OpenWeatherHandler } from './open-weather.handler';
+import { WeatherApiHandler } from './weather-api.handler';
 
 @Injectable()
 export class WeatherService implements CurrentWeather {
+  private readonly chain: Handler;
+
   constructor(
-    @Inject(WeatherFetch)
-    private readonly weatherApiService: WeatherFetch,
-  ) {}
+    private readonly weatherApiHandler: WeatherApiHandler,
+    private readonly openWeatherHandler: OpenWeatherHandler,
+  ) {
+    this.chain = weatherApiHandler;
+    this.weatherApiHandler.setNext(openWeatherHandler);
+  }
 
   async getCurrentWeather(city: string): Promise<CurrentWeatherResponseDto> {
-    const rawWeather: CurrentWeatherApiResponseDto = await this.weatherApiService.getCurrentWeatherRaw(city);
-    const current = rawWeather.current;
-
-    const result: CurrentWeatherResponseDto = {
-      temperature: current.temp_c,
-      humidity: current.humidity,
-      description: current.condition.text,
-    };
-
-    return result;
+    return this.chain.handle(city);
   }
 }

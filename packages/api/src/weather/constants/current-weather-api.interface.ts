@@ -1,6 +1,6 @@
 import { CityResponseDto } from './city-response.dto';
 
-export class CurrentWeatherApiResponseDto {
+export type CurrentWeatherApiFetchDto = {
   location: CityResponseDto;
   current: {
     temp_c: number;
@@ -9,4 +9,17 @@ export class CurrentWeatherApiResponseDto {
       text: string;
     };
   };
-}
+};
+
+export type CurrentOpenWeatherFetchDto = {
+  weather: {
+    description: string;
+  };
+  main: {
+    temp: number;
+    humidity: number;
+  };
+  name: string;
+};
+
+export type CurrentWeatherFetchDto = CurrentWeatherApiFetchDto | CurrentOpenWeatherFetchDto;

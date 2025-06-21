@@ -1,14 +1,14 @@
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
-import { CurrentWeatherApiResponseDto } from 'src/weather/constants/current-weather-api.interface';
+import { CurrentWeatherApiFetchDto } from 'src/weather/constants/current-weather-api.interface';
 import { CurrentWeatherResponseDto } from 'src/weather/dtos/current-weather-response.dto';
 import { WeatherModule } from 'src/weather/weather.module';
 import * as request from 'supertest';
 import { mockFetch } from 'test/utils/fetch.mock';
 import { TestsUrl } from 'test/utils/test-urls.constant';
 
-const fetchWeatherResponseOK: CurrentWeatherApiResponseDto | null = {
+const fetchWeatherResponseOK: CurrentWeatherApiFetchDto | null = {
   location: {
     name: 'ValidCity',
     region: '',
