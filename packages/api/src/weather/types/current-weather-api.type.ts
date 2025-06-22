@@ -1,7 +1,7 @@
-import { CityResponseDto } from './city-response.dto';
+import { CityWeatherApiFetchDto } from 'src/city/types/city-response.type';
 
 export type CurrentWeatherApiFetchDto = {
-  location: CityResponseDto;
+  location: CityWeatherApiFetchDto;
   current: {
     temp_c: number;
     humidity: number;
@@ -12,9 +12,9 @@ export type CurrentWeatherApiFetchDto = {
 };
 
 export type CurrentOpenWeatherFetchDto = {
-  weather: {
+  weather: Array<{
     description: string;
-  };
+  }>;
   main: {
     temp: number;
     humidity: number;

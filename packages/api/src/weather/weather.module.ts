@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { CurrentWeather } from './interfaces/current-weather.interface';
+import { OpenWeatherHandler } from './handlers/open-weather.handler';
+import { WeatherApiHandler } from './handlers/weather-api.handler';
+import { WeatherServiceInterface } from './interfaces/current-weather.interface';
 import { WeatherFetch } from './interfaces/weather-fetch.interface';
-import { OpenWeatherHandler } from './services/open-weather.handler';
-import { WeatherApiHandler } from './services/weather-api.handler';
 import { WeatherFetchService } from './services/weather-fetch.service';
 import { WeatherService } from './services/weather.service';
 import { WeatherController } from './weather.controller';
@@ -11,7 +11,7 @@ import { WeatherController } from './weather.controller';
   controllers: [WeatherController],
   providers: [
     {
-      provide: CurrentWeather,
+      provide: WeatherServiceInterface,
       useClass: WeatherService,
     },
     {
@@ -21,6 +21,6 @@ import { WeatherController } from './weather.controller';
     WeatherApiHandler,
     OpenWeatherHandler,
   ],
-  exports: [CurrentWeather],
+  exports: [WeatherServiceInterface],
 })
 export class WeatherModule {}

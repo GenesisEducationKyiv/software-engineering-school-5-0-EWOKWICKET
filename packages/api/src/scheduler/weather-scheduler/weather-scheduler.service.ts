@@ -6,15 +6,15 @@ import { NotificationType } from 'src/notifications/constants/enums/notification
 import { WeatherUpdateNotificationsOptions } from 'src/notifications/constants/types/updates.options';
 import { NotificationsServiceInterface } from 'src/notifications/interfaces/notifications-service.interface';
 import { GroupSubscriptionRepository } from 'src/subscriptions/interfaces/subscription-repository.interface';
-import { CurrentWeather } from 'src/weather/interfaces/current-weather.interface';
+import { WeatherServiceInterface } from 'src/weather/interfaces/current-weather.interface';
 
 @Injectable()
 export class WeatherSchedulerService {
   constructor(
     @Inject(NotificationsServiceInterface)
     private readonly notificationsService: NotificationsServiceInterface,
-    @Inject(CurrentWeather)
-    private readonly weatherService: CurrentWeather,
+    @Inject(WeatherServiceInterface)
+    private readonly weatherService: WeatherServiceInterface,
     @Inject(GroupSubscriptionRepository)
     private readonly subscriptionRepository: GroupSubscriptionRepository,
   ) {}

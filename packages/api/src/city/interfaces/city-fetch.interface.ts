@@ -1,5 +1,5 @@
-import { CityResponseDto } from 'src/weather/constants/city-response.dto';
+import { CityResponseDto } from 'src/city/types/city-response.type';
 
 export abstract class CityFetch {
-  abstract searchCitiesRaw(city: string): Promise<CityResponseDto[]>;
+  abstract searchCitiesRaw(url: string): Promise<CityResponseDto>;
 }

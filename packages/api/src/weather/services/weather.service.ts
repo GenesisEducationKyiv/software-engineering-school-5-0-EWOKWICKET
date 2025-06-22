@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { Handler } from '../../common/interfaces/handler.interface';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
-import { CurrentWeather } from '../interfaces/current-weather.interface';
-import { OpenWeatherHandler } from './open-weather.handler';
-import { WeatherApiHandler } from './weather-api.handler';
+import { OpenWeatherHandler } from '../handlers/open-weather.handler';
+import { WeatherApiHandler } from '../handlers/weather-api.handler';
+import { WeatherServiceInterface } from '../interfaces/current-weather.interface';
+import { WeatherHandler } from '../interfaces/weather-handler.interface';
 
 @Injectable()
-export class WeatherService implements CurrentWeather {
-  private readonly chain: Handler;
+export class WeatherService implements WeatherServiceInterface {
+  private readonly chain: WeatherHandler;
 
   constructor(
     private readonly weatherApiHandler: WeatherApiHandler,

@@ -24,7 +24,7 @@ export class SubscriptionService implements FindSubscriptionService, ControllerS
     await this.notificationsService.sendConfirmationNotification(
       {
         to: newSubscription.email,
-        subject: NotificationSubjects.SUBSCRIPTION_CONFIRMATION,
+        subject: `${NotificationSubjects.SUBSCRIPTION_CONFIRMATION} ${newSubscription.city}`,
         token: newSubscription._id.toString(),
       },
       NotificationType.EMAIL,

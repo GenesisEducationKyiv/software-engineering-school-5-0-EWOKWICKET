@@ -1,30 +1,23 @@
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
-import { CurrentWeatherApiFetchDto } from 'src/weather/constants/current-weather-api.interface';
+import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { CurrentWeatherResponseDto } from 'src/weather/dtos/current-weather-response.dto';
+import { CurrentOpenWeatherFetchDto, CurrentWeatherApiFetchDto } from 'src/weather/types/current-weather-api.type';
 import { WeatherModule } from 'src/weather/weather.module';
 import * as request from 'supertest';
 import { mockFetch } from 'test/utils/fetch.mock';
 import { TestsUrl } from 'test/utils/test-urls.constant';
 
-const fetchWeatherResponseOK: CurrentWeatherApiFetchDto | null = {
-  location: {
-    name: 'ValidCity',
-    region: '',
-    country: '',
-  },
-  current: {
-    temp_c: 0,
-    humidity: 1,
-    condition: {
-      text: 'text',
-    },
-  },
+const fetchWeatherResponseOK: CurrentWeatherApiFetchDto = {
+  location: { name: 'ValidCity', region: '', country: '' },
+  current: { temp_c: 0, humidity: 1, condition: { text: 'text' } },
 };
 
-const fetchWeatherResponseError = fetchWeatherResponseOK;
-fetchWeatherResponseError.location.name = 'Invalid';
+const fetchWeatherResponseError: CurrentWeatherApiFetchDto = {
+  location: { name: 'Invalid', region: '', country: '' },
+  current: { temp_c: 0, humidity: 1, condition: { text: 'text' } },
+};
 
 const weatherResponse: CurrentWeatherResponseDto = {
   temperature: 0,
@@ -72,6 +65,26 @@ describe('WeatherContoller (Integration)', () => {
       expect(response.body).toMatchObject(weatherResponse);
     });
 
+    it('should return weather from reserve provider if first provider fails', async () => {
+      const reserveWeatherResponse: CurrentOpenWeatherFetchDto = {
+        weather: [{ description: 'text' }],
+        main: { temp: 0, humidity: 1 },
+        name: 'ValidCity',
+      };
+
+      global.fetch = jest
+        .fn()
+        .mockRejectedValueOnce(new ExternalApiException())
+        .mockResolvedValueOnce({
+          status: 200,
+          json: async () => reserveWeatherResponse,
+        });
+
+      const response = await request(app.getHttpServer()).get(`${TestsUrl.WEATHER}?city=${reserveWeatherResponse.name}`).expect(HttpStatus.OK);
+
+      expect(response.body).toMatchObject(weatherResponse);
+    });
+
     it('should throw CityNotFoundException if city not found', async () => {
       mockFetch(fetchWeatherResponseError, HttpStatus.OK);
 
@@ -90,7 +103,7 @@ describe('WeatherContoller (Integration)', () => {
       mockFetch({}, HttpStatus.INTERNAL_SERVER_ERROR);
 
       const response = await request(app.getHttpServer()).get(`${TestsUrl.WEATHER}?city=City`).expect(HttpStatus.INTERNAL_SERVER_ERROR);
-      expect(response.body).toHaveProperty('message', 'Exteranl API error occured');
+      expect(response.body).toHaveProperty('message', 'External API error occured');
     });
   });
 });

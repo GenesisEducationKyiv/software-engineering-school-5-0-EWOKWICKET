@@ -36,7 +36,7 @@ export class SubscriptionRepository implements ServiceSubscriptionRepository {
 
   async findGroupedByCities(frequency: string) {
     return this.subscriptionModel.aggregate([
-      { $match: { frequency: frequency } },
+      { $match: { frequency: frequency, confirmed: true } },
       {
         $group: {
           _id: '$city',
