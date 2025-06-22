@@ -1,21 +1,23 @@
 import { Injectable } from '@nestjs/common';
+import { ProviderLoggingDecorator } from 'src/common/decorators/weather-provider.decorator';
+import { ProviderHandler } from '../../common/interfaces/weather-handler.interface';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
-import { OpenWeatherHandler } from '../handlers/open-weather.handler';
-import { WeatherApiHandler } from '../handlers/weather-api.handler';
+import { CurrentOpenWeatherHandler } from '../handlers/weather-openweather.handler';
+import { CurrentWeatherApiHandler } from '../handlers/weather-weatherapi.handler';
 import { WeatherServiceInterface } from '../interfaces/current-weather.interface';
-import { WeatherHandler } from '../interfaces/weather-handler.interface';
 
 @Injectable()
 export class WeatherService implements WeatherServiceInterface {
-  private readonly chain: WeatherHandler;
+  private readonly chain: ProviderHandler<CurrentWeatherResponseDto>;
 
   constructor(
-    private readonly weatherApiHandler: WeatherApiHandler,
-    private readonly openWeatherHandler: OpenWeatherHandler,
+    private readonly weatherApiHandler: CurrentWeatherApiHandler,
+    private readonly openWeatherHandler: CurrentOpenWeatherHandler,
   ) {
-    // this.chain = new WeatherLoggerDecorator(weatherApiHandler, 'WeatherApi');
-    // this.weatherApiHandler.setNext(new WeatherLoggerDecorator(openWeatherHandler, 'OpenWeather'));
-    this.chain = weatherApiHandler.setNext(openWeatherHandler);
+    const decoratedWeatherAPI = new ProviderLoggingDecorator(weatherApiHandler);
+    const decoratedOpenWeather = new ProviderLoggingDecorator(openWeatherHandler);
+
+    this.chain = decoratedWeatherAPI.setNext(decoratedOpenWeather);
   }
 
   async getCurrentWeather(city: string): Promise<CurrentWeatherResponseDto> {

@@ -7,7 +7,7 @@ import { CurrentOpenWeatherFetchDto } from 'src/weather/types/current-weather-ap
 import { CityFetch } from '../interfaces/city-fetch.interface';
 
 @Injectable()
-export class OpenWeatherHandler extends ProviderHandler<void> {
+export class CityOpenWeatherHandler extends ProviderHandler<void> {
   private readonly apiKey: string;
 
   constructor(

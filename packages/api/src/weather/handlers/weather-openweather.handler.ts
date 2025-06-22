@@ -8,7 +8,7 @@ import { WeatherFetch } from '../interfaces/weather-fetch.interface';
 import { CurrentOpenWeatherFetchDto } from '../types/current-weather-api.type';
 
 @Injectable()
-export class OpenWeatherHandler extends ProviderHandler<CurrentWeatherResponseDto> {
+export class CurrentOpenWeatherHandler extends ProviderHandler<CurrentWeatherResponseDto> {
   private readonly apiKey: string;
 
   constructor(
@@ -20,7 +20,6 @@ export class OpenWeatherHandler extends ProviderHandler<CurrentWeatherResponseDt
   }
 
   async fetch(city: string): Promise<CurrentWeatherResponseDto> {
-    // throw new ExternalApiException();
     const apiUrl = `${Url.OPENWEATHER_API}/weather?q=${city}&appid=${this.apiKey}&units=metric`;
 
     const rawWeather = (await this.weatherFetchService.getCurrentWeatherRaw(apiUrl)) as unknown as CurrentOpenWeatherFetchDto;

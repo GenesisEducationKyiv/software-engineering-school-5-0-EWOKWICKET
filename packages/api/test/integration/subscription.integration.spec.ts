@@ -122,7 +122,7 @@ describe('SubscriptionController (Integration)', () => {
     });
 
     it('should use reserve weather provider for city validation', async () => {
-      cityFetchServiceMock.searchCitiesRaw.mockRejectedValueOnce(new ExternalApiException()).mockResolvedValueOnce(cityOpenweatherFetchResponse);
+      cityFetchServiceMock.searchCitiesRaw.mockRejectedValueOnce({ status: 500 }).mockResolvedValueOnce(cityOpenweatherFetchResponse);
 
       await request(app.getHttpServer()).post(TestsUrl.SUBSCRIBE).send(succesfulSubscriptionDto).expect(HttpStatus.OK);
 

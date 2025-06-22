@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
+import { ProviderLoggingDecorator } from 'src/common/decorators/weather-provider.decorator';
 import { ProviderHandler } from 'src/common/interfaces/weather-handler.interface';
-import { OpenWeatherHandler } from '../handlers/city-openweather.handler';
-import { WeatherApiHandler } from '../handlers/city-weatherapi.handler';
+import { CityOpenWeatherHandler } from '../handlers/city-openweather.handler';
+import { CityWeatherApiHandler } from '../handlers/city-weatherapi.handler';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
@@ -10,10 +11,13 @@ export class CityExistsConstraint implements ValidatorConstraintInterface {
   private chain: ProviderHandler<void>;
 
   constructor(
-    private readonly weatherApiHandler: WeatherApiHandler,
-    private readonly openweatherHandler: OpenWeatherHandler,
+    private readonly weatherApiHandler: CityWeatherApiHandler,
+    private readonly openweatherHandler: CityOpenWeatherHandler,
   ) {
-    this.chain = weatherApiHandler.setNext(openweatherHandler);
+    const decoratedWeatherAPI = new ProviderLoggingDecorator(weatherApiHandler);
+    const decoratedOpenWeather = new ProviderLoggingDecorator(openweatherHandler);
+
+    this.chain = decoratedWeatherAPI.setNext(decoratedOpenWeather);
   }
 
   async validate(value: string) {

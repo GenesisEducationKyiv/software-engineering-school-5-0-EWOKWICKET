@@ -7,7 +7,7 @@ import { CityFetch } from '../interfaces/city-fetch.interface';
 import { CityWeatherApiFetchDto } from '../types/city-response.type';
 
 @Injectable()
-export class WeatherApiHandler extends ProviderHandler<void> {
+export class CityWeatherApiHandler extends ProviderHandler<void> {
   private readonly apiKey: string;
 
   constructor(

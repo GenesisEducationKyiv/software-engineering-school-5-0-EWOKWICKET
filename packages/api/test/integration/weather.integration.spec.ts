@@ -77,8 +77,9 @@ describe('WeatherContoller (Integration)', () => {
         .mockRejectedValueOnce(new ExternalApiException())
         .mockResolvedValueOnce({
           status: 200,
+          ok: true,
           json: async () => reserveWeatherResponse,
-        });
+        } as Response);
 
       const response = await request(app.getHttpServer()).get(`${TestsUrl.WEATHER}?city=${reserveWeatherResponse.name}`).expect(HttpStatus.OK);
 

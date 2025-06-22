@@ -8,7 +8,7 @@ import { WeatherFetch } from '../interfaces/weather-fetch.interface';
 import { CurrentWeatherApiFetchDto } from '../types/current-weather-api.type';
 
 @Injectable()
-export class WeatherApiHandler extends ProviderHandler<CurrentWeatherResponseDto> {
+export class CurrentWeatherApiHandler extends ProviderHandler<CurrentWeatherResponseDto> {
   private readonly apiKey: string;
 
   constructor(
