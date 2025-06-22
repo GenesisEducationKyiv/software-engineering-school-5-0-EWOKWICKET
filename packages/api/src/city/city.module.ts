@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { CityValidationService } from './city-validation.service';
+import { CityFetchService } from './city-fetch.service';
 import { CityExistsConstraint } from './constraints/city-exists.constraint';
+import { OpenWeatherHandler } from './handlers/openweather.handler';
+import { WeatherApiHandler } from './handlers/weatherapi.handler';
 import { CityFetch } from './interfaces/city-fetch.interface';
 
 const cityFetchMock: CityFetch = {
@@ -10,15 +12,18 @@ const cityFetchMock: CityFetch = {
 
 @Module({
   providers: [
+    CityFetchService,
     {
       provide: CityFetch,
-      useFactory: (configService: ConfigService) => {
+      useFactory: (configService: ConfigService, cityFetchService: CityFetchService) => {
         if (configService.get('NODE_ENV') === 'e2e') return cityFetchMock;
+        return cityFetchService;
       },
-      inject: [ConfigService],
+      inject: [ConfigService, CityFetchService],
     },
-    CityValidationService,
     CityExistsConstraint,
+    WeatherApiHandler,
+    OpenWeatherHandler,
   ],
   exports: [CityExistsConstraint],
 })

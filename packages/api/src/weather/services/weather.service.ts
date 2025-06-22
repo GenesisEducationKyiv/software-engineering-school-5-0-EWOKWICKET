@@ -13,8 +13,9 @@ export class WeatherService implements WeatherServiceInterface {
     private readonly weatherApiHandler: WeatherApiHandler,
     private readonly openWeatherHandler: OpenWeatherHandler,
   ) {
-    this.chain = weatherApiHandler;
-    this.weatherApiHandler.setNext(openWeatherHandler);
+    // this.chain = new WeatherLoggerDecorator(weatherApiHandler, 'WeatherApi');
+    // this.weatherApiHandler.setNext(new WeatherLoggerDecorator(openWeatherHandler, 'OpenWeather'));
+    this.chain = weatherApiHandler.setNext(openWeatherHandler);
   }
 
   async getCurrentWeather(city: string): Promise<CurrentWeatherResponseDto> {

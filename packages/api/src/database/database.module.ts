@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { DatabaseConfig } from './config/database.config';
 import { DatabaseMigration } from './database.migration';
 import { Subscription, SubscriptionSchema } from './schemas/subscription.schema';
 
@@ -11,11 +12,7 @@ import { Subscription, SubscriptionSchema } from './schemas/subscription.schema'
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => {
-        const uri = configService.get<string>('DB_URI') || 'mongodb://localhost:27017/weatherAPI';
-        return { uri };
-      },
+      useClass: DatabaseConfig,
     }),
     MongooseModule.forFeature([
       {
