@@ -2,14 +2,13 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Url } from 'src/common/enums/url.constants';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
-import { ExternalApiException } from 'src/common/errors/external-api.error';
+import { ProviderHandler } from '../../common/interfaces/weather-handler.interface';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
 import { WeatherFetch } from '../interfaces/weather-fetch.interface';
-import { WeatherHandler } from '../interfaces/weather-handler.interface';
 import { CurrentWeatherApiFetchDto } from '../types/current-weather-api.type';
 
 @Injectable()
-export class WeatherApiHandler extends WeatherHandler {
+export class WeatherApiHandler extends ProviderHandler<CurrentWeatherResponseDto> {
   private readonly apiKey: string;
 
   constructor(
@@ -20,20 +19,13 @@ export class WeatherApiHandler extends WeatherHandler {
     this.apiKey = this.configService.get('WEATHERAPI_API_KEY');
   }
 
-  async handle(city: string): Promise<CurrentWeatherResponseDto> {
+  async fetch(city: string): Promise<CurrentWeatherResponseDto> {
     const apiUrl = `${Url.WEATHER_API}/current.json?key=${this.apiKey}&q=${city}`;
-    try {
-      const rawWeather = (await this.weatherFetchService.getCurrentWeatherRaw(apiUrl)) as unknown as CurrentWeatherApiFetchDto;
-      if (rawWeather.location.name !== city) throw new CityNotFoundException();
 
-      console.log('WEATHERAPI');
-      return this.parseRawWeather(rawWeather);
-    } catch (err) {
-      if (this.next && (err instanceof ExternalApiException || err instanceof CityNotFoundException)) {
-        return this.next.handle(city);
-      }
-      throw err;
-    }
+    const rawWeather = (await this.weatherFetchService.getCurrentWeatherRaw(apiUrl)) as unknown as CurrentWeatherApiFetchDto;
+    if (rawWeather.location.name !== city) throw new CityNotFoundException();
+
+    return this.parseRawWeather(rawWeather);
   }
 
   parseRawWeather(data: CurrentWeatherApiFetchDto): CurrentWeatherResponseDto {
@@ -42,5 +34,9 @@ export class WeatherApiHandler extends WeatherHandler {
       humidity: data.current.humidity,
       description: data.current.condition.text,
     };
+  }
+
+  get providerName(): string {
+    return 'WeatherAPI';
   }
 }
