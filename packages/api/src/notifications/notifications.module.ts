@@ -14,13 +14,14 @@ const notificationsServiceMock: NotificationsServiceInterface = {
 @Module({
   imports: [MailModule],
   providers: [
+    NotificationsService,
     {
       provide: NotificationsServiceInterface,
-      useFactory: (configService: ConfigService): NotificationsServiceInterface => {
+      useFactory: (configService: ConfigService, notificationsService: NotificationsService): NotificationsServiceInterface => {
         if (configService.get('NODE_ENV') === 'e2e') return notificationsServiceMock;
-        return new NotificationsService([]);
+        return notificationsService;
       },
-      inject: [ConfigService],
+      inject: [ConfigService, NotificationsService],
     },
     {
       provide: NotificationsSenderToken,
