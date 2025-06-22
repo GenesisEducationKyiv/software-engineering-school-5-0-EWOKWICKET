@@ -22,7 +22,7 @@ export class CurrentOpenWeatherHandler extends ProviderHandler<CurrentWeatherRes
   async fetch(city: string): Promise<CurrentWeatherResponseDto> {
     const apiUrl = `${Url.OPENWEATHER_API}/weather?q=${city}&appid=${this.apiKey}&units=metric`;
 
-    const rawWeather = (await this.weatherFetchService.getCurrentWeatherRaw(apiUrl)) as unknown as CurrentOpenWeatherFetchDto;
+    const rawWeather = (await this.weatherFetchService.getCurrentWeatherRaw(apiUrl)) as CurrentOpenWeatherFetchDto;
     if (rawWeather.name !== city) throw new CityNotFoundException();
 
     return this.parseRawWeather(rawWeather);

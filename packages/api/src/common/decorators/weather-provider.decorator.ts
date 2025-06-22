@@ -16,7 +16,8 @@ export class ProviderLoggingDecorator<Response> extends ProviderHandler<Response
   }
 
   setNext(handler: ProviderHandler<Response>) {
-    this.next = this.wrapped.setNext(handler);
+    this.wrapped.setNext(handler);
+    this.next = handler;
     return this;
   }
 }

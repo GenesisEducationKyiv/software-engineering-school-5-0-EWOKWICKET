@@ -1,5 +1,5 @@
-import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
+import { CurrentOpenWeatherFetchDto, CurrentWeatherApiFetchDto } from '../types/current-weather-api.type';
 
 export abstract class WeatherFetch {
-  abstract getCurrentWeatherRaw(url: string): Promise<CurrentWeatherResponseDto>;
+  abstract getCurrentWeatherRaw(url: string): Promise<CurrentWeatherApiFetchDto | CurrentOpenWeatherFetchDto>;
 }
