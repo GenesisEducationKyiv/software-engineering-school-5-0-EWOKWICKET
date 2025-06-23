@@ -1,5 +1,5 @@
 const BASE = (() => {
-  const host = 'localhost';
+  const host = process.env.HOST || 'localhost';
   const port = process.env.PORT || '3000';
   return `http://${host}:${port}/weatherapi.app/api`;
 })();
