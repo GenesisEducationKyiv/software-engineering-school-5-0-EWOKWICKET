@@ -1,9 +1,10 @@
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
+import { appTestConfig, databaseTestConfig } from 'src/config/test.config';
 import { CurrentWeatherApiResponseDto } from 'src/weather/constants/current-weather-api.interface';
 import { CurrentWeatherResponseDto } from 'src/weather/dtos/current-weather-response.dto';
-import { WeatherModule } from 'src/weather/weather.module';
+import { WeatherTestModule } from 'src/weather/test/weather.module.test';
 import * as request from 'supertest';
 import { mockFetch } from 'test/utils/fetch.mock';
 import { TestsUrl } from 'test/utils/test-urls.constant';
@@ -39,10 +40,10 @@ describe('WeatherContoller (Integration)', () => {
     const module = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({
-          envFilePath: '.env.test',
           isGlobal: true,
+          load: [appTestConfig, databaseTestConfig],
         }),
-        WeatherModule,
+        WeatherTestModule,
       ],
     }).compile();
 

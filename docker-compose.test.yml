@@ -15,8 +15,6 @@ services:
       dockerfile: Dockerfile.playwright
     env_file:
       - ./packages/api/.env.test
-    environment:
-      - NODE_ENV=e2e
     depends_on:
       - mongo-test
     command: sh -c "yarn migrate && yarn test:e2e"

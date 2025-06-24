@@ -1,22 +1,24 @@
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { getModelToken, MongooseModule } from '@nestjs/mongoose';
+import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { useContainer } from 'class-validator';
-import mongoose, { Model, Types } from 'mongoose';
-import { CityModule } from 'src/city/city.module';
+import { Model, Types } from 'mongoose';
 import { CityFetch } from 'src/city/interfaces/city-fetch.interface';
+import { CityTestModule } from 'src/city/test/city.module.test';
 import { DatabaseExceptionFilter } from 'src/common/filters/database-exception.filter';
-import { DatabaseModule } from 'src/database/database.module';
-import { Subscription, SubscriptionSchema } from 'src/database/schemas/subscription.schema';
+import { appTestConfig, databaseTestConfig } from 'src/config/test.config';
+import { Subscription } from 'src/database/schemas/subscription.schema';
+import { DatabaseTestModule } from 'src/database/test/database.module.test';
 import { NotificationsFrequencies } from 'src/notifications/constants/enums/notification-frequencies.enum';
 import { NotificationSubjects } from 'src/notifications/constants/enums/notification-subjects.enum';
 import { NotificationType } from 'src/notifications/constants/enums/notification-type.enum';
 import { NotificationsServiceInterface } from 'src/notifications/interfaces/notifications-service.interface';
-import { NotificationsModule } from 'src/notifications/notifications.module';
+import { NotificationsTestModule } from 'src/notifications/test/notifications.module.test';
 import { CreateSubscriptionDto } from 'src/subscriptions/dtos/create-subscription.dto';
 import { SubscriptionRepository } from 'src/subscriptions/services/subscription.repository';
 import { SubscriptionModule } from 'src/subscriptions/subscription.module';
+import { SubscriptionTestModule } from 'src/subscriptions/test/subscriptions.module.test';
 import { CityResponseDto } from 'src/weather/constants/city-response.dto';
 import * as request from 'supertest';
 import { TestsUrl } from 'test/utils/test-urls.constant';
@@ -47,19 +49,13 @@ describe('SubscriptionController (Integration)', () => {
     const module = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({
-          envFilePath: '.env.test',
           isGlobal: true,
+          load: [appTestConfig, databaseTestConfig],
         }),
-        SubscriptionModule,
-        DatabaseModule,
-        CityModule,
-        NotificationsModule,
-        MongooseModule.forFeature([
-          {
-            name: Subscription.name,
-            schema: SubscriptionSchema,
-          },
-        ]),
+        SubscriptionTestModule,
+        DatabaseTestModule,
+        CityTestModule,
+        NotificationsTestModule,
       ],
     })
       .overrideProvider(NotificationsServiceInterface)
@@ -69,7 +65,7 @@ describe('SubscriptionController (Integration)', () => {
       .compile();
 
     app = module.createNestApplication();
-    useContainer(app.select(SubscriptionModule), { fallbackOnErrors: true });
+    useContainer(app.select(SubscriptionTestModule), { fallbackOnErrors: true });
     app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
@@ -89,7 +85,6 @@ describe('SubscriptionController (Integration)', () => {
   });
 
   afterAll(async () => {
-    await mongoose.disconnect();
     await app.close();
   });
 

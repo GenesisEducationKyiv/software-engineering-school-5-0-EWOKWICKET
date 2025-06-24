@@ -9,6 +9,6 @@ RUN yarn install --frozen-lockfile
 COPY api ./
 COPY public ../public
 
-RUN yarn build
+RUN yarn build:test
 
 EXPOSE 3000
