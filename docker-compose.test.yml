@@ -3,21 +3,17 @@ services:
     build:
       context: ./packages
       dockerfile: Dockerfile.test
-    env_file:
-      - ./packages/api/.env.test
     depends_on:
       - mongo-test
-    command: sh -c "yarn migrate && yarn test:integration"
+    command: sh -c "yarn migrate:test && yarn test:integration"
 
   e2e-test:
     build:
       context: ./packages
       dockerfile: Dockerfile.playwright
-    env_file:
-      - ./packages/api/.env.test
     depends_on:
       - mongo-test
-    command: sh -c "yarn migrate && yarn test:e2e"
+    command: sh -c "yarn migrate:test && yarn test:e2e"
 
   mongo-test:
     container_name: mongo-test
@@ -25,8 +21,3 @@ services:
     restart: always
     ports:
       - 27017:27017
-    volumes:
-      - mongo-test-data:/data/db
-
-volumes:
-  mongo-test-data:

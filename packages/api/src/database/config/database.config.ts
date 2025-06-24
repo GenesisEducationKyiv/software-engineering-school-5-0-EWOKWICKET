@@ -8,7 +8,7 @@ export class DatabaseConfig implements MongooseOptionsFactory {
   createMongooseOptions(): Promise<MongooseModuleOptions> | MongooseModuleOptions {
     return {
       uri: this.configService.get<string>('database.dbUri'),
-      autoIndex: true, //for dev only
+      autoIndex: false,
     };
   }
 }

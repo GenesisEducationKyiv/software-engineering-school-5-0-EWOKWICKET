@@ -4,6 +4,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { CityModule } from './city/city.module';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
+import { envSchema } from './config/env.validation';
 import mailConfig from './config/mail.config';
 import { DatabaseModule } from './database/database.module';
 import { NotificationsModule } from './notifications/notifications.module';
@@ -17,6 +18,7 @@ import { WeatherModule } from './weather/weather.module';
       isGlobal: true,
       envFilePath: '.env',
       load: [appConfig, databaseConfig, mailConfig],
+      validationSchema: envSchema,
     }),
     ServeStaticModule.forRoot({
       rootPath: 'packages/api/public',

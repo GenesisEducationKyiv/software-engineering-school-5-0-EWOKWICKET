@@ -17,7 +17,6 @@ import { NotificationsServiceInterface } from 'src/notifications/interfaces/noti
 import { NotificationsTestModule } from 'src/notifications/test/notifications.module.test';
 import { CreateSubscriptionDto } from 'src/subscriptions/dtos/create-subscription.dto';
 import { SubscriptionRepository } from 'src/subscriptions/services/subscription.repository';
-import { SubscriptionModule } from 'src/subscriptions/subscription.module';
 import { SubscriptionTestModule } from 'src/subscriptions/test/subscriptions.module.test';
 import { CityResponseDto } from 'src/weather/constants/city-response.dto';
 import * as request from 'supertest';
@@ -49,6 +48,7 @@ describe('SubscriptionController (Integration)', () => {
     const module = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({
+          ignoreEnvFile: true,
           isGlobal: true,
           load: [appTestConfig, databaseTestConfig],
         }),

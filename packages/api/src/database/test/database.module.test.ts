@@ -9,6 +9,7 @@ import { Subscription, SubscriptionSchema } from '../schemas/subscription.schema
 @Module({
   imports: [
     ConfigModule.forRoot({
+      ignoreEnvFile: true,
       load: [databaseTestConfig],
     }),
     MongooseModule.forRootAsync({
@@ -23,6 +24,6 @@ import { Subscription, SubscriptionSchema } from '../schemas/subscription.schema
       },
     ]),
   ],
-  providers: [DatabaseMigration, DatabaseConfig],
+  providers: [DatabaseMigration],
 })
 export class DatabaseTestModule {}

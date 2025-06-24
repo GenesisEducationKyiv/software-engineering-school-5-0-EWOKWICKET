@@ -40,6 +40,7 @@ describe('WeatherContoller (Integration)', () => {
     const module = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({
+          ignoreEnvFile: true,
           isGlobal: true,
           load: [appTestConfig, databaseTestConfig],
         }),

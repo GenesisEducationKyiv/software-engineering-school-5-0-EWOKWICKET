@@ -12,6 +12,7 @@ import { WeatherTestModule } from './weather/test/weather.module.test';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      ignoreEnvFile: true,
       isGlobal: true,
       load: [appTestConfig, databaseTestConfig],
     }),
