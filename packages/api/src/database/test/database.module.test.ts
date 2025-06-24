@@ -1,16 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import databaseConfig from 'src/config/database.config';
-import { DatabaseConfig } from './config/database.config';
-import { DatabaseMigration } from './database.migration';
-import { Subscription, SubscriptionSchema } from './schemas/subscription.schema';
+import { databaseTestConfig } from 'src/config/test.config';
+import { DatabaseConfig } from '../config/database.config';
+import { DatabaseMigration } from '../database.migration';
+import { Subscription, SubscriptionSchema } from '../schemas/subscription.schema';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env',
-      load: [databaseConfig],
+      load: [databaseTestConfig],
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -24,6 +23,6 @@ import { Subscription, SubscriptionSchema } from './schemas/subscription.schema'
       },
     ]),
   ],
-  providers: [DatabaseMigration],
+  providers: [DatabaseMigration, DatabaseConfig],
 })
-export class DatabaseModule {}
+export class DatabaseTestModule {}

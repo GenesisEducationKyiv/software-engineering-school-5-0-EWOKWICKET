@@ -1,4 +1,5 @@
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { useContainer } from 'class-validator';
 import { DatabaseExceptionFilter } from 'src/common/filters/database-exception.filter';
@@ -19,8 +20,9 @@ async function bootstrap() {
     }),
   );
 
-  const host = process.env.HOST || 'localhost';
-  const port = process.env.PORT || 3001;
+  const configService: ConfigService = app.get<ConfigService>(ConfigService);
+  const host = configService.get<string>('app.host');
+  const port = configService.get<string>('app.port');
 
   await app.listen(port, () => {
     console.log(`Server is running on ${host}:${port}`);

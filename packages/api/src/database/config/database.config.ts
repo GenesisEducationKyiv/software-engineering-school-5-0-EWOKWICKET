@@ -7,7 +7,7 @@ export class DatabaseConfig implements MongooseOptionsFactory {
   constructor(private readonly configService: ConfigService) {}
   createMongooseOptions(): Promise<MongooseModuleOptions> | MongooseModuleOptions {
     return {
-      uri: this.configService.get<string>('DB_URI') || 'mongodb://localhost:27017/weatherAPI',
+      uri: this.configService.get<string>('database.dbUri'),
       autoIndex: true, //for dev only
     };
   }
