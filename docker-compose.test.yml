@@ -3,6 +3,7 @@ services:
     build:
       context: ./packages
       dockerfile: Dockerfile.test
+    env_file: []
     depends_on:
       - mongo-test
     command: sh -c "yarn migrate:test && yarn test:integration"
@@ -11,6 +12,7 @@ services:
     build:
       context: ./packages
       dockerfile: Dockerfile.playwright
+    env_file: []
     depends_on:
       - mongo-test
     command: sh -c "yarn migrate:test && yarn test:e2e"
