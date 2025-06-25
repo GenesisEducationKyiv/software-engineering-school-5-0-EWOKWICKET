@@ -1,12 +1,12 @@
-import { ProviderHandler } from '../interfaces/weather-handler.interface';
+import { ProviderHandler } from '../abstractions/weather-handler.abstract';
 
 export class ProviderLoggingDecorator<Response> extends ProviderHandler<Response> {
   constructor(private readonly wrapped: ProviderHandler<Response>) {
     super();
   }
 
-  async fetch(city: string): Promise<Response> {
-    const result = await this.wrapped.fetch(city);
+  async process(city: string): Promise<Response> {
+    const result = await this.wrapped.process(city);
     console.log(`Provider: ${this.wrapped.providerName}`);
     return result;
   }

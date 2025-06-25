@@ -2,9 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Url } from 'src/common/enums/url.constants';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
-import { ProviderHandler } from '../../common/interfaces/weather-handler.interface';
+import { ProviderHandler } from '../../common/abstractions/weather-handler.abstract';
+import { WeatherFetch } from '../abstractions/weather-fetch.abstract';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
-import { WeatherFetch } from '../interfaces/weather-fetch.interface';
 import { CurrentWeatherApiFetchDto } from '../types/current-weather-api.type';
 
 @Injectable()
@@ -19,16 +19,18 @@ export class CurrentWeatherApiHandler extends ProviderHandler<CurrentWeatherResp
     this.apiKey = this.configService.get('WEATHERAPI_API_KEY');
   }
 
-  async fetch(city: string): Promise<CurrentWeatherResponseDto> {
+  async process(city: string): Promise<CurrentWeatherResponseDto> {
     const apiUrl = `${Url.WEATHER_API}/current.json?key=${this.apiKey}&q=${city}`;
-
     const rawWeather = (await this.weatherFetchService.getCurrentWeatherRaw(apiUrl)) as CurrentWeatherApiFetchDto;
-    if (rawWeather.location.name !== city) throw new CityNotFoundException();
-
-    return this.parseRawWeather(rawWeather);
+    this._validateRawWeather(rawWeather, city);
+    return this._parseRawWeather(rawWeather);
   }
 
-  parseRawWeather(data: CurrentWeatherApiFetchDto): CurrentWeatherResponseDto {
+  private _validateRawWeather(data: CurrentWeatherApiFetchDto, city: string): void {
+    if (data.location.name !== city) throw new CityNotFoundException(); //new validation logic could be added
+  }
+
+  private _parseRawWeather(data: CurrentWeatherApiFetchDto): CurrentWeatherResponseDto {
     return {
       temperature: data.current.temp_c,
       humidity: data.current.humidity,

@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { ProviderHandler } from 'src/common/abstractions/weather-handler.abstract';
 import { Url } from 'src/common/enums/url.constants';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
-import { ProviderHandler } from 'src/common/interfaces/weather-handler.interface';
 import { CurrentOpenWeatherFetchDto } from 'src/weather/types/current-weather-api.type';
-import { CityFetch } from '../interfaces/city-fetch.interface';
+import { CityFetch } from '../abstractions/city-fetch.abstract';
 
 @Injectable()
 export class CityOpenWeatherHandler extends ProviderHandler<void> {
@@ -19,10 +19,13 @@ export class CityOpenWeatherHandler extends ProviderHandler<void> {
     this.apiKey = this.configService.get('OPENWEATHER_API_KEY');
   }
 
-  async fetch(city: string): Promise<void> {
+  async process(city: string): Promise<void> {
     const apiUrl = `${Url.OPENWEATHER_API}/weather?q=${city}&appid=${this.apiKey}&units=metric`;
-
     const data = (await this.cityFetchService.searchCitiesRaw(apiUrl)) as unknown as CurrentOpenWeatherFetchDto;
+    this._validateCity(data, city);
+  }
+
+  private _validateCity(data: CurrentOpenWeatherFetchDto, city: string): void {
     const valid = data.name === city;
 
     if (!valid) {

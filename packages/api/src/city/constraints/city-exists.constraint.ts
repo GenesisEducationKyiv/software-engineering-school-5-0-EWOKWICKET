@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
-import { ProviderLoggingDecorator } from 'src/common/decorators/weather-provider.decorator';
-import { ProviderHandler } from 'src/common/interfaces/weather-handler.interface';
+import { ProviderHandler } from 'src/common/abstractions/weather-handler.abstract';
+import { ProviderLoggingDecorator } from 'src/common/decorators/provider-logging.decorator';
 import { CityOpenWeatherHandler } from '../handlers/city-openweather.handler';
 import { CityWeatherApiHandler } from '../handlers/city-weatherapi.handler';
 

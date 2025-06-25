@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { NotificationType } from 'src/notifications/constants/enums/notification-type.enum';
 import { Notification } from 'src/notifications/constants/types/notification.interface';
 import { ConfirmationEmail, UpdateEmail } from 'src/notifications/mail/constants/types/email-notifications.interface';
-import { NotificationsSender } from '../../interfaces/notifications-sender.interface';
+import { NotificationsSender } from '../../abstractions/notifications-sender.interface';
 import { MailTemplateService } from './mail-template.service';
 
 @Injectable()

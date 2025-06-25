@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
-import { WeatherFetch } from '../interfaces/weather-fetch.interface';
+import { WeatherFetch } from '../abstractions/weather-fetch.abstract';
 import { CurrentOpenWeatherFetchDto, CurrentWeatherApiFetchDto } from '../types/current-weather-api.type';
 
 @Injectable()

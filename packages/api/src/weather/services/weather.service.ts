@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { ProviderLoggingDecorator } from 'src/common/decorators/weather-provider.decorator';
-import { ProviderHandler } from '../../common/interfaces/weather-handler.interface';
+import { ProviderLoggingDecorator } from 'src/common/decorators/provider-logging.decorator';
+import { ProviderHandler } from '../../common/abstractions/weather-handler.abstract';
+import { WeatherServiceInterface } from '../abstractions/current-weather.abstract';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
 import { CurrentOpenWeatherHandler } from '../handlers/weather-openweather.handler';
 import { CurrentWeatherApiHandler } from '../handlers/weather-weatherapi.handler';
-import { WeatherServiceInterface } from '../interfaces/current-weather.interface';
 
 @Injectable()
 export class WeatherService implements WeatherServiceInterface {
