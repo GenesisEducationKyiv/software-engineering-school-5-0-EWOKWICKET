@@ -1,6 +1,5 @@
 import { config as dotenv } from 'dotenv';
 import * as Joi from 'joi';
-dotenv();
 
 export const envSchema = Joi.object({
   HOST: Joi.string().default('localhost'),
@@ -15,6 +14,7 @@ export const envSchema = Joi.object({
   MAIL_PASS: Joi.string().required(),
 }).unknown(true);
 
+dotenv();
 const { error, value: env } = envSchema.validate(process.env, { abortEarly: false });
 if (error) {
   console.error('ENV VALIDATION ERROR:');
