@@ -10,8 +10,8 @@ import { CityFetch } from './interfaces/city-fetch.interface';
       provide: CityFetch,
       useClass: CityFetchService,
     },
-    CityValidationService,
     CityExistsConstraint,
+    CityValidationService,
   ],
   exports: [CityExistsConstraint],
 })

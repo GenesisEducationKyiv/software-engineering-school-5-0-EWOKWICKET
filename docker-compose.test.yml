@@ -1,0 +1,23 @@
+services:
+  integration-test:
+    build:
+      context: ./packages
+      dockerfile: Dockerfile.test
+    depends_on:
+      - mongo-test
+    command: sh -c "yarn migrate:test && yarn test:integration"
+
+  e2e-test:
+    build:
+      context: ./packages
+      dockerfile: Dockerfile.playwright
+    depends_on:
+      - mongo-test
+    command: sh -c "yarn migrate:test && yarn test:e2e"
+
+  mongo-test:
+    container_name: mongo-test
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
