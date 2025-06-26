@@ -10,6 +10,6 @@ RUN npx playwright install --with-deps
 COPY api ./
 COPY public ../public
 
-RUN yarn build
+RUN yarn build:test
 
 EXPOSE 3000

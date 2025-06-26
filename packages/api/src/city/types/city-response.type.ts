@@ -6,4 +6,4 @@ export type CityWeatherApiFetchDto = {
   country: string;
 };
 
-export type CityResponseDto = CityWeatherApiFetchDto[] | CurrentOpenWeatherFetchDto;
+export type CityFetchDto = CityWeatherApiFetchDto[] | CurrentOpenWeatherFetchDto;

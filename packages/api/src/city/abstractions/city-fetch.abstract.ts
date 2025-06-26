@@ -1,5 +1,5 @@
-import { CityResponseDto } from 'src/city/types/city-response.type';
+import { CityFetchDto } from 'src/city/types/city-response.type';
 
 export abstract class CityFetch {
-  abstract searchCitiesRaw(url: string): Promise<CityResponseDto>;
+  abstract searchCitiesRaw(url: string): Promise<CityFetchDto>;
 }

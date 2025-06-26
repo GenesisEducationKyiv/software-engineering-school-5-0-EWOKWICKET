@@ -21,3 +21,5 @@ export type CurrentOpenWeatherFetchDto = {
   };
   name: string;
 };
+
+export type CurrentWeatherFetchDto = CurrentWeatherApiFetchDto | CurrentOpenWeatherFetchDto;

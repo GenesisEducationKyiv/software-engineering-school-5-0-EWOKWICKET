@@ -8,7 +8,7 @@ export default defineConfig({
     trace: 'off',
   },
   webServer: {
-    command: 'sh -c "yarn start:prod"',
+    command: 'sh -c "yarn start:test"',
     cwd: '/app/api',
     port: 3000,
   },

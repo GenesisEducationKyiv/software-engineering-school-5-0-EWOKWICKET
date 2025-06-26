@@ -1,12 +1,13 @@
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
+import { appTestConfig, databaseTestConfig } from 'src/config/test.config';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { WeatherFetch } from 'src/weather/abstractions/weather-fetch.abstract';
 import { CurrentWeatherResponseDto } from 'src/weather/dtos/current-weather-response.dto';
+import { WeatherTestModule } from 'src/weather/test/weather.module.test';
 import { CurrentOpenWeatherFetchDto, CurrentWeatherApiFetchDto } from 'src/weather/types/current-weather-api.type';
-import { WeatherModule } from 'src/weather/weather.module';
 import * as request from 'supertest';
 import { TestsUrl } from 'test/utils/test-urls.constant';
 
@@ -43,10 +44,11 @@ describe('WeatherContoller (Integration)', () => {
     const module = await Test.createTestingModule({
       imports: [
         ConfigModule.forRoot({
-          envFilePath: '.env.test',
+          ignoreEnvFile: true,
           isGlobal: true,
+          load: [appTestConfig, databaseTestConfig],
         }),
-        WeatherModule,
+        WeatherTestModule,
       ],
     })
       .overrideProvider(WeatherFetch)

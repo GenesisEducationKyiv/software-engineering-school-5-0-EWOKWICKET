@@ -1,0 +1,4 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts", "src/**/*.module.ts", "src/main.ts", "src/scripts/run-migrations.ts"] //exclude unused main and modules
+}
