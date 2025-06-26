@@ -7,6 +7,12 @@ import { CityProviderCacheProxy } from 'src/city/infrastructure/proxies/city-pro
 import { LoggerModule } from 'src/logger/logger.module';
 import { LoggerService } from 'src/logger/logger.service';
 import { CityExistsConstraint } from './city-exists.constraint';
+=======
+import { CacheModule } from 'src/cache/cache.module';
+import { LoggerModule } from 'src/logger/logger.module';
+import { CityExistsConstraint } from './city-exists.constraint';
+import { CityProviderFactory } from './factories/city-provider.factory';
+>>>>>>> 464b157 (merge bugs fixed)
 import { CityProvider } from './interfaces/city.provider';
 import { OpenWeatherCityProvider } from './providers/openweather.provider';
 import { WeatherApiCityProvider } from './providers/weatherapi.provider';
@@ -17,6 +23,7 @@ import { WeatherApiCityProvider } from './providers/weatherapi.provider';
     CityExistsConstraint,
     WeatherApiCityProvider,
     OpenWeatherCityProvider,
+<<<<<<< HEAD
     {
       provide: CityProvider,
       inject: [WeatherApiCityProvider, OpenWeatherCityProvider, LoggerService, CacheAccessor],
@@ -27,6 +34,13 @@ import { WeatherApiCityProvider } from './providers/weatherapi.provider';
 
         return new CityProviderAdapter(cachProxied);
       },
+=======
+    CityProviderFactory,
+    {
+      provide: CityProvider,
+      inject: [CityProviderFactory],
+      useFactory: (cityFactory: CityProviderFactory) => cityFactory.create(),
+>>>>>>> 464b157 (merge bugs fixed)
     },
   ],
   exports: [CityExistsConstraint],
