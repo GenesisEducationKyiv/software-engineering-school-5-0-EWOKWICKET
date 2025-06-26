@@ -1,26 +1,25 @@
 import { Module } from '@nestjs/common';
-import { WeatherServiceInterface } from './abstractions/current-weather.abstract';
-import { WeatherFetch } from './abstractions/weather-fetch.abstract';
-import { CurrentOpenWeatherHandler } from './handlers/weather-openweather.handler';
-import { CurrentWeatherApiHandler } from './handlers/weather-weatherapi.handler';
-import { WeatherFetchService } from './services/weather-fetch.service';
-import { WeatherService } from './services/weather.service';
+import { CacheModule } from 'src/cache/cache.module';
+import { LoggerModule } from 'src/logger/logger.module';
+import { WeatherProviderFactory } from './factories/weather-provider.factory';
+import { WeatherProvider } from './interfaces/current-weather.abstract';
+import { OpenWeatherWeatherProvider } from './providers/openweather.provider';
+import { WeatherApiWeatherProvider } from './providers/weatherapi.provider';
 import { WeatherController } from './weather.controller';
 
 @Module({
+  imports: [LoggerModule, CacheModule],
   controllers: [WeatherController],
   providers: [
+    WeatherProviderFactory,
+    WeatherApiWeatherProvider,
+    OpenWeatherWeatherProvider,
     {
-      provide: WeatherServiceInterface,
-      useClass: WeatherService,
+      provide: WeatherProvider,
+      inject: [WeatherProviderFactory],
+      useFactory: (weatherFactory: WeatherProviderFactory) => weatherFactory.create(),
     },
-    {
-      provide: WeatherFetch,
-      useClass: WeatherFetchService,
-    },
-    CurrentWeatherApiHandler,
-    CurrentOpenWeatherHandler,
   ],
-  exports: [WeatherServiceInterface],
+  exports: [WeatherProvider],
 })
 export class WeatherModule {}

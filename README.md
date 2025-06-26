@@ -8,6 +8,7 @@ A backend API built with NestJS for managing weather-related data, connected to 
 
 - **[NestJS](https://nestjs.com/)** - Node.js framework
 - **[MongoDB Atlas](https://www.mongodb.com/atlas)** - cloud-hosted NoSQL database
+- **[Redis(Upstash)](https://upstash.com/)** - cloud-hosted NoSQL key-value database
 - **[Docker](https://www.docker.com/)** - Containerization platform
 - **[Jest](https://jestjs.io/)** – testing framework
 - **[Yarn](https://yarnpkg.com/)** – Package manager
@@ -39,22 +40,29 @@ A backend API built with NestJS for managing weather-related data, connected to 
      - [**WEATHER_API_API_KEY**](https://www.weatherapi.com/)
      - [**OPENWEATHER_API_KEY**](https://openweathermap.org/)
 
-4. **Start the server in development mode**
+4. **Start the server**
+
+   Start services using docker
+
+   ```bash
+   yarn docker:up
+   ```
+
+   Dev mode
 
    ```bash
    yarn start:dev
    ```
 
-   or see Docker Commands section below
+   Production
+
+   ```bash
+   yarn build
+   yarn strart:prod
+   ```
 
 ---
 
 ## 🧪 Running Tests
 
 Instructions [here](testing.md)
-
----
-
-## Subscription page
-
-Visit page http://HOST:PORT/weatherapi.app/ to subscribe

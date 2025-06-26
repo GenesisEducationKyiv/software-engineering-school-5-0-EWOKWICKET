@@ -1,20 +1,18 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { RootFilterQuery } from 'mongoose';
 import { Subscription, SubscriptionWithId } from 'src/database/schemas/subscription.schema';
-import { NotificationsServiceInterface } from 'src/notifications/abstractions/notifications-service.abstract';
 import { NotificationSubjects } from 'src/notifications/constants/enums/notification-subjects.enum';
 import { NotificationType } from 'src/notifications/constants/enums/notification-type.enum';
-import { ControllerSubscriptionService, FindSubscriptionService } from '../abstractions/subcription-service.abstract';
-import { ServiceSubscriptionRepository } from '../abstractions/subscription-repository.abstract';
+import { NotificationsServiceInterface } from 'src/notifications/interfaces/notifications-service.abstract';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
 import { InvalidTokenException } from '../errors/invalid-token.error';
+import { ControllerSubscriptionService, FindSubscriptionService } from '../interfaces/subcription-service.abstract';
+import { ServiceSubscriptionRepository } from '../interfaces/subscription-repository.abstract';
 
 @Injectable()
 export class SubscriptionService implements FindSubscriptionService, ControllerSubscriptionService {
   constructor(
-    @Inject(ServiceSubscriptionRepository)
     private readonly subscriptionRepository: ServiceSubscriptionRepository,
-    @Inject(NotificationsServiceInterface)
     private readonly notificationsService: NotificationsServiceInterface,
   ) {}
 
