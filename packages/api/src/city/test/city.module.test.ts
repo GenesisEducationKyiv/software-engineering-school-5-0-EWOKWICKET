@@ -14,6 +14,7 @@ class WeatherProviderMock extends ChainableCityProvider {
 }
 
 @Module({
+  imports: [LoggerTestModule],
   providers: [
     CityExistsConstraint,
     { provide: WeatherApiCityProvider, useClass: WeatherProviderMock },
