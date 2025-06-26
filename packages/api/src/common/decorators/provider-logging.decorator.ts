@@ -1,13 +1,18 @@
+import { LoggerService } from 'src/logger/logger.service';
 import { ProviderHandler } from '../abstractions/weather-handler.abstract';
 
 export class ProviderLoggingDecorator<Response> extends ProviderHandler<Response> {
-  constructor(private readonly wrapped: ProviderHandler<Response>) {
+  constructor(
+    private readonly wrapped: ProviderHandler<Response>,
+    private readonly logger: LoggerService,
+    private readonly message: string,
+  ) {
     super();
   }
 
   async process(city: string): Promise<Response> {
     const result = await this.wrapped.process(city);
-    console.log(`Provider: ${this.wrapped.providerName}`);
+    this.logger.logProviderAction(this.message, this.wrapped.providerName, result);
     return result;
   }
 

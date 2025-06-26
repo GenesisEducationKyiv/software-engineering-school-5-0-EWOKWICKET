@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { LoggerModule } from 'src/logger/logger.module';
 import { WeatherServiceInterface } from './abstractions/current-weather.abstract';
 import { WeatherFetch } from './abstractions/weather-fetch.abstract';
 import { CurrentOpenWeatherHandler } from './handlers/weather-openweather.handler';
@@ -8,6 +9,7 @@ import { WeatherService } from './services/weather.service';
 import { WeatherController } from './weather.controller';
 
 @Module({
+  imports: [LoggerModule],
   controllers: [WeatherController],
   providers: [
     {

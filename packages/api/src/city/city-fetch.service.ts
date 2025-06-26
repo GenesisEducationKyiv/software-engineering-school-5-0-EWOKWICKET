@@ -14,10 +14,8 @@ export class CityFetchService implements CityFetch {
     this.apiUrl = this.configService.get<string>('app.urls.outerWeatherApi');
   }
 
-  async searchCitiesRaw(city: string): Promise<CityFetchDto> {
-    const searchUrl = `${this.apiUrl}/search.json?key=${this.apiKey}&q=${city}`;
-    const response = await fetch(searchUrl);
-
+  async searchCitiesRaw(url: string): Promise<CityFetchDto> {
+    const response = await fetch(url);
     if (response.status !== 200) throw new ExternalApiException();
 
     return await response.json();
