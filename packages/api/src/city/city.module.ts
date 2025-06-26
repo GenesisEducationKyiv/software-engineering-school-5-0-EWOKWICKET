@@ -5,10 +5,6 @@ import { CityExistsConstraint } from './constraints/city-exists.constraint';
 import { CityOpenWeatherHandler } from './handlers/city-openweather.handler';
 import { CityWeatherApiHandler } from './handlers/city-weatherapi.handler';
 
-const cityFetchMock: CityFetch = {
-  searchCitiesRaw: async () => [{ name: 'Valid', region: '', country: '' }],
-};
-
 @Module({
   providers: [
     {

@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
-import { CityValidationService } from '../city-validation.service';
+import { CityFetch } from '../abstractions/city-fetch.abstract';
 import { CityExistsConstraint } from '../constraints/city-exists.constraint';
-import { CityFetch } from '../interfaces/city-fetch.interface';
+import { CityOpenWeatherHandler } from '../handlers/city-openweather.handler';
+import { CityWeatherApiHandler } from '../handlers/city-weatherapi.handler';
 
 const cityFetchMock: CityFetch = {
   searchCitiesRaw: async () => [{ name: 'Valid', region: '', country: '' }],
@@ -14,7 +15,8 @@ const cityFetchMock: CityFetch = {
       useValue: cityFetchMock,
     },
     CityExistsConstraint,
-    CityValidationService,
+    CityWeatherApiHandler,
+    CityOpenWeatherHandler,
   ],
   exports: [CityExistsConstraint],
 })

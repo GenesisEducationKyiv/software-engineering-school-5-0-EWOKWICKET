@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ProviderHandler } from 'src/common/abstractions/weather-handler.abstract';
-import { Url } from 'src/common/enums/url.constants';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { CurrentOpenWeatherFetchDto } from 'src/weather/types/current-weather-api.type';
 import { CityFetch } from '../abstractions/city-fetch.abstract';
@@ -9,6 +8,7 @@ import { CityFetch } from '../abstractions/city-fetch.abstract';
 @Injectable()
 export class CityOpenWeatherHandler extends ProviderHandler<void> {
   private readonly apiKey: string;
+  private readonly apiUrl: string;
 
   constructor(
     @Inject(CityFetch)
@@ -16,11 +16,12 @@ export class CityOpenWeatherHandler extends ProviderHandler<void> {
     private readonly configService: ConfigService,
   ) {
     super();
-    this.apiKey = this.configService.get('OPENWEATHER_API_KEY');
+    this.apiKey = this.configService.get('app.openWeatherApiKey');
+    this.apiUrl = this.configService.get('app.urls.openWeatherApi');
   }
 
   async process(city: string): Promise<void> {
-    const apiUrl = `${Url.OPENWEATHER_API}/weather?q=${city}&appid=${this.apiKey}&units=metric`;
+    const apiUrl = `${this.apiUrl}/weather?q=${city}&appid=${this.apiKey}&units=metric`;
     const data = (await this.cityFetchService.searchCitiesRaw(apiUrl)) as unknown as CurrentOpenWeatherFetchDto;
     this._validateCity(data, city);
   }
