@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { WeatherApiService } from '../services/weather-api.service';
+import { WeatherFetchService } from '../services/weather-fetch.service';
 import { WeatherService } from '../services/weather.service';
 
 describe('WeatherService', () => {
   let weatherService: WeatherService;
-  let weatherApiService: jest.Mocked<WeatherApiService>;
+  let weatherApiService: jest.Mocked<WeatherFetchService>;
 
   beforeAll(async () => {
     const weatherApiServiceMock = {
@@ -16,14 +16,14 @@ describe('WeatherService', () => {
       providers: [
         WeatherService,
         {
-          provide: WeatherApiService,
+          provide: WeatherFetchService,
           useValue: weatherApiServiceMock,
         },
       ],
     }).compile();
 
     weatherService = module.get<WeatherService>(WeatherService);
-    weatherApiService = module.get<WeatherApiService>(WeatherApiService) as jest.Mocked<WeatherApiService>;
+    weatherApiService = module.get<WeatherFetchService>(WeatherFetchService) as jest.Mocked<WeatherFetchService>;
   });
 
   afterEach(() => {

@@ -1,10 +1,14 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MailModule } from 'src/mail/mail.module';
+import { CityModule } from 'src/city/city.module';
+import { NotificationsModule } from 'src/notifications/notifications.module';
 import { WeatherModule } from 'src/weather/weather.module';
-import { Subscription, SubscriptionSchema } from './schemas/subscription.schema';
+import { Subscription, SubscriptionSchema } from '../database/schemas/subscription.schema';
+import { ControllerSubscriptionService, FindSubscriptionService } from './interfaces/subcription-service.interface';
+import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from './interfaces/subscription-repository.interface';
+import { SubscriptionRepository } from './services/subscription.repository';
+import { SubscriptionService } from './services/subscription.service';
 import { SubscriptionController } from './subscription.controller';
-import { SubscriptionService } from './subscription.service';
 
 @Module({
   imports: [
@@ -14,10 +18,31 @@ import { SubscriptionService } from './subscription.service';
         schema: SubscriptionSchema,
       },
     ]),
-    MailModule,
+    NotificationsModule,
     WeatherModule,
+    CityModule,
   ],
   controllers: [SubscriptionController],
-  providers: [SubscriptionService],
+  providers: [
+    SubscriptionService,
+    {
+      provide: FindSubscriptionService,
+      useExisting: SubscriptionService,
+    },
+    {
+      provide: ControllerSubscriptionService,
+      useExisting: SubscriptionService,
+    },
+    SubscriptionRepository,
+    {
+      provide: ServiceSubscriptionRepository,
+      useExisting: SubscriptionRepository,
+    },
+    {
+      provide: GroupSubscriptionRepository,
+      useExisting: SubscriptionRepository,
+    },
+  ],
+  exports: [FindSubscriptionService, ControllerSubscriptionService, ServiceSubscriptionRepository, GroupSubscriptionRepository],
 })
 export class SubscriptionModule {}
