@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class ExternalApiException extends HttpException {
-  constructor(message: string = 'Exteranl API error occured') {
+  constructor(message: string = 'External API error occured') {
     super(
       {
         message,

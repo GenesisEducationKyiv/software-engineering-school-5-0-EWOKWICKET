@@ -1,26 +1,29 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { CurrentWeatherApiResponseDto } from 'src/weather/constants/current-weather-api.interface';
+import { Injectable } from '@nestjs/common';
+import { ProviderLoggingDecorator } from 'src/common/decorators/provider-logging.decorator';
+import { LoggerService } from 'src/logger/logger.service';
+import { ProviderHandler } from '../../common/abstractions/weather-handler.abstract';
+import { WeatherServiceInterface } from '../abstractions/current-weather.abstract';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
-import { CurrentWeather } from '../interfaces/current-weather.interface';
-import { WeatherFetch } from '../interfaces/weather-fetch.interface';
+import { CurrentOpenWeatherHandler } from '../handlers/weather-openweather.handler';
+import { CurrentWeatherApiHandler } from '../handlers/weather-weatherapi.handler';
 
 @Injectable()
-export class WeatherService implements CurrentWeather {
+export class WeatherService implements WeatherServiceInterface {
+  private readonly chain: ProviderHandler<CurrentWeatherResponseDto>;
+  private readonly loggerMessage: string = 'Current weather';
+
   constructor(
-    @Inject(WeatherFetch)
-    private readonly weatherApiService: WeatherFetch,
-  ) {}
+    private readonly logger: LoggerService,
+    private readonly weatherApiHandler: CurrentWeatherApiHandler,
+    private readonly openWeatherHandler: CurrentOpenWeatherHandler,
+  ) {
+    const decoratedWeatherAPI = new ProviderLoggingDecorator(weatherApiHandler, logger, this.loggerMessage);
+    const decoratedOpenWeather = new ProviderLoggingDecorator(openWeatherHandler, logger, this.loggerMessage);
+
+    this.chain = decoratedWeatherAPI.setNext(decoratedOpenWeather);
+  }
 
   async getCurrentWeather(city: string): Promise<CurrentWeatherResponseDto> {
-    const rawWeather: CurrentWeatherApiResponseDto = await this.weatherApiService.getCurrentWeatherRaw(city);
-    const current = rawWeather.current;
-
-    const result: CurrentWeatherResponseDto = {
-      temperature: current.temp_c,
-      humidity: current.humidity,
-      description: current.condition.text,
-    };
-
-    return result;
+    return this.chain.handle(city);
   }
 }

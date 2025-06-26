@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
-import { CurrentWeatherApiResponseDto } from 'src/weather/constants/current-weather-api.interface';
-import { WeatherFetch } from '../interfaces/weather-fetch.interface';
+import { WeatherFetch } from '../abstractions/weather-fetch.abstract';
+import { CurrentWeatherFetchDto } from '../types/current-weather-api.type';
 
 @Injectable()
 export class WeatherFetchService implements WeatherFetch {
@@ -15,17 +15,16 @@ export class WeatherFetchService implements WeatherFetch {
     this.apiUrl = this.configService.get<string>('app.urls.outerWeatherApi');
   }
 
-  async getCurrentWeatherRaw(city: string): Promise<CurrentWeatherApiResponseDto> {
-    const currentWeatherUrl = `${this.apiUrl}/current.json?key=${this.apiKey}&q=${city}`;
-
-    const response: Response = await fetch(currentWeatherUrl);
+  async getCurrentWeatherRaw(url: string): Promise<CurrentWeatherFetchDto> {
+    const response: Response = await fetch(url);
     if (response.status !== 200) {
-      if (response.status === 400) throw new CityNotFoundException();
-      else throw new ExternalApiException();
+      if (response.status === 400 || response.status === 404) throw new CityNotFoundException();
+      else {
+        throw new ExternalApiException();
+      }
     }
 
     const data = await response.json();
-    if (data.location.name !== city) throw new CityNotFoundException();
 
     return data;
   }

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, RootFilterQuery } from 'mongoose';
-import { ServiceSubscriptionRepository } from 'src/subscriptions/interfaces/subscription-repository.interface';
-import { HOUR } from 'src/utils/time-units';
+import { ServiceSubscriptionRepository } from 'src/subscriptions/abstractions/subscription-repository.abstract';
+import { HOUR } from 'src/common/utils/time-units';
 import { Subscription, SubscriptionWithId } from '../../database/schemas/subscription.schema';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
 
@@ -36,7 +36,7 @@ export class SubscriptionRepository implements ServiceSubscriptionRepository {
 
   async findGroupedByCities(frequency: string) {
     return this.subscriptionModel.aggregate([
-      { $match: { frequency: frequency } },
+      { $match: { frequency: frequency, confirmed: true } },
       {
         $group: {
           _id: '$city',

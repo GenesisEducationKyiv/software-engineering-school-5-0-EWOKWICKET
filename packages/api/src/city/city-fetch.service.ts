@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { CityFetchDto } from 'src/city/types/city-response.type';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
-import { CityResponseDto } from 'src/weather/constants/city-response.dto';
-import { CityFetch } from './interfaces/city-fetch.interface';
+import { CityFetch } from './abstractions/city-fetch.abstract';
 
 @Injectable()
 export class CityFetchService implements CityFetch {
@@ -14,10 +14,8 @@ export class CityFetchService implements CityFetch {
     this.apiUrl = this.configService.get<string>('app.urls.outerWeatherApi');
   }
 
-  async searchCitiesRaw(city: string): Promise<CityResponseDto[]> {
-    const searchUrl = `${this.apiUrl}/search.json?key=${this.apiKey}&q=${city}`;
-    const response = await fetch(searchUrl);
-
+  async searchCitiesRaw(url: string): Promise<CityFetchDto> {
+    const response = await fetch(url);
     if (response.status !== 200) throw new ExternalApiException();
 
     return await response.json();

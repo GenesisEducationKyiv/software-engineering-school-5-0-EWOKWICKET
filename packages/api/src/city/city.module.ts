@@ -1,17 +1,21 @@
 import { Module } from '@nestjs/common';
+import { LoggerModule } from 'src/logger/logger.module';
+import { CityFetch } from './abstractions/city-fetch.abstract';
 import { CityFetchService } from './city-fetch.service';
-import { CityValidationService } from './city-validation.service';
 import { CityExistsConstraint } from './constraints/city-exists.constraint';
-import { CityFetch } from './interfaces/city-fetch.interface';
+import { CityOpenWeatherHandler } from './handlers/city-openweather.handler';
+import { CityWeatherApiHandler } from './handlers/city-weatherapi.handler';
 
 @Module({
+  imports: [LoggerModule],
   providers: [
     {
       provide: CityFetch,
       useClass: CityFetchService,
     },
     CityExistsConstraint,
-    CityValidationService,
+    CityWeatherApiHandler,
+    CityOpenWeatherHandler,
   ],
   exports: [CityExistsConstraint],
 })
