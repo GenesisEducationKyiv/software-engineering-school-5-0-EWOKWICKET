@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { CacheScheduler } from 'src/cache/abstractions/cache-service.interface';
 import { NotificationsServiceInterface } from 'src/notifications/abstractions/notifications-service.abstract';
 import { NotificationsFrequencies } from 'src/notifications/constants/enums/notification-frequencies.enum';
 import { NotificationSubjects } from 'src/notifications/constants/enums/notification-subjects.enum';
@@ -17,22 +18,29 @@ export class WeatherSchedulerService {
     private readonly weatherService: WeatherServiceInterface,
     @Inject(GroupSubscriptionRepository)
     private readonly subscriptionRepository: GroupSubscriptionRepository,
+    @Inject(CacheScheduler)
+    private readonly cacheService: CacheScheduler,
   ) {}
 
   @Cron(CronExpression.EVERY_HOUR)
   private async sendHourlyUpdates() {
     console.log(NotificationSubjects.WEATHER_UPDATES_HOURLY);
-    this._sendUpdates({ frequency: NotificationsFrequencies.HOURLY, subject: NotificationSubjects.WEATHER_UPDATES_HOURLY });
+    this._sendUpdates({ frequency: NotificationsFrequencies.HOURLY, subject: NotificationSubjects.WEATHER_UPDATES_HOURLY, invalidateCache: true });
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_8AM)
   private async sendDailyUpdates() {
     console.log(NotificationSubjects.WEATHER_UPDATES_DAILY);
-    this._sendUpdates({ frequency: NotificationsFrequencies.DAILY, subject: NotificationSubjects.WEATHER_UPDATES_DAILY });
+    this._sendUpdates({ frequency: NotificationsFrequencies.DAILY, subject: NotificationSubjects.WEATHER_UPDATES_DAILY, invalidateCache: false });
   }
 
-  private async _sendUpdates({ frequency, subject }: WeatherUpdateNotificationsOptions) {
+  private async _sendUpdates({ frequency, subject, invalidateCache }: WeatherUpdateNotificationsOptions & { invalidateCache: boolean }) {
     const grouped = await this.subscriptionRepository.findGroupedByCities(frequency);
+
+    if (invalidateCache) {
+      const cities = grouped.map((group) => group._id);
+      await this.cacheService.invalidateCurrentWeather(cities);
+    }
 
     for (const group of grouped) {
       const city = group._id;

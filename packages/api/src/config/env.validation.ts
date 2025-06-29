@@ -10,6 +10,8 @@ export const envSchema = Joi.object({
 
   DB_URI: Joi.string().optional(),
 
+  REDIS_URL: Joi.string().default('redis://redis:6379'),
+
   MAIL_HOST: Joi.string().required(),
   MAIL_PORT: Joi.string().required(),
   MAIL_USER: Joi.string().required(),

@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { CacheModule } from './cache/cache.module';
 import { CityModule } from './city/city.module';
 import appConfig from './config/app.config';
+import cacheConfig from './config/cache.config';
 import databaseConfig from './config/database.config';
 import { envSchema } from './config/env.validation';
 import mailConfig from './config/mail.config';
@@ -17,7 +19,7 @@ import { WeatherModule } from './weather/weather.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
-      load: [appConfig, databaseConfig, mailConfig],
+      load: [appConfig, databaseConfig, mailConfig, cacheConfig],
       validationSchema: envSchema,
     }),
     ServeStaticModule.forRoot({
@@ -31,6 +33,7 @@ import { WeatherModule } from './weather/weather.module';
     NotificationsModule,
     WeatherModule,
     CityModule,
+    CacheModule,
   ],
 })
 export class AppModule {}

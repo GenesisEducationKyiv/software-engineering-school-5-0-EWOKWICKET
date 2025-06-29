@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { CacheTestModule } from 'src/cache/test/cache.module.test';
 import { LoggerTestModule } from 'src/logger/test/logger.module.test';
 import { CityFetch } from '../abstractions/city-fetch.abstract';
 import { CityExistsConstraint } from '../constraints/city-exists.constraint';
@@ -10,7 +11,7 @@ const cityFetchMock: CityFetch = {
 };
 
 @Module({
-  imports: [LoggerTestModule],
+  imports: [LoggerTestModule, CacheTestModule],
   providers: [
     {
       provide: CityFetch,
