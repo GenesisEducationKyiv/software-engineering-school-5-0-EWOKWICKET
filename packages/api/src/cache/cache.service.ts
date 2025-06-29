@@ -13,12 +13,10 @@ export class CacheService implements CacheServiceInterface, CacheScheduler {
   }
 
   async get<T>(key: string): Promise<T> {
-    const cache: T = await this.cacheManager.get(key);
-    console.log('Cached: ', cache);
-    return cache;
+    return await this.cacheManager.get(key);
   }
 
-  // invalidates on weather updates
+  // invalidates on hourly weather updates
   async invalidateCurrentWeather(cities: string[]): Promise<void> {
     const keys = cities.map((city) => `currentWeather:${city.toLowerCase()}`);
     await this.cacheManager.mdel(keys);
