@@ -9,13 +9,12 @@ import { Subscription, SubscriptionSchema } from './schemas/subscription.schema'
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
       envFilePath: '.env',
       load: [databaseConfig],
     }),
     MongooseModule.forRootAsync({
-      imports: [ConfigModule],
       useClass: DatabaseConfig,
-      inject: [DatabaseConfig],
     }),
     MongooseModule.forFeature([
       {

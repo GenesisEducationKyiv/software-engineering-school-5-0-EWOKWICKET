@@ -8,32 +8,26 @@
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint .",
-
     "build": "nest build",
     "build:test": "nest build --config nest-cli.test.json",
-
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main",
     "start:test": "node dist/main.test",
-
     "migrate": "yarn tscpaths src/scripts/run-migrations.ts",
     "migrate:test": "yarn tscpaths src/scripts/run-migrations.test.ts",
-
     "test:integration": "jest --config test/jest-integration.config.js",
     "test:e2e": "playwright test",
-
     "docker:up": "docker compose up --build",
     "docker:down": "docker compose down",
-
     "docker:integration": "docker compose -f ../../docker-compose.test.yml up --build --abort-on-container-exit integration-test",
     "docker:e2e": "docker compose -f ../../docker-compose.test.yml up --build --abort-on-container-exit e2e-test",
     "docker:test:clear": "docker compose -f ../../docker-compose.test.yml down",
-    
     "tscpaths": "ts-node -r tsconfig-paths/register"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",
+    "@nestjs/cache-manager": "^3.0.1",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
@@ -41,6 +35,8 @@
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/schedule": "^6.0.0",
     "@nestjs/serve-static": "^5.0.3",
+    "cache-manager": "^7.0.1",
+    "cache-manager-redis-store": "^3.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "handlebars": "^4.7.8",
