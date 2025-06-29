@@ -18,10 +18,10 @@ export class CityValidationCacheProxy extends ProviderHandler<boolean> {
   async process(city: string): Promise<boolean> {
     const cacheKey = `${this.keyBase}${city.toLowerCase()}`;
     const cached = await this.cacheService.get<boolean>(cacheKey);
-    if (cached) return cached;
+    if (cached) return cached; // cache hit
 
     const result: boolean = await this.wrapped.handle(city);
-    await this.cacheService.set<boolean>(cacheKey, result, this.ttl);
+    await this.cacheService.set<boolean>(cacheKey, result, this.ttl); // cache validation result
 
     return result;
   }

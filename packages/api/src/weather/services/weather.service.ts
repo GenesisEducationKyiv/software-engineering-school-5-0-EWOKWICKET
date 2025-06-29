@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CacheServiceInterface } from 'src/cache/abstractions/cache-service.interface';
 import { ProviderLoggingDecorator } from 'src/common/decorators/provider-logging.decorator';
-import { MINUTE } from 'src/common/utils/time-units';
+import { WeatherCacheProxy } from 'src/common/proxies/weather-cache.proxy';
 import { LoggerService } from 'src/logger/logger.service';
 import { ProviderHandler } from '../../common/abstractions/weather-handler.abstract';
 import { WeatherServiceInterface } from '../abstractions/current-weather.abstract';
@@ -22,22 +22,15 @@ export class WeatherService implements WeatherServiceInterface {
     private readonly cacheService: CacheServiceInterface,
   ) {
     const decoratedWeatherAPI = new ProviderLoggingDecorator(weatherApiHandler, logger, this.loggerMessage);
-    const decoratedOpenWeather = new ProviderLoggingDecorator(openWeatherHandler, logger, this.loggerMessage);
+    const proxiedWeatherAPI = new WeatherCacheProxy(decoratedWeatherAPI, cacheService);
 
-    this.chain = decoratedWeatherAPI.setNext(decoratedOpenWeather);
+    const decoratedOpenWeather = new ProviderLoggingDecorator(openWeatherHandler, logger, this.loggerMessage);
+    const proxiedOpenWeather = new WeatherCacheProxy(decoratedOpenWeather, cacheService);
+
+    this.chain = proxiedWeatherAPI.setNext(proxiedOpenWeather);
   }
 
   async getCurrentWeather(city: string): Promise<CurrentWeatherResponseDto> {
-    const cacheKey = `currentWeather:${city.toLowerCase()}`;
-
-    const cached = await this.cacheService.get<CurrentWeatherResponseDto>(cacheKey);
-    if (cached) {
-      return cached;
-    }
-
-    const result = await this.chain.handle(city);
-    await this.cacheService.set(cacheKey, result, 10 * MINUTE);
-
-    return result;
+    return await this.chain.handle(city);
   }
 }
