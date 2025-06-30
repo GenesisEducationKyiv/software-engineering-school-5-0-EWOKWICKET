@@ -1,27 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
-import { ProviderLoggingDecorator } from 'src/common/decorators/provider-logging.decorator';
-import { Chainable } from 'src/common/interfaces/weather-handler.abstract';
-import { LoggerService } from 'src/logger/logger.service';
-import { CityOpenWeatherHandler } from '../handlers/city-openweather.handler';
-import { CityWeatherApiHandler } from '../handlers/city-weatherapi.handler';
+import { CityProviderChain } from '../factories/city-validation.factory';
+import { ChainableCityValidation } from '../interfaces/chainable-city-validation.provider';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
 export class CityExistsConstraint implements ValidatorConstraintInterface {
-  private chain: Chainable<void>;
-  private readonly loggerMessage: string = 'City validation';
-
   constructor(
-    private readonly logger: LoggerService,
-    private readonly weatherApiHandler: CityWeatherApiHandler,
-    private readonly openweatherHandler: CityOpenWeatherHandler,
-  ) {
-    const decoratedWeatherAPI = new ProviderLoggingDecorator(weatherApiHandler, logger, this.loggerMessage);
-    const decoratedOpenWeather = new ProviderLoggingDecorator(openweatherHandler, logger, this.loggerMessage);
-
-    this.chain = decoratedWeatherAPI.setNext(decoratedOpenWeather);
-  }
+    @Inject(CityProviderChain)
+    private readonly chain: ChainableCityValidation,
+  ) {}
 
   async validate(value: string) {
     try {

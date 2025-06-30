@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Chainable } from 'src/common/interfaces/weather-handler.abstract';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
-import { WeatherServiceInterface } from '../interfaces/current-weather.abstract';
-import { ProviderChain } from './weather.factory';
+import { WeatherProviderChain } from '../factories/weather.factory';
+import { ChainableWeatherProvider } from '../interfaces/chainable-weather-provider.abstract';
+import { WeatherProvider } from '../interfaces/current-weather.abstract';
 
 @Injectable()
-export class WeatherService implements WeatherServiceInterface {
+export class WeatherService implements WeatherProvider {
   constructor(
-    @Inject(ProviderChain)
-    private readonly chain: Chainable<CurrentWeatherResponseDto>,
+    @Inject(WeatherProviderChain)
+    private readonly chain: ChainableWeatherProvider,
   ) {}
 
   async getCurrentWeather(city: string): Promise<CurrentWeatherResponseDto> {
