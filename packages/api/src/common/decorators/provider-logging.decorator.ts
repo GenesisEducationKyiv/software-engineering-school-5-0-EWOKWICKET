@@ -1,9 +1,9 @@
 import { LoggerService } from 'src/logger/logger.service';
-import { ProviderHandler } from '../abstractions/weather-handler.abstract';
+import { Chainable } from '../interfaces/weather-handler.abstract';
 
-export class ProviderLoggingDecorator<Response> extends ProviderHandler<Response> {
+export class ProviderLoggingDecorator<Response> extends Chainable<Response> {
   constructor(
-    private readonly wrapped: ProviderHandler<Response>,
+    private readonly wrapped: Chainable<Response>,
     private readonly logger: LoggerService,
     private readonly message: string,
   ) {
@@ -20,9 +20,9 @@ export class ProviderLoggingDecorator<Response> extends ProviderHandler<Response
     return this.wrapped.providerName;
   }
 
-  setNext(handler: ProviderHandler<Response>) {
+  setNext(handler: Chainable<Response>) {
     this.wrapped.setNext(handler);
     this.next = handler;
-    return this;
+    return handler;
   }
 }
