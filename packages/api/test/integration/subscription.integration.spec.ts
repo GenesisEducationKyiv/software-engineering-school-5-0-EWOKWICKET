@@ -12,10 +12,10 @@ import { DatabaseExceptionFilter } from 'src/common/filters/database-exception.f
 import { appTestConfig, databaseTestConfig } from 'src/config/test.config';
 import { Subscription } from 'src/database/schemas/subscription.schema';
 import { DatabaseTestModule } from 'src/database/test/database.module.test';
-import { NotificationsServiceInterface } from 'src/notifications/abstractions/notifications-service.abstract';
 import { NotificationsFrequencies } from 'src/notifications/constants/enums/notification-frequencies.enum';
 import { NotificationSubjects } from 'src/notifications/constants/enums/notification-subjects.enum';
 import { NotificationType } from 'src/notifications/constants/enums/notification-type.enum';
+import { NotificationsServiceInterface } from 'src/notifications/interfaces/notifications-service.abstract';
 import { NotificationsTestModule } from 'src/notifications/test/notifications.module.test';
 import { CreateSubscriptionDto } from 'src/subscriptions/dtos/create-subscription.dto';
 import { SubscriptionRepository } from 'src/subscriptions/services/subscription.repository';

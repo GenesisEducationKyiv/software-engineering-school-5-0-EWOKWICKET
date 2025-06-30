@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ProviderHandler } from 'src/common/abstractions/weather-handler.abstract';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
+import { Chainable } from 'src/common/interfaces/weather-handler.abstract';
 import { CityFetch } from '../abstractions/city-fetch.abstract';
 import { CityWeatherApiFetchDto } from '../types/city-response.type';
 
 @Injectable()
-export class CityWeatherApiHandler extends ProviderHandler<void> {
+export class CityWeatherApiHandler extends Chainable<void> {
   private readonly apiKey: string;
   private readonly apiUrl: string;
 

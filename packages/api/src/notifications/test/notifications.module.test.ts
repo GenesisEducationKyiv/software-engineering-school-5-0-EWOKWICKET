@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { NotificationsServiceInterface } from '../abstractions/notifications-service.abstract';
+import { NotificationsServiceInterface } from '../interfaces/notifications-service.abstract';
 
 const notificationsServiceMock: NotificationsServiceInterface = {
   sendConfirmationNotification: async () => {},

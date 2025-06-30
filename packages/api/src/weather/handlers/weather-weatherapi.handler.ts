@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
-import { ProviderHandler } from '../../common/abstractions/weather-handler.abstract';
-import { WeatherFetch } from '../abstractions/weather-fetch.abstract';
+import { Chainable } from '../../common/interfaces/weather-handler.abstract';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
+import { WeatherFetch } from '../interfaces/weather-fetch.abstract';
 import { CurrentWeatherApiFetchDto } from '../types/current-weather-api.type';
 
 @Injectable()
-export class CurrentWeatherApiHandler extends ProviderHandler<CurrentWeatherResponseDto> {
+export class CurrentWeatherApiHandler extends Chainable<CurrentWeatherResponseDto> {
   private readonly apiKey: string;
   private readonly apiUrl: string;
 
@@ -21,17 +21,21 @@ export class CurrentWeatherApiHandler extends ProviderHandler<CurrentWeatherResp
   }
 
   async process(city: string): Promise<CurrentWeatherResponseDto> {
-    const apiUrl = `${this.apiUrl}/current.json?key=${this.apiKey}&q=${city}`;
+    const apiUrl = this.buildUrl(city);
     const rawWeather = (await this.weatherFetchService.getCurrentWeatherRaw(apiUrl)) as CurrentWeatherApiFetchDto;
-    this._validateRawWeather(rawWeather, city);
-    return this._parseRawWeather(rawWeather);
+    this.validateRawWeather(rawWeather, city);
+    return this.parseRawWeather(rawWeather);
   }
 
-  private _validateRawWeather(data: CurrentWeatherApiFetchDto, city: string): void {
+  buildUrl(city: string) {
+    return `${this.apiUrl}/current.json?key=${this.apiKey}&q=${city}`;
+  }
+
+  private validateRawWeather(data: CurrentWeatherApiFetchDto, city: string): void {
     if (data.location.name !== city) throw new CityNotFoundException(); //new validation logic could be added
   }
 
-  private _parseRawWeather(data: CurrentWeatherApiFetchDto): CurrentWeatherResponseDto {
+  private parseRawWeather(data: CurrentWeatherApiFetchDto): CurrentWeatherResponseDto {
     return {
       temperature: data.current.temp_c,
       humidity: data.current.humidity,

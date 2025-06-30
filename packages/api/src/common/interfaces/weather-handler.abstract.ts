@@ -1,8 +1,8 @@
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 
-export abstract class ProviderHandler<Response> {
-  protected next?: ProviderHandler<Response>;
+export abstract class Chainable<Response> {
+  protected next?: Chainable<Response>;
 
   async handle(city: string): Promise<Response> {
     try {
@@ -19,8 +19,8 @@ export abstract class ProviderHandler<Response> {
   abstract process(city: string): Promise<Response>;
   abstract get providerName(): string;
 
-  setNext(handler: ProviderHandler<Response>) {
+  setNext(handler: Chainable<Response>) {
     this.next = handler;
-    return this;
+    return handler;
   }
 }

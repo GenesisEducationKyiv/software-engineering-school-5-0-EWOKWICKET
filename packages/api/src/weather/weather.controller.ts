@@ -1,6 +1,6 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
-import { WeatherServiceInterface } from './abstractions/current-weather.abstract';
 import { CurrentWeatherResponseDto } from './dtos/current-weather-response.dto';
+import { WeatherServiceInterface } from './interfaces/current-weather.abstract';
 
 @Controller('weather')
 export class WeatherController {
