@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
 import { LoggerTestModule } from 'src/logger/test/logger.module.test';
-import { CurrentOpenWeatherHandler } from '../handlers/weather-openweather.handler';
-import { CurrentWeatherApiHandler } from '../handlers/weather-weatherapi.handler';
-import { WeatherServiceInterface } from '../interfaces/current-weather.abstract';
-import { WeatherFetch } from '../interfaces/weather-fetch.abstract';
-import { WeatherFetchService } from '../services/weather-fetch.service';
+import { WeatherProvider } from '../interfaces/current-weather.abstract';
+import { OpenWeatherWeatherProvider } from '../providers/openweather.provider';
+import { WeatherApiWeatherProvider } from '../providers/weatherapi.provider';
 import { WeatherService } from '../services/weather.service';
 import { WeatherController } from '../weather.controller';
 
@@ -13,16 +11,12 @@ import { WeatherController } from '../weather.controller';
   controllers: [WeatherController],
   providers: [
     {
-      provide: WeatherServiceInterface,
+      provide: WeatherProvider,
       useClass: WeatherService,
     },
-    {
-      provide: WeatherFetch,
-      useClass: WeatherFetchService,
-    },
-    CurrentWeatherApiHandler,
-    CurrentOpenWeatherHandler,
+    WeatherApiWeatherProvider,
+    OpenWeatherWeatherProvider,
   ],
-  exports: [WeatherServiceInterface],
+  exports: [WeatherProvider],
 })
 export class WeatherTestModule {}

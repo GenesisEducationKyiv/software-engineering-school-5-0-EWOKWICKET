@@ -1,25 +1,16 @@
 import { Module } from '@nestjs/common';
 import { LoggerTestModule } from 'src/logger/test/logger.module.test';
-import { CityFetch } from '../abstractions/city-fetch.abstract';
 import { CityExistsConstraint } from '../constraints/city-exists.constraint';
-import { CityOpenWeatherHandler } from '../handlers/city-openweather.handler';
-import { CityWeatherApiHandler } from '../handlers/city-weatherapi.handler';
+import { OpenWeatherCityValidation } from '../providers/openweather.provider';
+import { WeatherApiCityValidation } from '../providers/weatherapi.provider';
 
-const cityFetchMock: CityFetch = {
-  searchCitiesRaw: async () => [{ name: 'Valid', region: '', country: '' }],
-};
+// const cityFetchMock: CityFetch = {
+//   searchCitiesRaw: async () => [{ name: 'Valid', region: '', country: '' }],
+// };
 
 @Module({
   imports: [LoggerTestModule],
-  providers: [
-    {
-      provide: CityFetch,
-      useValue: cityFetchMock,
-    },
-    CityExistsConstraint,
-    CityWeatherApiHandler,
-    CityOpenWeatherHandler,
-  ],
+  providers: [CityExistsConstraint, WeatherApiCityValidation, OpenWeatherCityValidation],
   exports: [CityExistsConstraint],
 })
 export class CityTestModule {}

@@ -1,21 +1,25 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { LoggerModule } from 'src/logger/logger.module';
-import { CityFetch } from './abstractions/city-fetch.abstract';
-import { CityFetchService } from './city-fetch.service';
 import { CityExistsConstraint } from './constraints/city-exists.constraint';
-import { CityOpenWeatherHandler } from './handlers/city-openweather.handler';
-import { CityWeatherApiHandler } from './handlers/city-weatherapi.handler';
+import { CityProviderChain, CityValidationFactory } from './factories/city-validation.factory';
+import { OpenWeatherCityValidation } from './providers/openweather.provider';
+import { WeatherApiCityValidation } from './providers/weatherapi.provider';
 
 @Module({
-  imports: [LoggerModule],
+  imports: [HttpModule.register({}), LoggerModule],
   providers: [
-    {
-      provide: CityFetch,
-      useClass: CityFetchService,
-    },
     CityExistsConstraint,
-    CityWeatherApiHandler,
-    CityOpenWeatherHandler,
+    WeatherApiCityValidation,
+    OpenWeatherCityValidation,
+    CityValidationFactory,
+    {
+      provide: CityProviderChain,
+      useFactory: (cityFactory: CityValidationFactory) => {
+        return cityFactory.create();
+      },
+      inject: [CityValidationFactory],
+    },
   ],
   exports: [CityExistsConstraint],
 })
