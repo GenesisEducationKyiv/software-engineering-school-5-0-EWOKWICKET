@@ -32,7 +32,7 @@ export class WeatherApiCityProvider extends ChainableCityProvider {
       this.httpService.request<CityWeatherApiFetchDto[]>({
         method: 'GET',
         baseURL: this.apiUrl,
-        url: '/search.json',
+        url: '/current.json',
         params: {
           key: this.apiKey,
           q: city,

@@ -33,11 +33,10 @@ export class OpenWeatherWeatherProvider extends ChainableWeatherProvider {
       this.httpService.request<CurrentOpenWeatherFetchDto>({
         method: 'GET',
         baseURL: this.apiUrl,
-        url: '/weather',
+        url: '/current.json',
         params: {
-          appid: this.apiKey,
+          key: this.apiKey,
           q: city,
-          units: 'metric',
         },
       }),
     ).catch((err: AxiosError) => {
