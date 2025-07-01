@@ -1,7 +1,10 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
+import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
+import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { Loggable } from 'src/common/interfaces/loggable.interace';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
 import { ChainableWeatherProvider } from '../interfaces/chainable-weather-provider.abstract';
@@ -23,23 +26,30 @@ export class OpenWeatherWeatherProvider extends ChainableWeatherProvider impleme
   }
 
   async getCurrentWeather(city: string): Promise<CurrentWeatherResponseDto> {
+    const data = await this.getRawWeather(city);
+    return this.parseRawWeather(data);
+  }
+
+  private async getRawWeather(city: string): Promise<CurrentOpenWeatherFetchDto> {
     const response = await firstValueFrom(
       this.httpService.request<CurrentOpenWeatherFetchDto>({
         method: 'GET',
         baseURL: this.apiUrl,
-        url: '/weather',
+        url: '/current.json',
         params: {
-          appid: this.apiKey,
+          key: this.apiKey,
           q: city,
-          units: 'metric',
         },
       }),
-    );
+    ).catch((err: AxiosError) => {
+      if (err.response.status === HttpStatus.NOT_FOUND) throw new CityNotFoundException();
+      throw new ExternalApiException();
+    });
 
-    return this.parseRawWeather(response.data);
+    return response.data;
   }
 
-  parseRawWeather(data: CurrentOpenWeatherFetchDto): CurrentWeatherResponseDto {
+  private parseRawWeather(data: CurrentOpenWeatherFetchDto): CurrentWeatherResponseDto {
     return {
       temperature: data.main.temp,
       humidity: data.main.humidity,

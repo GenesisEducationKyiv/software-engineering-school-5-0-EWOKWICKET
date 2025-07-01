@@ -12,12 +12,7 @@ export class CityExistsConstraint implements ValidatorConstraintInterface {
   ) {}
 
   async validate(value: string) {
-    try {
-      await this.chain.handle(value);
-      return true;
-    } catch {
-      return false;
-    }
+    return await this.chain.handle(value);
   }
 
   defaultMessage() {
