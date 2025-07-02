@@ -5,6 +5,7 @@ import { WeatherProvider } from '../interfaces/current-weather.abstract';
 import { OpenWeatherWeatherProvider } from '../providers/openweather.provider';
 import { WeatherApiWeatherProvider } from '../providers/weatherapi.provider';
 import { WeatherController } from '../weather.controller';
+import { WeatherService } from '../weather.service';
 
 @Module({
   imports: [HttpModule.register({})],
