@@ -1,8 +1,8 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs';
 import Handlebars, { TemplateDelegate } from 'handlebars';
 import * as path from 'path';
-import { Url } from 'src/common/enums/url.constants';
 import { WeatherUpdateInterface } from 'src/notifications/constants/types/weather-update.interface';
 import { Templates } from '../constants/enums/templates.enum';
 import { TemplateParams } from '../constants/types/template.type';
@@ -10,14 +10,18 @@ import { TemplateParams } from '../constants/types/template.type';
 @Injectable()
 export class MailTemplateService {
   private templates: Record<string, TemplateDelegate> = {};
+  private readonly confirmURL: string;
+  private readonly unsubscribeUrl: string;
 
-  constructor() {
+  constructor(private readonly configServie: ConfigService) {
+    this.confirmURL = this.configServie.get<string>('app.urls.confirm');
+    this.unsubscribeUrl = this.configServie.get<string>('app.urls.unsubscribe');
     this._loadTemplates();
   }
 
   buildConfirmationNotification(token: string) {
-    const confirmUrl = `${Url.CONFIRM}/${token}`;
-    const unsubscribeUrl = `${Url.UNSUBSCRIBE}/${token}`;
+    const confirmUrl = `${this.confirmURL}/${token}`;
+    const unsubscribeUrl = `${this.unsubscribeUrl}/${token}`;
     const html = this._renderTemplate({
       template: Templates.CONFIRMATION,
       params: {

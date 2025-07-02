@@ -1,14 +1,14 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
-import { mongo, MongooseError } from 'mongoose';
+import { MongoServerError } from 'mongodb';
 
-@Catch(MongooseError, mongo.MongoServerError)
+@Catch(MongoServerError)
 export class DatabaseExceptionFilter implements ExceptionFilter {
-  catch(exception: MongooseError | mongo.MongoServerError, host: ArgumentsHost) {
+  catch(exception: MongoServerError, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
 
-    if (exception instanceof mongo.MongoServerError && exception.code === 11000) {
+    if (exception.code === 11000) {
       return response.status(HttpStatus.CONFLICT).json({
         statusCode: HttpStatus.CONFLICT,
         message: 'Conflict Error',

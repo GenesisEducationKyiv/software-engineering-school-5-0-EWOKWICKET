@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Url } from 'src/common/enums/url.constants';
+import { ConfigService } from '@nestjs/config';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { CurrentWeatherApiResponseDto } from 'src/weather/constants/current-weather-api.interface';
@@ -7,8 +7,13 @@ import { WeatherFetch } from '../interfaces/weather-fetch.interface';
 
 @Injectable()
 export class WeatherFetchService implements WeatherFetch {
-  private readonly apiUrl = Url.OUTER_WEATHER_API;
-  private readonly apiKey = process.env.WEATHER_API_KEY;
+  private readonly apiUrl: string;
+  private readonly apiKey: string;
+
+  constructor(private readonly configService: ConfigService) {
+    this.apiKey = this.configService.get<string>('app.weatherApiKey');
+    this.apiUrl = this.configService.get<string>('app.urls.outerWeatherApi');
+  }
 
   async getCurrentWeatherRaw(city: string): Promise<CurrentWeatherApiResponseDto> {
     const currentWeatherUrl = `${this.apiUrl}/current.json?key=${this.apiKey}&q=${city}`;

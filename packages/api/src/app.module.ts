@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 import { CityModule } from './city/city.module';
+import appConfig from './config/app.config';
+import databaseConfig from './config/database.config';
+import { envSchema } from './config/env.validation';
+import mailConfig from './config/mail.config';
 import { DatabaseModule } from './database/database.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { SchedulerModule } from './scheduler/scheduler.module';
@@ -14,9 +17,11 @@ import { WeatherModule } from './weather/weather.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
+      load: [appConfig, databaseConfig, mailConfig],
+      validationSchema: envSchema,
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', 'public'),
+      rootPath: 'packages/api/public',
       serveRoot: '/weatherapi.app',
       exclude: ['/weatherapi.app/api*'],
     }),

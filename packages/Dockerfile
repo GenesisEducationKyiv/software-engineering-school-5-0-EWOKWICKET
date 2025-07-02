@@ -7,6 +7,8 @@ COPY api/package.json api/yarn.lock ./
 RUN yarn install
 
 COPY api ./
-COPY public /app/public
+COPY public ../public
+
+EXPOSE 3000
 
 CMD [ "yarn", "start" ]
