@@ -1,8 +1,8 @@
 import { Chainable } from 'src/common/interfaces/chainable.abstract';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
-import { WeatherProvider } from './current-weather.abstract';
+import { WeatherProvider as CurrentWeatherProvider } from './current-weather.abstract';
 
-export abstract class ChainableWeatherProvider extends Chainable<string, CurrentWeatherResponseDto> implements WeatherProvider {
+export abstract class ChainableCurrentWeatherProvider extends Chainable<string, CurrentWeatherResponseDto> implements CurrentWeatherProvider {
   async handle(city: string): Promise<CurrentWeatherResponseDto> {
     try {
       return await this.getCurrentWeather(city);

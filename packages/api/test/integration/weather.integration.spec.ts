@@ -1,7 +1,6 @@
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
-import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { appTestConfig, databaseTestConfig } from 'src/config/test.config';
 import { CurrentWeatherResponseDto } from 'src/weather/dtos/current-weather-response.dto';

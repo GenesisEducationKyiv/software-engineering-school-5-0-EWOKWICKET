@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { WeatherProviderLoggingDecorator } from 'src/common/decorators/weather-provider-logging.decorator';
 import { LoggerService } from 'src/logger/logger.service';
-import { ChainableWeatherProvider } from '../interfaces/chainable-weather-provider.abstract';
+import { ChainableCurrentWeatherProvider } from '../interfaces/chainable-weather-provider.abstract';
 import { OpenWeatherWeatherProvider } from '../providers/openweather.provider';
 import { WeatherApiWeatherProvider } from '../providers/weatherapi.provider';
 
@@ -13,7 +13,7 @@ export class WeatherProviderFactory {
     private readonly logger: LoggerService,
   ) {}
 
-  create(): ChainableWeatherProvider {
+  create(): ChainableCurrentWeatherProvider {
     const decoratedWeatherAPI = new WeatherProviderLoggingDecorator(this.weatherApiProvider, this.logger);
     const decoratedOpenWeather = new WeatherProviderLoggingDecorator(this.openWeatherProvider, this.logger);
 

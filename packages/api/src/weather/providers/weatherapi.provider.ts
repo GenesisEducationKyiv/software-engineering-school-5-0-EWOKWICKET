@@ -6,7 +6,6 @@ import { firstValueFrom } from 'rxjs';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
-import { ChainableWeatherProvider } from '../interfaces/chainable-weather-provider.abstract';
 import { CurrentWeatherApiFetchDto } from '../types/current-weather-api.type';
 
 @Injectable()
