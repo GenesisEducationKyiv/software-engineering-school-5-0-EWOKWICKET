@@ -4,8 +4,8 @@ import { ChainableCurrentWeatherProvider } from '../interfaces/chainable-weather
 import { WeatherProvider } from '../interfaces/current-weather.abstract';
 import { OpenWeatherWeatherProvider } from '../providers/openweather.provider';
 import { WeatherApiWeatherProvider } from '../providers/weatherapi.provider';
-import { WeatherService } from '../services/weather.service';
 import { WeatherController } from '../weather.controller';
+import { WeatherService } from '../weather.service';
 
 @Module({
   imports: [HttpModule.register({})],

@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -25,6 +26,7 @@ import { WeatherModule } from './weather/weather.module';
       serveRoot: '/weatherapi.app',
       exclude: ['/weatherapi.app/api*'],
     }),
+    HttpModule.register({ global: true }),
     SchedulerModule,
     DatabaseModule,
     SubscriptionModule,

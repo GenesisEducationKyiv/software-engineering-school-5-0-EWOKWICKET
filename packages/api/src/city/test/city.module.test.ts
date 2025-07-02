@@ -1,5 +1,5 @@
 import { Injectable, Module } from '@nestjs/common';
-import { CityExistsConstraint } from '../constraints/city-exists.constraint';
+import { CityExistsConstraint } from '../city-exists.constraint';
 import { ChainableCityProvider } from '../interfaces/chainable-city.provider';
 import { OpenWeatherCityProvider } from '../providers/openweather.provider';
 import { WeatherApiCityProvider } from '../providers/weatherapi.provider';

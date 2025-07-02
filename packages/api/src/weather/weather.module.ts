@@ -1,4 +1,3 @@
-import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { LoggerModule } from 'src/logger/logger.module';
 import { WeatherProviderFactory } from './factories/weather-provider.factory';
@@ -6,11 +5,11 @@ import { ChainableCurrentWeatherProvider } from './interfaces/chainable-weather-
 import { WeatherProvider } from './interfaces/current-weather.abstract';
 import { OpenWeatherWeatherProvider } from './providers/openweather.provider';
 import { WeatherApiWeatherProvider } from './providers/weatherapi.provider';
-import { WeatherService } from './services/weather.service';
 import { WeatherController } from './weather.controller';
+import { WeatherService } from './weather.service';
 
 @Module({
-  imports: [HttpModule.register({}), LoggerModule],
+  imports: [LoggerModule],
   controllers: [WeatherController],
   providers: [
     {
@@ -18,6 +17,8 @@ import { WeatherController } from './weather.controller';
       useClass: WeatherService,
     },
     WeatherProviderFactory,
+    WeatherApiWeatherProvider,
+    OpenWeatherWeatherProvider,
     {
       provide: ChainableCurrentWeatherProvider,
       useFactory: (weatherFactory: WeatherProviderFactory) => {
@@ -25,8 +26,6 @@ import { WeatherController } from './weather.controller';
       },
       inject: [WeatherProviderFactory],
     },
-    WeatherApiWeatherProvider,
-    OpenWeatherWeatherProvider,
   ],
   exports: [WeatherProvider],
 })
