@@ -7,11 +7,11 @@ import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { Loggable } from 'src/common/interfaces/loggable.interace';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
-import { ChainableWeatherProvider } from '../interfaces/chainable-weather-provider.abstract';
+import { ChainableCurrentWeatherProvider } from '../interfaces/chainable-weather-provider.abstract';
 import { CurrentOpenWeatherFetchDto } from '../types/current-weather-api.type';
 
 @Injectable()
-export class OpenWeatherWeatherProvider extends ChainableWeatherProvider implements Loggable {
+export class OpenWeatherWeatherProvider extends ChainableCurrentWeatherProvider implements Loggable {
   private readonly apiKey: string;
   private readonly apiUrl: string;
   readonly executor = 'OpenWeather';

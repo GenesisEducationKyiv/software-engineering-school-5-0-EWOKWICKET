@@ -2,7 +2,7 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { LoggerModule } from 'src/logger/logger.module';
 import { WeatherProviderFactory } from './factories/weather-provider.factory';
-import { ChainableWeatherProvider } from './interfaces/chainable-weather-provider.abstract';
+import { ChainableCurrentWeatherProvider } from './interfaces/chainable-weather-provider.abstract';
 import { WeatherProvider } from './interfaces/current-weather.abstract';
 import { OpenWeatherWeatherProvider } from './providers/openweather.provider';
 import { WeatherApiWeatherProvider } from './providers/weatherapi.provider';
@@ -19,7 +19,7 @@ import { WeatherController } from './weather.controller';
     },
     WeatherProviderFactory,
     {
-      provide: ChainableWeatherProvider,
+      provide: ChainableCurrentWeatherProvider,
       useFactory: (weatherFactory: WeatherProviderFactory) => {
         return weatherFactory.create();
       },

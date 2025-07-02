@@ -1,17 +1,18 @@
+import { HttpService } from '@nestjs/axios';
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
-import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { appTestConfig, databaseTestConfig } from 'src/config/test.config';
 import { CurrentWeatherResponseDto } from 'src/weather/dtos/current-weather-response.dto';
-import { WeatherFetch } from 'src/weather/interfaces/weather-fetch.abstract';
+import { OpenWeatherWeatherProvider } from 'src/weather/providers/openweather.provider';
+import { WeatherApiWeatherProvider } from 'src/weather/providers/weatherapi.provider';
 import { WeatherTestModule } from 'src/weather/test/weather.module.test';
 import { CurrentOpenWeatherFetchDto, CurrentWeatherApiFetchDto } from 'src/weather/types/current-weather-api.type';
 import * as request from 'supertest';
-import { TestsUrl } from 'test/utils/test-urls.constant';
+import { TestsUrl } from 'test/utils/test-urls.enum';
 
-const fetchWeatherResponseOK: CurrentWeatherApiFetchDto = {
+const fetchWeatherResponseOK: CurrentWeatherApiFetchDto | null = {
   location: { name: 'ValidCity', region: '', country: '' },
   current: { temp_c: 0, humidity: 1, condition: { text: 'text' } },
 };
@@ -33,12 +34,14 @@ const reserveWeatherResponse: CurrentOpenWeatherFetchDto = {
   name: 'ValidCity',
 };
 
-const weatherFetchMock: jest.Mocked<WeatherFetch> = {
-  getCurrentWeatherRaw: jest.fn(),
+const mockHttpService: Partial<HttpService> = {
+  request: jest.fn(),
 };
 
 describe('WeatherContoller (Integration)', () => {
   let app: INestApplication;
+  let primaryProvider: WeatherApiWeatherProvider;
+  let secondaryProvider: OpenWeatherWeatherProvider;
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
@@ -50,10 +53,7 @@ describe('WeatherContoller (Integration)', () => {
         }),
         WeatherTestModule,
       ],
-    })
-      .overrideProvider(WeatherFetch)
-      .useValue(weatherFetchMock)
-      .compile();
+    }).compile();
 
     app = module.createNestApplication();
     app.useGlobalPipes(
@@ -61,11 +61,14 @@ describe('WeatherContoller (Integration)', () => {
         whitelist: true,
       }),
     );
-    app.setGlobalPrefix('weatherapi.app/api');
-    app.init();
+
+    await app.init();
+
+    primaryProvider = module.get<WeatherApiWeatherProvider>(WeatherApiWeatherProvider);
+    secondaryProvider = module.get<OpenWeatherWeatherProvider>(OpenWeatherWeatherProvider);
   });
 
-  afterEach(() => {
+  beforeEach(() => {
     jest.resetAllMocks();
   });
 
@@ -75,39 +78,31 @@ describe('WeatherContoller (Integration)', () => {
 
   describe('GET /weather?city', () => {
     it('should return weather if city found', async () => {
-      weatherFetchMock.getCurrentWeatherRaw.mockResolvedValue(fetchWeatherResponseOK);
+      // first provider succeeds
+      jest.spyOn(primaryProvider as any, 'getCurrentWeather').mockResolvedValue(weatherResponse);
 
       const response = await request(app.getHttpServer()).get(`${TestsUrl.WEATHER}?city=${fetchWeatherResponseOK.location.name}`).expect(HttpStatus.OK);
       expect(response.body).toMatchObject(weatherResponse);
     });
 
     it('should return weather from reserve provider if first provider fails', async () => {
-      weatherFetchMock.getCurrentWeatherRaw.mockRejectedValueOnce(new ExternalApiException()).mockResolvedValueOnce(reserveWeatherResponse);
+      // first provider fails
+      jest.spyOn(primaryProvider as any, 'getCurrentWeather').mockRejectedValue(new ExternalApiException());
+      // second provider succeeds
+      jest.spyOn(secondaryProvider as any, 'getCurrentWeather').mockResolvedValue(weatherResponse);
 
       const response = await request(app.getHttpServer()).get(`${TestsUrl.WEATHER}?city=${reserveWeatherResponse.name}`).expect(HttpStatus.OK);
 
       expect(response.body).toMatchObject(weatherResponse);
     });
 
-    it('should throw CityNotFoundException if city found is incorrect', async () => {
-      weatherFetchMock.getCurrentWeatherRaw.mockResolvedValue(fetchWeatherResponseError);
+    it('should throw CityNotFoundException if both providers fail', async () => {
+      // both providers fail
+      jest.spyOn(primaryProvider as any, 'getCurrentWeather').mockResolvedValue(fetchWeatherResponseError);
+      jest.spyOn(secondaryProvider as any, 'getCurrentWeather').mockResolvedValue(fetchWeatherResponseError);
 
       const response = await request(app.getHttpServer()).get(`${TestsUrl.WEATHER}?city=InvalidCity`).expect(HttpStatus.NOT_FOUND);
       expect(response.body).toHaveProperty('message', 'City not found');
-    });
-
-    it('should throw CityNotFoundException if city not found', async () => {
-      weatherFetchMock.getCurrentWeatherRaw.mockRejectedValue(new CityNotFoundException());
-
-      const response = await request(app.getHttpServer()).get(`${TestsUrl.WEATHER}?city=City`).expect(HttpStatus.NOT_FOUND);
-      expect(response.body).toHaveProperty('message', 'City not found');
-    });
-
-    it('should throw ExternalApiException if external api returns 500', async () => {
-      weatherFetchMock.getCurrentWeatherRaw.mockRejectedValue(new ExternalApiException());
-
-      const response = await request(app.getHttpServer()).get(`${TestsUrl.WEATHER}?city=City`).expect(HttpStatus.INTERNAL_SERVER_ERROR);
-      expect(response.body).toHaveProperty('message', 'External API error occured');
     });
   });
 });

@@ -19,7 +19,7 @@ test.describe('Subscription Page', () => {
   });
 
   test('should handle invalid email', async () => {
-    await subscriptionPage.sendForm('invalidEmail', 'Kyiv', NotificationsFrequencies.DAILY);
+    await subscriptionPage.sendForm('invalidEmail', 'CityValid', NotificationsFrequencies.DAILY);
     await subscriptionPage.expectResultContains(/must be an email/i);
   });
 
@@ -29,13 +29,13 @@ test.describe('Subscription Page', () => {
   });
 
   test('should successfully subscribe', async () => {
-    await subscriptionPage.sendForm('oopsgu2006@gmail.com', 'Valid', NotificationsFrequencies.HOURLY);
+    await subscriptionPage.sendForm('oopsgu2006@gmail.com', 'CityValid', NotificationsFrequencies.HOURLY);
     await subscriptionPage.expectResultContains(/confirmation mail sent/i, 10000);
   });
 
   test('should handle whole flow(first subscription created - second throws conflict)', async () => {
-    await subscriptionPage.sendForm('oopsgu2006@gmail.com', 'Valid', NotificationsFrequencies.HOURLY);
-    await subscriptionPage.sendForm('oopsgu2006@gmail.com', 'Valid', NotificationsFrequencies.HOURLY);
+    await subscriptionPage.sendForm('oopsgu2006@gmail.com', 'CityValid', NotificationsFrequencies.HOURLY);
+    await subscriptionPage.sendForm('oopsgu2006@gmail.com', 'CityValid', NotificationsFrequencies.DAILY);
 
     await subscriptionPage.expectResultContains(/conflict/i, 10000);
   });
