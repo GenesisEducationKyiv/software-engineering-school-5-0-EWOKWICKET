@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
-import { ChainableCityProvider } from './interfaces/chainable-city.provider';
+import { CityProvider } from './interfaces/city.provider';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
 export class CityExistsConstraint implements ValidatorConstraintInterface {
-  constructor(private readonly cityProvider: ChainableCityProvider) {}
+  constructor(private readonly cityProvider: CityProvider) {}
 
   async validate(value: string) {
-    return await this.cityProvider.handle(value);
+    return await this.cityProvider.validateCity(value);
   }
 
   defaultMessage() {

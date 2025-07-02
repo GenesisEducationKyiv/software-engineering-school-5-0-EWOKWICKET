@@ -1,3 +1,3 @@
-export interface CityProvider {
-  validateCity(city: string): Promise<boolean>;
+export abstract class CityProvider {
+  abstract validateCity(city: string): Promise<boolean>;
 }

@@ -1,6 +1,8 @@
 import { Injectable, Module } from '@nestjs/common';
+import { CityProviderAdapter } from 'src/common/adapters/city-provider.adapter';
 import { CityExistsConstraint } from '../city-exists.constraint';
 import { ChainableCityProvider } from '../interfaces/chainable-city.provider';
+import { CityProvider } from '../interfaces/city.provider';
 import { OpenWeatherCityProvider } from '../providers/openweather.provider';
 import { WeatherApiCityProvider } from '../providers/weatherapi.provider';
 
@@ -17,9 +19,9 @@ class WeatherProviderMock extends ChainableCityProvider {
     { provide: WeatherApiCityProvider, useClass: WeatherProviderMock },
     { provide: OpenWeatherCityProvider, useClass: WeatherProviderMock },
     {
-      provide: ChainableCityProvider,
+      provide: CityProvider,
       useFactory: (provider1: WeatherApiCityProvider, provider2: OpenWeatherCityProvider) => {
-        return provider1.setNext(provider2);
+        return new CityProviderAdapter(provider1.setNext(provider2));
       },
       inject: [WeatherApiCityProvider, OpenWeatherCityProvider],
     },

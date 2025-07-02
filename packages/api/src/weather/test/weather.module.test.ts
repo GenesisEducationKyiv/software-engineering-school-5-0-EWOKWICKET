@@ -1,26 +1,21 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { ChainableCurrentWeatherProvider } from '../interfaces/chainable-weather-provider.abstract';
+import { WeatherProviderAdapter } from 'src/common/adapters/weather-povider.adapter';
 import { WeatherProvider } from '../interfaces/current-weather.abstract';
 import { OpenWeatherWeatherProvider } from '../providers/openweather.provider';
 import { WeatherApiWeatherProvider } from '../providers/weatherapi.provider';
 import { WeatherController } from '../weather.controller';
-import { WeatherService } from '../weather.service';
 
 @Module({
   imports: [HttpModule.register({})],
   controllers: [WeatherController],
   providers: [
-    {
-      provide: WeatherProvider,
-      useClass: WeatherService,
-    },
     WeatherApiWeatherProvider,
     OpenWeatherWeatherProvider,
     {
-      provide: ChainableCurrentWeatherProvider,
+      provide: WeatherProvider,
       useFactory: (provider1: WeatherApiWeatherProvider, provider2: OpenWeatherWeatherProvider) => {
-        return provider1.setNext(provider2);
+        return new WeatherProviderAdapter(provider1.setNext(provider2));
       },
       inject: [WeatherApiWeatherProvider, OpenWeatherWeatherProvider],
     },

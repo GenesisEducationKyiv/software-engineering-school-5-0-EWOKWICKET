@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { LoggerModule } from 'src/logger/logger.module';
 import { CityExistsConstraint } from './city-exists.constraint';
 import { CityProviderFactory } from './factories/city-provider.factory';
-import { ChainableCityProvider } from './interfaces/chainable-city.provider';
+import { CityProvider } from './interfaces/city.provider';
 import { OpenWeatherCityProvider } from './providers/openweather.provider';
 import { WeatherApiCityProvider } from './providers/weatherapi.provider';
 
@@ -14,11 +14,9 @@ import { WeatherApiCityProvider } from './providers/weatherapi.provider';
     OpenWeatherCityProvider,
     CityProviderFactory,
     {
-      provide: ChainableCityProvider,
-      useFactory: (cityFactory: CityProviderFactory) => {
-        return cityFactory.create();
-      },
+      provide: CityProvider,
       inject: [CityProviderFactory],
+      useFactory: (cityFactory: CityProviderFactory) => cityFactory.create(),
     },
   ],
   exports: [CityExistsConstraint],
