@@ -1,3 +1,3 @@
-export interface CityValidation {
+export interface CityProvider {
   validateCity(city: string): Promise<boolean>;
 }

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { RootFilterQuery } from 'mongoose';
 import { Subscription, SubscriptionWithId } from 'src/database/schemas/subscription.schema';
 import { NotificationSubjects } from 'src/notifications/constants/enums/notification-subjects.enum';
@@ -12,9 +12,7 @@ import { ServiceSubscriptionRepository } from '../interfaces/subscription-reposi
 @Injectable()
 export class SubscriptionService implements FindSubscriptionService, ControllerSubscriptionService {
   constructor(
-    @Inject(ServiceSubscriptionRepository)
     private readonly subscriptionRepository: ServiceSubscriptionRepository,
-    @Inject(NotificationsServiceInterface)
     private readonly notificationsService: NotificationsServiceInterface,
   ) {}
 

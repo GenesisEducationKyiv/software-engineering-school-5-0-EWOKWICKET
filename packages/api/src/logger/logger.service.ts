@@ -16,7 +16,7 @@ export class LoggerService {
     });
   }
 
-  async logProviderAction(message: string, providerName: string, data: unknown): Promise<void> {
-    this.logger.info({ message, providerName, data: data || {} });
+  async logProviderAction(message: string, providerName: string, data: unknown = {}): Promise<void> {
+    this.logger.info({ message, providerName, data });
   }
 }

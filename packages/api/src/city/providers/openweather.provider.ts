@@ -7,10 +7,10 @@ import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { Loggable } from 'src/common/interfaces/loggable.interace';
 import { CurrentOpenWeatherFetchDto } from 'src/weather/types/current-weather-api.type';
-import { ChainableCityValidation } from '../interfaces/chainable-city-validation.provider';
+import { ChainableCityProvider } from '../interfaces/chainable-city.provider';
 
 @Injectable()
-export class OpenWeatherCityValidation extends ChainableCityValidation implements Loggable {
+export class OpenWeatherCityProvider extends ChainableCityProvider implements Loggable {
   private readonly apiKey: string;
   private readonly apiUrl: string;
   readonly executor = 'OpenWeather';
@@ -25,19 +25,20 @@ export class OpenWeatherCityValidation extends ChainableCityValidation implement
   }
 
   async validateCity(city: string): Promise<boolean> {
-    const data = await this.getRawWeather(city);
+    const data = await this.getCity(city);
     return this.isValid(data, city);
   }
 
-  private async getRawWeather(city: string): Promise<CurrentOpenWeatherFetchDto> {
+  private async getCity(city: string): Promise<CurrentOpenWeatherFetchDto> {
     const response = await firstValueFrom(
       this.httpService.request<CurrentOpenWeatherFetchDto>({
         method: 'GET',
         baseURL: this.apiUrl,
-        url: '/current.json',
+        url: '/weather',
         params: {
-          key: this.apiKey,
+          appid: this.apiKey,
           q: city,
+          units: 'metric',
         },
       }),
     ).catch((err: AxiosError) => {

@@ -1,7 +1,7 @@
 import { Chainable } from 'src/common/interfaces/weather-handler.abstract';
-import { CityValidation } from './city-validation.provider';
+import { CityProvider } from './city.provider';
 
-export abstract class ChainableCityValidation extends Chainable<string, boolean> implements CityValidation {
+export abstract class ChainableCityProvider extends Chainable<string, boolean> implements CityProvider {
   async handle(city: string): Promise<boolean> {
     try {
       return await this.validateCity(city);

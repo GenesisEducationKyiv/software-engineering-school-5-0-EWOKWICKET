@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { NotificationsFrequencies } from 'src/notifications/constants/enums/notification-frequencies.enum';
 import { NotificationSubjects } from 'src/notifications/constants/enums/notification-subjects.enum';
@@ -11,11 +11,8 @@ import { WeatherProvider } from 'src/weather/interfaces/current-weather.abstract
 @Injectable()
 export class WeatherSchedulerService {
   constructor(
-    @Inject(NotificationsServiceInterface)
     private readonly notificationsService: NotificationsServiceInterface,
-    @Inject(WeatherProvider)
     private readonly weatherService: WeatherProvider,
-    @Inject(GroupSubscriptionRepository)
     private readonly subscriptionRepository: GroupSubscriptionRepository,
   ) {}
 
