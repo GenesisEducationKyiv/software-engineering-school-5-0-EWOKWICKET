@@ -3,9 +3,9 @@ import { Module } from '@nestjs/common';
 import { CacheMetricsDecorator } from 'src/common/decorators/cache-metrics.decorator';
 import { MetricsModule } from 'src/metrics/metrics.module';
 import { MetricsService } from 'src/metrics/metrics.service';
-import { CacheScheduler, CacheServiceInterface } from './abstractions/cache-service.interface';
 import { CacheService } from './cache.service';
 import { RedisConfig } from './config/redis.config';
+import { CacheScheduler, CacheServiceInterface } from './interfaces/cache-service.interface';
 
 @Module({
   imports: [

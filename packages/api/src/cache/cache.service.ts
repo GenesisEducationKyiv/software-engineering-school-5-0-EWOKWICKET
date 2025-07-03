@@ -1,9 +1,9 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { CacheScheduler, CacheServiceInterface } from './abstractions/cache-service.interface';
 import { CachePrefixes } from './enums/cache-prefixes.enum';
 import { CacheTTL } from './enums/cache-ttl.enum';
+import { CacheScheduler, CacheServiceInterface } from './interfaces/cache-service.interface';
 
 @Injectable()
 export class CacheService implements CacheServiceInterface, CacheScheduler {

@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { CacheScheduler } from 'src/cache/abstractions/cache-service.interface';
-import { NotificationsServiceInterface } from 'src/notifications/abstractions/notifications-service.abstract';
+import { CacheScheduler } from 'src/cache/interfaces/cache-service.interface';
 import { NotificationsFrequencies } from 'src/notifications/constants/enums/notification-frequencies.enum';
 import { NotificationSubjects } from 'src/notifications/constants/enums/notification-subjects.enum';
 import { NotificationType } from 'src/notifications/constants/enums/notification-type.enum';
 import { WeatherUpdateNotificationsOptions } from 'src/notifications/constants/types/updates.options';
+import { NotificationsServiceInterface } from 'src/notifications/interfaces/notifications-service.abstract';
 import { GroupSubscriptionRepository } from 'src/subscriptions/interfaces/subscription-repository.abstract';
 import { WeatherProvider } from 'src/weather/interfaces/current-weather.abstract';
 
@@ -15,7 +15,6 @@ export class WeatherSchedulerService {
     private readonly notificationsService: NotificationsServiceInterface,
     private readonly weatherService: WeatherProvider,
     private readonly subscriptionRepository: GroupSubscriptionRepository,
-    @Inject(CacheScheduler)
     private readonly cacheService: CacheScheduler,
   ) {}
 

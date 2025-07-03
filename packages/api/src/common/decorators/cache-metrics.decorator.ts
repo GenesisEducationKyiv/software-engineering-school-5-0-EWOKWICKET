@@ -1,6 +1,6 @@
 import { Inject } from '@nestjs/common';
-import { CacheServiceInterface } from 'src/cache/abstractions/cache-service.interface';
 import { CacheTTL } from 'src/cache/enums/cache-ttl.enum';
+import { CacheServiceInterface } from 'src/cache/interfaces/cache-service.interface';
 import { MetricsService } from 'src/metrics/metrics.service';
 
 export class CacheMetricsDecorator implements CacheServiceInterface {
