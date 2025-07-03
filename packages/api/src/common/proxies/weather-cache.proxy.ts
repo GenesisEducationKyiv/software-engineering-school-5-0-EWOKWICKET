@@ -1,6 +1,7 @@
 import { CachePrefixes } from 'src/cache/enums/cache-prefixes.enum';
 import { CacheTTL } from 'src/cache/enums/cache-ttl.enum';
 import { CacheServiceInterface } from 'src/cache/interfaces/cache-service.interface';
+import { transformKey } from 'src/cache/utils/key-transformation';
 import { CurrentWeatherResponseDto } from 'src/weather/dtos/current-weather-response.dto';
 import { ChainableWeatherProvider } from 'src/weather/interfaces/chainable-weather-provider.abstract';
 
@@ -16,7 +17,7 @@ export class WeatherProviderCacheProxy extends ChainableWeatherProvider {
   }
 
   async getCurrentWeather(city: string): Promise<CurrentWeatherResponseDto> {
-    const cacheKey = this.transformKey(city);
+    const cacheKey = transformKey(this.keyBase, city);
     const cached = await this.cacheService.get<CurrentWeatherResponseDto>(cacheKey);
     if (cached) return cached;
 
@@ -24,9 +25,5 @@ export class WeatherProviderCacheProxy extends ChainableWeatherProvider {
     await this.cacheService.set<CurrentWeatherResponseDto>(cacheKey, result, this.ttl);
 
     return result;
-  }
-
-  private transformKey(city: string) {
-    return `${this.keyBase}${city.toLowerCase()}`;
   }
 }
