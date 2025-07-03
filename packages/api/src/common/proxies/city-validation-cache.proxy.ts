@@ -6,7 +6,7 @@ import { ChainableCityProvider } from 'src/city/interfaces/chainable-city.provid
 
 export class CityProviderCacheProxy extends ChainableCityProvider {
   private readonly keyBase: CachePrefixes = CachePrefixes.CITY_VALIDATION;
-  private readonly ttl: number = CacheTTL.HOUR_1;
+  private readonly ttl: CacheTTL = CacheTTL.HOUR_1;
 
   constructor(
     private readonly wrapped: ChainableCityProvider,
