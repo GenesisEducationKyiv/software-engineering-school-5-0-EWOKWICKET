@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CacheModule } from 'src/cache/cache.module';
-import { CacheService } from 'src/cache/cache.service';
+import { CacheServiceInterface } from 'src/cache/interfaces/cache-service.interface';
 import { CityProviderAdapter } from 'src/common/adapters/city-provider.adapter';
 import { CityProviderLoggingDecorator } from 'src/common/decorators/city-provider-logging.decorator';
 import { CityProviderCacheProxy } from 'src/common/proxies/city-validation-cache.proxy';
@@ -19,8 +19,8 @@ import { WeatherApiCityProvider } from './providers/weatherapi.provider';
     OpenWeatherCityProvider,
     {
       provide: CityProvider,
-      inject: [WeatherApiCityProvider, OpenWeatherCityProvider, LoggerService, CacheService],
-      useFactory: (weatherApiProvider: WeatherApiCityProvider, openWeatherProvider: OpenWeatherCityProvider, logger: LoggerService, cacheService: CacheService) => {
+      inject: [WeatherApiCityProvider, OpenWeatherCityProvider, LoggerService, CacheServiceInterface],
+      useFactory: (weatherApiProvider: WeatherApiCityProvider, openWeatherProvider: OpenWeatherCityProvider, logger: LoggerService, cacheService: CacheServiceInterface) => {
         const decoratedWeatherAPI = new CityProviderLoggingDecorator(weatherApiProvider, logger);
         const decoratedOpenWeather = new CityProviderLoggingDecorator(openWeatherProvider, logger);
         const cachProxied = new CityProviderCacheProxy(decoratedWeatherAPI.setNext(decoratedOpenWeather), cacheService);

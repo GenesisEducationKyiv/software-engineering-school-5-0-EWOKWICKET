@@ -13,7 +13,7 @@ export class CacheMetricsDecorator implements CacheServiceInterface {
   async get<T>(key: string): Promise<T> {
     const data = await this.wrapped.get<T>(key);
 
-    if (data) this.metricsService.incCacheHit();
+    if (data !== undefined) this.metricsService.incCacheHit();
     else this.metricsService.incCacheMiss();
 
     return data;

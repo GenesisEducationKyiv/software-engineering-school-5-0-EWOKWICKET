@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CacheModule } from 'src/cache/cache.module';
-import { CacheService } from 'src/cache/cache.service';
+import { CacheServiceInterface } from 'src/cache/interfaces/cache-service.interface';
 import { WeatherProviderAdapter } from 'src/common/adapters/weather-povider.adapter';
 import { WeatherProviderLoggingDecorator } from 'src/common/decorators/weather-provider-logging.decorator';
 import { WeatherProviderCacheProxy } from 'src/common/proxies/weather-cache.proxy';
@@ -19,8 +19,8 @@ import { WeatherController } from './weather.controller';
     OpenWeatherWeatherProvider,
     {
       provide: WeatherProvider,
-      inject: [WeatherApiWeatherProvider, OpenWeatherWeatherProvider, LoggerService, CacheService],
-      useFactory: (weatherApiProvider: WeatherApiWeatherProvider, openWeatherProvider: OpenWeatherWeatherProvider, logger: LoggerService, cacheService: CacheService) => {
+      inject: [WeatherApiWeatherProvider, OpenWeatherWeatherProvider, LoggerService, CacheServiceInterface],
+      useFactory: (weatherApiProvider: WeatherApiWeatherProvider, openWeatherProvider: OpenWeatherWeatherProvider, logger: LoggerService, cacheService: CacheServiceInterface) => {
         const decoratedWeatherAPI = new WeatherProviderLoggingDecorator(weatherApiProvider, logger);
         const decoratedOpenWeather = new WeatherProviderLoggingDecorator(openWeatherProvider, logger);
         const cachProxied = new WeatherProviderCacheProxy(decoratedWeatherAPI.setNext(decoratedOpenWeather), cacheService);

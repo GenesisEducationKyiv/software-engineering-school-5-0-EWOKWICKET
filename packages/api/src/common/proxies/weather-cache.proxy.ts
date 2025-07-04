@@ -7,7 +7,8 @@ import { ChainableWeatherProvider } from 'src/weather/interfaces/chainable-weath
 import { CityNotFoundException } from '../errors/city-not-found.error';
 
 export class WeatherProviderCacheProxy extends ChainableWeatherProvider {
-  private readonly ttl: CacheTTL = CacheTTL.MINUTES_10;
+  private readonly weatherTtl: CacheTTL = CacheTTL.MINUTES_10;
+  private readonly cityTtl: CacheTTL = CacheTTL.HOUR_1;
 
   constructor(
     private readonly wrapped: ChainableWeatherProvider,
@@ -17,21 +18,28 @@ export class WeatherProviderCacheProxy extends ChainableWeatherProvider {
   }
 
   async getCurrentWeather(city: string): Promise<CurrentWeatherResponseDto> {
-    await this.cityExists(city);
+    const cityCacheKey = transformKey(CachePrefixes.CITY_VALIDATION, city); // city cache key
+    await this.cityExists(cityCacheKey);
 
-    const weatherCacheKey = transformKey(CachePrefixes.CURRENT_WEATHER, city);
-    const cached = await this.cacheService.get<CurrentWeatherResponseDto>(weatherCacheKey);
-    if (cached) return cached;
+    const weatherCacheKey = transformKey(CachePrefixes.CURRENT_WEATHER, city); // weather cache key
+    const cachedWeather = await this.cacheService.get<CurrentWeatherResponseDto>(weatherCacheKey);
+    if (cachedWeather) return cachedWeather; // cache hit
 
-    const result = await this.wrapped.handle(city);
-    await this.cacheService.set<CurrentWeatherResponseDto>(weatherCacheKey, result, this.ttl);
-
-    return result;
+    try {
+      const result = await this.wrapped.handle(city);
+      await this.cacheService.set<CurrentWeatherResponseDto>(weatherCacheKey, result, this.weatherTtl); // cache weather
+      await this.cacheService.set<boolean>(cityCacheKey, true, this.cityTtl); // cache city existence
+      return result;
+    } catch (err) {
+      if (err instanceof CityNotFoundException) {
+        await this.cacheService.set<boolean>(cityCacheKey, false, this.cityTtl); // cache city inexistence
+      }
+      throw err;
+    }
   }
 
-  async cityExists(city: string) {
-    const validationCacheKey = transformKey(CachePrefixes.CITY_VALIDATION, city);
-    const exists = await this.cacheService.get<boolean>(validationCacheKey);
+  async cityExists(caceKey: string) {
+    const exists = await this.cacheService.get<boolean>(caceKey);
     if (exists === false) throw new CityNotFoundException();
   }
 }
