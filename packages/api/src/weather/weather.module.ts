@@ -15,7 +15,6 @@ import { WeatherController } from './weather.controller';
   imports: [LoggerModule, CacheModule],
   controllers: [WeatherController],
   providers: [
-    WeatherProviderFactory,
     WeatherApiWeatherProvider,
     OpenWeatherWeatherProvider,
     {
