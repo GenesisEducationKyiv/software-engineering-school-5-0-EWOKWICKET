@@ -15,6 +15,12 @@ services:
       - mongo-test
     command: sh -c "yarn migrate:test && yarn test:e2e"
 
+  architecture-test:
+    build:
+      context: ./packages
+      dockerfile: Dockerfile.test
+    command: sh -c "yarn test:architecture"
+
   mongo-test:
     container_name: mongo-test
     image: mongo
