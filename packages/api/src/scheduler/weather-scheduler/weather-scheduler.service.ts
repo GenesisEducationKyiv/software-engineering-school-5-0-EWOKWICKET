@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { CachePrefixes } from 'src/cache/enums/cache-prefixes.enum';
 import { CacheInvalidator } from 'src/cache/interfaces/cache-service.interface';
 import { transformKey } from 'src/cache/utils/key-transformation';
 import { NotificationsFrequencies } from 'src/notifications/constants/enums/notification-frequencies.enum';
@@ -9,6 +8,7 @@ import { NotificationType } from 'src/notifications/constants/enums/notification
 import { WeatherUpdateOptions } from 'src/notifications/constants/types/updates.options';
 import { NotificationsServiceInterface } from 'src/notifications/interfaces/notifications-service.abstract';
 import { GroupSubscriptionRepository } from 'src/subscriptions/interfaces/subscription-repository.abstract';
+import { WeatherCachePrefixes } from 'src/weather/infrastructure/cache/weather-cache-prefixes.enum';
 import { WeatherProvider } from 'src/weather/interfaces/current-weather.abstract';
 
 @Injectable()
@@ -64,7 +64,7 @@ export class WeatherSchedulerService {
 
   // invalidates weather cache
   private async invalidateCachedWeather(cities: string[]): Promise<void> {
-    const keys = cities.map((city) => transformKey(CachePrefixes.CURRENT_WEATHER, city));
+    const keys = cities.map((city) => transformKey(WeatherCachePrefixes.CURRENT_WEATHER, city));
     await this.cacheService.mdel(keys);
   }
 }
