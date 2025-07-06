@@ -5,7 +5,7 @@ import { MetricsModule } from 'src/metrics/metrics.module';
 import { MetricsService } from 'src/metrics/metrics.service';
 import { CacheService } from './cache.service';
 import { RedisConfig } from './config/redis.config';
-import { CacheScheduler, CacheServiceInterface } from './interfaces/cache-service.interface';
+import { CacheAccessor, CacheInvalidator } from './interfaces/cache-service.interface';
 
 @Module({
   imports: [
@@ -17,17 +17,17 @@ import { CacheScheduler, CacheServiceInterface } from './interfaces/cache-servic
   providers: [
     CacheService,
     {
-      provide: CacheServiceInterface,
+      provide: CacheAccessor,
       useFactory: (cacheService: CacheService, metricsService: MetricsService) => {
         return new CacheMetricsDecorator(cacheService, metricsService);
       },
       inject: [CacheService, MetricsService],
     },
     {
-      provide: CacheScheduler,
+      provide: CacheInvalidator,
       useExisting: CacheService,
     },
   ],
-  exports: [CacheServiceInterface, CacheScheduler],
+  exports: [CacheAccessor, CacheInvalidator],
 })
 export class CacheModule {}

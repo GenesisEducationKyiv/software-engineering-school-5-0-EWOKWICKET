@@ -1,13 +1,11 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { CachePrefixes } from './enums/cache-prefixes.enum';
 import { CacheTTL } from './enums/cache-ttl.enum';
-import { CacheScheduler, CacheServiceInterface } from './interfaces/cache-service.interface';
-import { transformKey } from './utils/key-transformation';
+import { CacheAccessor, CacheInvalidator } from './interfaces/cache-service.interface';
 
 @Injectable()
-export class CacheService implements CacheServiceInterface, CacheScheduler {
+export class CacheService implements CacheAccessor, CacheInvalidator {
   constructor(@Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {}
 
   async set<T>(key: string, value: T, ttl: number = CacheTTL.MINUTES_10): Promise<void> {
@@ -18,9 +16,7 @@ export class CacheService implements CacheServiceInterface, CacheScheduler {
     return await this.cacheManager.get<T>(key);
   }
 
-  // invalidates on hourly weather updates
-  async invalidateCurrentWeather(cities: string[]): Promise<void> {
-    const keys = cities.map((city) => `${transformKey(CachePrefixes.CURRENT_WEATHER, city)}`);
+  async mdel(keys: string[]): Promise<void> {
     await this.cacheManager.mdel(keys);
   }
 }

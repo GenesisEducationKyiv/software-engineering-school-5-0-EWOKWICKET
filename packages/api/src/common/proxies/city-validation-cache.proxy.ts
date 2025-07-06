@@ -1,6 +1,6 @@
 import { CachePrefixes } from 'src/cache/enums/cache-prefixes.enum';
 import { CacheTTL } from 'src/cache/enums/cache-ttl.enum';
-import { CacheServiceInterface } from 'src/cache/interfaces/cache-service.interface';
+import { CacheAccessor } from 'src/cache/interfaces/cache-service.interface';
 import { transformKey } from 'src/cache/utils/key-transformation';
 import { ChainableCityProvider } from 'src/city/interfaces/chainable-city.provider';
 
@@ -10,7 +10,7 @@ export class CityProviderCacheProxy extends ChainableCityProvider {
 
   constructor(
     private readonly wrapped: ChainableCityProvider,
-    private readonly cacheService: CacheServiceInterface,
+    private readonly cacheService: CacheAccessor,
   ) {
     super();
   }

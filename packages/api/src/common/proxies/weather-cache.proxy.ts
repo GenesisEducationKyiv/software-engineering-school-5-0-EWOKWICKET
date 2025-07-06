@@ -1,6 +1,6 @@
 import { CachePrefixes } from 'src/cache/enums/cache-prefixes.enum';
 import { CacheTTL } from 'src/cache/enums/cache-ttl.enum';
-import { CacheServiceInterface } from 'src/cache/interfaces/cache-service.interface';
+import { CacheAccessor } from 'src/cache/interfaces/cache-service.interface';
 import { transformKey } from 'src/cache/utils/key-transformation';
 import { CurrentWeatherResponseDto } from 'src/weather/dtos/current-weather-response.dto';
 import { ChainableWeatherProvider } from 'src/weather/interfaces/chainable-weather-provider.abstract';
@@ -12,7 +12,7 @@ export class WeatherProviderCacheProxy extends ChainableWeatherProvider {
 
   constructor(
     private readonly wrapped: ChainableWeatherProvider,
-    private readonly cacheService: CacheServiceInterface,
+    private readonly cacheService: CacheAccessor,
   ) {
     super();
   }
