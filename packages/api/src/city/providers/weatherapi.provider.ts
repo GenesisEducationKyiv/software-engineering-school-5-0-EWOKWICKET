@@ -5,8 +5,8 @@ import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
+import { CityWeatherApiFetchDto } from '../constants/types/city-fetch.type';
 import { ChainableCityProvider } from '../interfaces/chainable-city.provider';
-import { CityWeatherApiFetchDto } from '../types/city-fetch.type';
 
 @Injectable()
 export class WeatherApiCityProvider extends ChainableCityProvider {

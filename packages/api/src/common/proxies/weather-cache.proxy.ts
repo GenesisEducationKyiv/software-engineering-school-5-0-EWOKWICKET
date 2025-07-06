@@ -1,14 +1,15 @@
-import { CachePrefixes } from 'src/cache/enums/cache-prefixes.enum';
-import { CacheTTL } from 'src/cache/enums/cache-ttl.enum';
 import { CacheAccessor } from 'src/cache/interfaces/cache-service.interface';
 import { transformKey } from 'src/cache/utils/key-transformation';
+import { CityCachePrefixes } from 'src/city/constants/enums/city-cache-prefixes.enum';
+import { WeatherCachePrefixes } from 'src/weather/constants/enums/weather-cache-prefixes.enum';
 import { CurrentWeatherResponseDto } from 'src/weather/dtos/current-weather-response.dto';
 import { ChainableWeatherProvider } from 'src/weather/interfaces/chainable-weather-provider.abstract';
 import { CityNotFoundException } from '../errors/city-not-found.error';
+import { HOUR, MINUTE } from '../utils/time-units';
 
 export class WeatherProviderCacheProxy extends ChainableWeatherProvider {
-  private readonly weatherTtl: CacheTTL = CacheTTL.MINUTES_10;
-  private readonly cityTtl: CacheTTL = CacheTTL.HOUR_1;
+  private readonly weatherTtl: number = MINUTE * 10;
+  private readonly cityTtl: number = HOUR;
 
   constructor(
     private readonly wrapped: ChainableWeatherProvider,
@@ -18,10 +19,10 @@ export class WeatherProviderCacheProxy extends ChainableWeatherProvider {
   }
 
   async getCurrentWeather(city: string): Promise<CurrentWeatherResponseDto> {
-    const cityCacheKey = transformKey(CachePrefixes.CITY_VALIDATION, city); // city cache key
+    const cityCacheKey = transformKey(CityCachePrefixes.CITY_VALIDATION, city); // city cache key
     await this.cityExists(cityCacheKey);
 
-    const weatherCacheKey = transformKey(CachePrefixes.CURRENT_WEATHER, city); // weather cache key
+    const weatherCacheKey = transformKey(WeatherCachePrefixes.CURRENT_WEATHER, city); // weather cache key
     const cachedWeather = await this.cacheService.get<CurrentWeatherResponseDto>(weatherCacheKey);
     if (cachedWeather) return cachedWeather; // cache hit
 

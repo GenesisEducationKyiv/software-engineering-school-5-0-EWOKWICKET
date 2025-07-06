@@ -1,4 +1,4 @@
-import { CityWeatherApiFetchDto } from 'src/city/types/city-fetch.type';
+import { CityWeatherApiFetchDto } from 'src/city/constants/types/city-fetch.type';
 
 export type CurrentWeatherApiFetchDto = {
   location: CityWeatherApiFetchDto;

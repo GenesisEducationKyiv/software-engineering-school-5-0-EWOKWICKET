@@ -1,14 +1,14 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { CacheTTL } from './enums/cache-ttl.enum';
+import { MINUTE } from 'src/common/utils/time-units';
 import { CacheAccessor, CacheInvalidator } from './interfaces/cache-service.interface';
 
 @Injectable()
 export class CacheService implements CacheAccessor, CacheInvalidator {
   constructor(@Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {}
 
-  async set<T>(key: string, value: T, ttl: number = CacheTTL.MINUTES_10): Promise<void> {
+  async set<T>(key: string, value: T, ttl: number = MINUTE * 10): Promise<void> {
     await this.cacheManager.set<T>(key, value, ttl);
   }
 
