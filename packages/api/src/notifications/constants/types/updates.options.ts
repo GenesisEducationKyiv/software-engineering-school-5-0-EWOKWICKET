@@ -1,6 +1,7 @@
 import { NotificationsFrequencies } from '../enums/notification-frequencies.enum';
 
-export interface WeatherUpdateNotificationsOptions {
+export interface WeatherUpdateOptions {
   frequency: NotificationsFrequencies;
   subject: string;
+  invalidateCache: boolean;
 }

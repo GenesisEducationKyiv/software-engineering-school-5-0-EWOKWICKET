@@ -8,6 +8,7 @@ A backend API built with NestJS for managing weather-related data, connected to 
 
 - **[NestJS](https://nestjs.com/)** - Node.js framework
 - **[MongoDB Atlas](https://www.mongodb.com/atlas)** - cloud-hosted NoSQL database
+- **[Redis(Upstash)](https://upstash.com/)** - cloud-hosted NoSQL key-value database
 - **[Docker](https://www.docker.com/)** - Containerization platform
 - **[Jest](https://jestjs.io/)** – testing framework
 - **[Yarn](https://yarnpkg.com/)** – Package manager
@@ -31,83 +32,37 @@ A backend API built with NestJS for managing weather-related data, connected to 
 
 3. **Set up environment variables**
 
-   - Copy `.env.example` to `.env`
+   - Copy [`.env.example`](packages/api/.env.example) to `.env`
    - Fill in your actual credentials in the `.env` file:
      - Mail credentials:\
-        &nbsp;&nbsp;&nbsp; **MAIL_USER** - email\
-        &nbsp;&nbsp;&nbsp; **MAIL_PASS** - app password for email
-     - **WEATHER_API_KEY** from https://openweathermap.org/api
+       - **MAIL_USER** - your email\
+       - **MAIL_PASS** - [app password](https://support.google.com/accounts/answer/185833) for email
+     - [**WEATHER_API_API_KEY**](https://www.weatherapi.com/)
+     - [**OPENWEATHER_API_KEY**](https://openweathermap.org/)
 
-4. **Start the server in development mode**
+4. **Start the server**
+
+   Start services using docker
+
+   ```bash
+   yarn docker:up
+   ```
+
+   Dev mode
 
    ```bash
    yarn start:dev
    ```
 
-   or see Docker Commands section below
+   Production
+
+   ```bash
+   yarn build
+   yarn strart:prod
+   ```
 
 ---
 
 ## 🧪 Running Tests
 
-- **Run unit tests**
-
-  ```bash
-  yarn test:unit
-  ```
-
-- **Run end-to-end tests**
-  ```bash
-  yarn test:e2e
-  ```
-
----
-
-## Docker Commands
-
-- **Start the application with Docker**
-
-  ```bash
-  yarn docker:up
-  ```
-
-- **Stop and remove containers**
-
-  ```bash
-  yarn docker:down
-  ```
-
-- **Stop containers without removing**
-
-  ```bash
-  yarn docker:stop
-  ```
-
-- **Start existing containers**
-
-  ```bash
-  yarn docker:start
-  ```
-
-Make sure Docker is installed and running on your system before using these commands.
-
----
-
-## .env Configuration
-
-The `.env` file contains all sensitive credentials and configuration. An example is provided in `.env.example`:
-
-```env
-PORT=3000
-HOST=localhost
-DB_URI=mongodb+srv://devUser:nvjkEgP0HBtzBe48@weatherapi-cluster.g0ogrf4.mongodb.net/weatherAPI?retryWrites=true&w=majority&appName=weatherapi-cluster
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USER=your_email@gmail.com
-MAIL_PASS=your_email_app_password
-WEATHER_API_KEY=your_openweathermap_api_key
-```
-
-## Subscription page
-
-Visit page http://HOST:PORT/weatherapi.app/ to subscribe
+Instructions [here](testing.md)

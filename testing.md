@@ -35,7 +35,7 @@ This will:
 - Execute end-to-end tests in a simulated environment
 - Automatically stop containers after tests complete
 
-### Clear Test Containers and Volumes
+### Clear Test Containers
 
 ```bash
 npm run docker:test:clear
