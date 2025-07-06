@@ -1,9 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
+import { SubscriptionEntity } from 'src/domain/subscription/subscription.entity';
 import { Frequency } from 'src/domain/subscription/valueObjects/frequency.vo';
 
 @Schema()
-export class Subscription {
+export class Subscription implements SubscriptionEntity {
+  _id: Types.ObjectId;
+
   @Prop({ required: true, unique: false })
   email: string;
 
@@ -21,10 +24,3 @@ export class Subscription {
 }
 
 export const SubscriptionSchema = SchemaFactory.createForClass(Subscription);
-
-export class SubscriptionWithId extends Subscription {
-  _id: Types.ObjectId;
-}
-
-// SubscriptionSchema.index({ email: 1, city: 1 }, { unique: true });
-// SubscriptionSchema.index({ expiresAt: 1 }, { expires: '1h' });

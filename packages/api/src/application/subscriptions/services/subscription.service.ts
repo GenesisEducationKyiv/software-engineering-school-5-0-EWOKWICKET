@@ -3,7 +3,7 @@ import { RootFilterQuery } from 'mongoose';
 import { NotificationSubjects } from 'src/application/notifications/constants/enums/notification-subjects.enum';
 import { NotificationType } from 'src/application/notifications/constants/enums/notification-type.enum';
 import { NotificationsServiceInterface } from 'src/domain/notifications/notifications-service.abstract';
-import { Subscription, SubscriptionWithId } from 'src/infrastructure/subscription/schemas/subscription.schema';
+import { Subscription } from 'src/infrastructure/subscription/schemas/subscription.schema';
 import { SubscriptionServiceInterface, SubscriptionServiceLookup } from '../../../domain/subscription/services/subcription-service.abstract';
 import { ServiceSubscriptionRepository } from '../../../domain/subscription/services/subscription-repository.abstract';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
@@ -40,7 +40,7 @@ export class SubscriptionService implements SubscriptionServiceLookup, Subscript
     if (!deleted) throw new InvalidTokenException('Token Not Found');
   }
 
-  async find(options: RootFilterQuery<Subscription>): Promise<SubscriptionWithId[]> {
+  async find(options: RootFilterQuery<Subscription>): Promise<Subscription[]> {
     const found = await this.subscriptionRepository.find(options);
     return found;
   }

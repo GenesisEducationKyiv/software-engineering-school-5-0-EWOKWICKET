@@ -1,12 +1,12 @@
 import { RootFilterQuery } from 'mongoose';
-import { Subscription, SubscriptionWithId } from 'src/infrastructure/subscription/schemas/subscription.schema';
+import { Subscription } from 'src/infrastructure/subscription/schemas/subscription.schema';
 import { CreateSubscriptionDto } from '../../../application/subscriptions/dtos/create-subscription.dto';
 
 export abstract class ServiceSubscriptionRepository {
-  abstract find(options: RootFilterQuery<Subscription>): Promise<SubscriptionWithId[]>;
-  abstract create(createDto: CreateSubscriptionDto): Promise<SubscriptionWithId>;
-  abstract updateById(id: string, updateDto: Partial<Subscription>): Promise<SubscriptionWithId | null>;
-  abstract deleteById(id: string): Promise<SubscriptionWithId | null>;
+  abstract find(options: RootFilterQuery<Subscription>): Promise<Subscription[]>;
+  abstract create(createDto: CreateSubscriptionDto): Promise<Subscription>;
+  abstract updateById(id: string, updateDto: Partial<Subscription>): Promise<Subscription | null>;
+  abstract deleteById(id: string): Promise<Subscription | null>;
 }
 
 export abstract class GroupSubscriptionRepository {
