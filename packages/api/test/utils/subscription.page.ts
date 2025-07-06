@@ -1,5 +1,5 @@
 import { Page, expect } from '@playwright/test';
-import { NotificationsFrequencies } from 'src/notifications/constants/enums/notification-frequencies.enum';
+import { Frequency } from 'src/domain/subscription/valueObjects/frequency.vo';
 
 export class SubscriptionPage {
   page: Page;
@@ -12,7 +12,7 @@ export class SubscriptionPage {
     await this.page.goto('http://localhost:3000/weatherapi.app/');
   }
 
-  async sendForm(email: string, city: string, frequency: NotificationsFrequencies) {
+  async sendForm(email: string, city: string, frequency: Frequency) {
     await this.page.fill('#email', email);
     await this.page.fill('#city', city);
     await this.page.selectOption('#frequency', frequency);

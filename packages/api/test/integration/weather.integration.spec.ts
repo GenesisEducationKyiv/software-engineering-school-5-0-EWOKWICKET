@@ -1,17 +1,17 @@
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
+import { WeatherResponseDto } from 'src/application/weather/dtos/weather-response.dto';
+import { WeatherTestModule } from 'src/application/weather/weather.module.test';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { appTestConfig, databaseTestConfig } from 'src/config/test.config';
-import { CurrentWeatherResponseDto } from 'src/weather/dtos/current-weather-response.dto';
-import { OpenWeatherWeatherProvider } from 'src/weather/providers/openweather.provider';
-import { WeatherApiWeatherProvider } from 'src/weather/providers/weatherapi.provider';
-import { WeatherTestModule } from 'src/weather/test/weather.module.test';
+import { OpenWeatherWeatherProvider } from 'src/infrastructure/weather/providers/openweather.provider';
+import { WeatherApiWeatherProvider } from 'src/infrastructure/weather/providers/weatherapi.provider';
 import * as request from 'supertest';
 import { TestsUrl } from 'test/utils/test-urls.enum';
 
-const weatherResponse: CurrentWeatherResponseDto = {
+const weatherResponse: WeatherResponseDto = {
   temperature: 0,
   humidity: 1,
   description: 'text',

@@ -4,29 +4,29 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { useContainer } from 'class-validator';
 import { Model, Types } from 'mongoose';
-import { OpenWeatherCityProvider } from 'src/city/providers/openweather.provider';
-import { WeatherApiCityProvider } from 'src/city/providers/weatherapi.provider';
-import { CityTestModule } from 'src/city/test/city.module.test';
+import { CityTestModule } from 'src/application/city/city.module.test';
+import { NotificationSubjects } from 'src/application/notifications/constants/enums/notification-subjects.enum';
+import { NotificationType } from 'src/application/notifications/constants/enums/notification-type.enum';
+import { NotificationsTestModule } from 'src/application/notifications/notifications.module.test';
+import { CreateSubscriptionDto } from 'src/application/subscriptions/dtos/create-subscription.dto';
+import { SubscriptionTestModule } from 'src/application/subscriptions/subscriptions.module.test';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { DatabaseExceptionFilter } from 'src/common/filters/database-exception.filter';
 import { appTestConfig, databaseTestConfig } from 'src/config/test.config';
-import { Subscription } from 'src/database/schemas/subscription.schema';
-import { DatabaseTestModule } from 'src/database/test/database.module.test';
-import { NotificationsFrequencies } from 'src/notifications/constants/enums/notification-frequencies.enum';
-import { NotificationSubjects } from 'src/notifications/constants/enums/notification-subjects.enum';
-import { NotificationType } from 'src/notifications/constants/enums/notification-type.enum';
-import { NotificationsServiceInterface } from 'src/notifications/interfaces/notifications-service.abstract';
-import { NotificationsTestModule } from 'src/notifications/test/notifications.module.test';
-import { CreateSubscriptionDto } from 'src/subscriptions/dtos/create-subscription.dto';
-import { SubscriptionRepository } from 'src/subscriptions/services/subscription.repository';
-import { SubscriptionTestModule } from 'src/subscriptions/test/subscriptions.module.test';
+import { NotificationsServiceInterface } from 'src/domain/notifications/notifications-service.abstract';
+import { Frequency } from 'src/domain/subscription/valueObjects/frequency.vo';
+import { OpenWeatherCityProvider } from 'src/infrastructure/city/providers/openweather.provider';
+import { WeatherApiCityProvider } from 'src/infrastructure/city/providers/weatherapi.provider';
+import { DatabaseTestModule } from 'src/infrastructure/database/test/database.module.test';
+import { SubscriptionRepository } from 'src/infrastructure/subscription/repositories/subscription.repository';
+import { Subscription } from 'src/infrastructure/subscription/schemas/subscription.schema';
 import * as request from 'supertest';
 import { TestsUrl } from 'test/utils/test-urls.enum';
 
 const succesfulSubscriptionDto: CreateSubscriptionDto = {
   email: 'oopsgu2006@gmail.com',
   city: 'CityValid',
-  frequency: NotificationsFrequencies.HOURLY,
+  frequency: Frequency.HOURLY,
 };
 
 describe('SubscriptionController (Integration)', () => {
