@@ -5,15 +5,13 @@ import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
-import { Loggable } from 'src/common/interfaces/loggable.interace';
 import { CurrentOpenWeatherFetchDto } from 'src/weather/types/current-weather-api.type';
 import { ChainableCityProvider } from '../interfaces/chainable-city.provider';
 
 @Injectable()
-export class OpenWeatherCityProvider extends ChainableCityProvider implements Loggable {
+export class OpenWeatherCityProvider extends ChainableCityProvider {
   private readonly apiKey: string;
   private readonly apiUrl: string;
-  readonly executor = 'OpenWeather';
 
   constructor(
     private readonly httpService: HttpService,

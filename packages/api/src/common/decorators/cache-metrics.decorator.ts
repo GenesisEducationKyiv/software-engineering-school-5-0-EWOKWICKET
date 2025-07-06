@@ -1,11 +1,9 @@
-import { Inject } from '@nestjs/common';
 import { CacheTTL } from 'src/cache/enums/cache-ttl.enum';
 import { CacheAccessor } from 'src/cache/interfaces/cache-service.interface';
 import { MetricsService } from 'src/metrics/metrics.service';
 
 export class CacheMetricsDecorator implements CacheAccessor {
   constructor(
-    @Inject(CacheAccessor)
     private readonly wrapped: CacheAccessor,
     private readonly metricsService: MetricsService,
   ) {}

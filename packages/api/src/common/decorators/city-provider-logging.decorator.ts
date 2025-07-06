@@ -1,12 +1,9 @@
 import { ChainableCityProvider } from 'src/city/interfaces/chainable-city.provider';
 import { LoggerService } from 'src/logger/logger.service';
-import { Loggable } from '../interfaces/loggable.interace';
 
 export class CityProviderLoggingDecorator extends ChainableCityProvider {
-  private readonly message: string = 'City validation';
-
   constructor(
-    private readonly wrapped: ChainableCityProvider & Loggable,
+    private readonly wrapped: ChainableCityProvider,
     private readonly logger: LoggerService,
   ) {
     super();
@@ -14,7 +11,7 @@ export class CityProviderLoggingDecorator extends ChainableCityProvider {
 
   async validateCity(city: string): Promise<boolean> {
     const result = await this.wrapped.validateCity(city);
-    this.logger.logProviderAction(this.message, this.wrapped.executor, result);
+    this.logger.logProvider('City validation', this.wrapped.constructor.name, result);
     return result;
   }
 }

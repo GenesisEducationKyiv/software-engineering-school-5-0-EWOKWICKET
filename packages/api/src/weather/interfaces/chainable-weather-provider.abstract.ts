@@ -1,4 +1,4 @@
-import { Chainable } from 'src/common/interfaces/weather-handler.abstract';
+import { Chainable } from 'src/common/interfaces/chainable.abstract';
 import { CurrentWeatherResponseDto } from '../dtos/current-weather-response.dto';
 import { WeatherProvider } from './current-weather.abstract';
 

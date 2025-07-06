@@ -1,4 +1,4 @@
-import { Chainable } from 'src/common/interfaces/weather-handler.abstract';
+import { Chainable } from 'src/common/interfaces/chainable.abstract';
 import { CityProvider } from './city.provider';
 
 export abstract class ChainableCityProvider extends Chainable<string, boolean> implements CityProvider {
