@@ -41,7 +41,7 @@
 
 ## 2. High-level архітектура
 
-![High-Level-Architecture](High-Level-Architecture.png)
+![High-Level-Architecture](Application-Architecture.png)
 
 ## 3. Компоненти
 
