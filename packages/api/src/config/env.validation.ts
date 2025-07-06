@@ -4,7 +4,9 @@ import * as Joi from 'joi';
 export const envSchema = Joi.object({
   HOST: Joi.string().default('localhost'),
   PORT: Joi.number().port().default(3000),
-  WEATHER_API_KEY: Joi.string().required(),
+
+  WEATHERAPI_API_KEY: Joi.string().required(),
+  OPENWEATHER_API_KEY: Joi.string().required(),
 
   DB_URI: Joi.string().optional(),
 

@@ -1,5 +1,5 @@
 import { registerDecorator, ValidationOptions } from 'class-validator';
-import { CityExistsConstraint } from 'src/city/constraints/city-exists.constraint';
+import { CityExistsConstraint } from 'src/city/city-exists.constraint';
 
 export function CityExists(validationOptions?: ValidationOptions) {
   return function (object: object, propertyName: string) {
