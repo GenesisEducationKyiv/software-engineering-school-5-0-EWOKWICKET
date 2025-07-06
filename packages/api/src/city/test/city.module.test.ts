@@ -1,5 +1,5 @@
 import { Injectable, Module } from '@nestjs/common';
-import { CityProviderAdapter } from 'src/common/adapters/city-provider.adapter';
+import { CityProviderAdapter } from 'src/city/infrastructure/adapters/city-provider.adapter';
 import { CityExistsConstraint } from '../city-exists.constraint';
 import { ChainableCityProvider } from '../interfaces/chainable-city.provider';
 import { CityProvider } from '../interfaces/city.provider';

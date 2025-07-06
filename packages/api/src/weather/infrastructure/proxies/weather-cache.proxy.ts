@@ -1,11 +1,11 @@
 import { CacheAccessor } from 'src/cache/interfaces/cache-service.interface';
 import { transformKey } from 'src/cache/utils/key-transformation';
-import { CityCachePrefixes } from 'src/city/constants/enums/city-cache-prefixes.enum';
-import { WeatherCachePrefixes } from 'src/weather/constants/enums/weather-cache-prefixes.enum';
+import { CityCachePrefixes } from 'src/city/infrastructure/cache/city-cache-prefixes.enum';
+import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
+import { HOUR, MINUTE } from 'src/common/utils/time-units';
+import { WeatherCachePrefixes } from 'src/weather/infrastructure/cache/weather-cache-prefixes.enum';
 import { CurrentWeatherResponseDto } from 'src/weather/dtos/current-weather-response.dto';
 import { ChainableWeatherProvider } from 'src/weather/interfaces/chainable-weather-provider.abstract';
-import { CityNotFoundException } from '../errors/city-not-found.error';
-import { HOUR, MINUTE } from '../utils/time-units';
 
 export class WeatherProviderCacheProxy extends ChainableWeatherProvider {
   private readonly weatherTtl: number = MINUTE * 10;

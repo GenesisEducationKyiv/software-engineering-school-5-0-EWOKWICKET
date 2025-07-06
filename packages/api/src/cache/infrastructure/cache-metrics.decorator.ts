@@ -1,6 +1,6 @@
 import { CacheAccessor } from 'src/cache/interfaces/cache-service.interface';
 import { MetricsService } from 'src/metrics/metrics.service';
-import { MINUTE } from '../utils/time-units';
+import { MINUTE } from '../../common/utils/time-units';
 
 export class CacheMetricsDecorator implements CacheAccessor {
   constructor(
