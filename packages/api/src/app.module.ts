@@ -5,6 +5,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { CityModule } from './application/city/city.module';
 import { NotificationsModule } from './application/notifications/notifications.module';
 import { SubscriptionModule } from './application/subscriptions/subscription.module';
+import { WeatherSchedulerModule } from './application/weather-scheduler/weather-scheduler.module';
 import { WeatherModule } from './application/weather/weather.module';
 import appConfig from './config/app.config';
 import cacheConfig from './config/cache.config';
@@ -14,7 +15,6 @@ import mailConfig from './config/mail.config';
 import { CacheModule } from './infrastructure/cache/cache.module';
 import { DatabaseModule } from './infrastructure/database/database.module';
 import { MetricsModule } from './infrastructure/metrics/metrics.module';
-import { SchedulerModule } from './infrastructure/scheduler/scheduler.module';
 
 @Module({
   imports: [
@@ -30,7 +30,7 @@ import { SchedulerModule } from './infrastructure/scheduler/scheduler.module';
       exclude: ['/weatherapi.app/api*'],
     }),
     HttpModule.register({ global: true }),
-    SchedulerModule,
+    WeatherSchedulerModule,
     DatabaseModule,
     SubscriptionModule,
     NotificationsModule,
