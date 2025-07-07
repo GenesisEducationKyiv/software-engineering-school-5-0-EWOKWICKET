@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CityModule } from 'src/application/city/city.module';
 import { NotificationsModule } from 'src/application/notifications/notifications.module';
+import { SubscriptionServiceInterface, SubscriptionServiceLookup } from 'src/domain/subscription/interfaces/subcription-service.abstract';
+import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from 'src/domain/subscription/interfaces/subscription-repository.abstract';
 import { SubscriptionRepository } from 'src/infrastructure/subscription/repositories/subscription.repository';
 import { SubscriptionController } from 'src/presentation/subscription.controller';
-import { SubscriptionServiceInterface, SubscriptionServiceLookup } from '../../domain/subscription/services/subcription-service.abstract';
-import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from '../../domain/subscription/services/subscription-repository.abstract';
 import { Subscription, SubscriptionSchema } from '../../infrastructure/subscription/schemas/subscription.schema';
 import { SubscriptionService } from './services/subscription.service';
 
