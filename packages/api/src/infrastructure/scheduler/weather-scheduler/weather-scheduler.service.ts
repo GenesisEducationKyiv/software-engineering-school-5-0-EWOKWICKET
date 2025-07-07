@@ -6,10 +6,10 @@ import { NotificationsServiceInterface } from 'src/domain/notifications/notifica
 import { GroupSubscriptionRepository } from 'src/domain/subscription/interfaces/subscription-repository.abstract';
 import { Frequency } from 'src/domain/subscription/valueObjects/frequency.vo';
 import { WeatherProvider } from 'src/domain/weather/weather-provider.abstract';
-import { CachePrefixes } from 'src/infrastructure/cache/enums/cache-prefixes.enum';
 import { CacheInvalidator } from 'src/infrastructure/cache/interfaces/cache-service.interface';
 import { transformKey } from 'src/infrastructure/cache/utils/key-transformation';
 import { WeatherUpdateOptions } from 'src/infrastructure/scheduler/weather-scheduler/types/weather-update.options';
+import { CachePrefixes } from 'src/infrastructure/shared/constants/cache-prefixes.enum';
 
 @Injectable()
 export class WeatherSchedulerService {

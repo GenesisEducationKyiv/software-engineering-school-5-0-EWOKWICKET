@@ -1,4 +1,4 @@
-import { CacheTTL } from 'src/infrastructure/cache/enums/cache-ttl.enum';
+import { MINUTE } from 'src/common/utils/time-units';
 import { CacheAccessor } from 'src/infrastructure/cache/interfaces/cache-service.interface';
 import { MetricsService } from 'src/infrastructure/metrics/metrics.service';
 
@@ -17,7 +17,7 @@ export class CacheMetricsDecorator implements CacheAccessor {
     return data;
   }
 
-  async set<T>(key: string, value: T, ttl: number = CacheTTL.MINUTES_10): Promise<void> {
+  async set<T>(key: string, value: T, ttl: number = MINUTE * 10): Promise<void> {
     return await this.wrapped.set<T>(key, value, ttl);
   }
 }

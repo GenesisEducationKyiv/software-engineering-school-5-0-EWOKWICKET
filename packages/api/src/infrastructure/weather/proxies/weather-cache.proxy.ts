@@ -1,14 +1,14 @@
 import { WeatherResponseDto } from 'src/application/weather/dtos/weather-response.dto';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
+import { HOUR, MINUTE } from 'src/common/utils/time-units';
 import { ChainableWeatherProvider } from 'src/domain/weather/chainable-weather-provider.abstract';
-import { CachePrefixes } from 'src/infrastructure/cache/enums/cache-prefixes.enum';
-import { CacheTTL } from 'src/infrastructure/cache/enums/cache-ttl.enum';
 import { CacheAccessor } from 'src/infrastructure/cache/interfaces/cache-service.interface';
 import { transformKey } from 'src/infrastructure/cache/utils/key-transformation';
+import { CachePrefixes } from 'src/infrastructure/shared/constants/cache-prefixes.enum';
 
 export class WeatherProviderCacheProxy extends ChainableWeatherProvider {
-  private readonly weatherTtl: CacheTTL = CacheTTL.MINUTES_10;
-  private readonly cityTtl: CacheTTL = CacheTTL.HOUR_1;
+  private readonly weatherTtl: number = MINUTE * 10;
+  private readonly cityTtl: number = HOUR;
 
   constructor(
     private readonly wrapped: ChainableWeatherProvider,
