@@ -10,7 +10,7 @@ describe('arch rules', () => {
   });
 
   it("application should't depend on presentation layer", async () => {
-    const rule = project.inFolder('application').shouldNot().dependOnFiles().inFolder('presentation');
+    const rule = project.inFolder('application').shouldNot().dependOnFiles().inFolder('(presentation|infrastructure)/**');
     await expect(rule).toPassAsync();
   });
 

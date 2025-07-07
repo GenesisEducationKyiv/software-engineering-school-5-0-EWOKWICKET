@@ -4,5 +4,5 @@ import { NotificationSubjects } from '../../notifications/constants/notification
 export type WeatherUpdateOptions = {
   frequency: Frequency;
   subject: NotificationSubjects;
-  invalidateCache: boolean;
+  invalidateCache?: boolean;
 };
