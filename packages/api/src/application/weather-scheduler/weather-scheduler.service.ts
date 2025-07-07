@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { NotificationSubjects } from 'src/application/notifications/constants/notification-subjects.enum';
 import { Frequency } from 'src/domain/subscription/frequency.vo';
-import { WeatherUpdate } from './interfaces/weather-update.abstract';
+import { WeatherUpdateInterface } from './interfaces/weather-update.abstract';
 
 @Injectable()
 export class WeatherSchedulerService {
-  constructor(private readonly weatherUpdateService: WeatherUpdate) {}
+  constructor(private readonly weatherUpdateService: WeatherUpdateInterface) {}
 
-  @Cron(CronExpression.EVERY_HOUR)
+  @Cron(CronExpression.EVERY_MINUTE)
   private async sendHourlyUpdates() {
     console.log(NotificationSubjects.WEATHER_UPDATES_HOURLY);
     await this.weatherUpdateService.sendUpdates({

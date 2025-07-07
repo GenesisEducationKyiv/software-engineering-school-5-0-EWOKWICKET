@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { NotificationType } from 'src/application/notifications/constants/notification-type.enum';
 import { NotificationsServiceInterface } from 'src/application/notifications/interfaces/notifications-service.abstract';
 import { GroupSubscriptionRepository } from 'src/application/subscriptions/interfaces/subscription-repository.abstract';
+import { WeatherUpdateInterface } from 'src/application/weather-scheduler/interfaces/weather-update.abstract';
 import { WeatherUpdateOptions } from 'src/application/weather-scheduler/types/weather-update.options';
 import { WeatherProvider } from 'src/application/weather/interfaces/weather-provider.abstract';
 import { Subscription } from 'src/domain/subscription/subscription.entity';
@@ -10,7 +11,7 @@ import { transformKey } from '../cache/utils/key-transformation';
 import { CachePrefixes } from '../shared/constants/cache-prefixes.enum';
 
 @Injectable()
-export class WeatherUpdateService {
+export class WeatherUpdateService implements WeatherUpdateInterface {
   constructor(
     private readonly notificationsService: NotificationsServiceInterface,
     private readonly weatherService: WeatherProvider,
@@ -18,7 +19,7 @@ export class WeatherUpdateService {
     private readonly cacheService: CacheInvalidator,
   ) {}
 
-  private async sendUpdates({ frequency, subject, invalidateCache = false }: WeatherUpdateOptions) {
+  async sendUpdates({ frequency, subject, invalidateCache = false }: WeatherUpdateOptions) {
     const grouped = await this.subscriptionRepository.findGroupedByCities(frequency);
 
     if (invalidateCache) {
