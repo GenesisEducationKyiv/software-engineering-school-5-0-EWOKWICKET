@@ -1,4 +1,4 @@
-import { Frequency } from './valueObjects/frequency.vo';
+import { Frequency } from './frequency.vo';
 
 export class Subscription {
   _id: string;

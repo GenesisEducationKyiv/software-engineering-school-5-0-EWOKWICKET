@@ -3,9 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs';
 import Handlebars, { TemplateDelegate } from 'handlebars';
 import * as path from 'path';
-import { WeatherUpdate } from 'src/infrastructure/notifications/types/weather-update.interface';
-import { Templates } from '../constants/enums/templates.enum';
-import { TemplateParams } from '../constants/types/template.type';
+import { WeatherUpdate } from 'src/application/notifications/constants/weather-update.interface';
+import { TemplateParams } from '../constants/template.type';
+import { Templates } from '../constants/templates.enum';
 
 @Injectable()
 export class MailTemplateService {

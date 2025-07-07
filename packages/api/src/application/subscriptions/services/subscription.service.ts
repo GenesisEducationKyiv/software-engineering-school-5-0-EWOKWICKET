@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { RootFilterQuery } from 'mongoose';
-import { NotificationSubjects } from 'src/application/notifications/constants/enums/notification-subjects.enum';
-import { NotificationType } from 'src/application/notifications/constants/enums/notification-type.enum';
+import { NotificationSubjects } from 'src/application/notifications/constants/notification-subjects.enum';
+import { NotificationType } from 'src/application/notifications/constants/notification-type.enum';
 import { NotificationsServiceInterface } from 'src/domain/notifications/notifications-service.abstract';
 import { InvalidTokenException } from 'src/domain/subscription/errors/invalid-token.error';
 import { SubscriptionServiceInterface, SubscriptionServiceLookup } from 'src/domain/subscription/interfaces/subcription-service.abstract';

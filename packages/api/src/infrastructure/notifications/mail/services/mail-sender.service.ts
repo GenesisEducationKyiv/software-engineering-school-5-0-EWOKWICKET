@@ -1,8 +1,8 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
-import { NotificationType } from 'src/application/notifications/constants/enums/notification-type.enum';
-import { Notification } from 'src/application/notifications/constants/types/notification.interface';
-import { ConfirmationEmail, UpdateEmail } from 'src/infrastructure/notifications/mail/constants/types/email-notifications.interface';
+import { NotificationType } from 'src/application/notifications/constants/notification-type.enum';
+import { Notification } from 'src/application/notifications/constants/notification.type';
+import { ConfirmationEmail, UpdateEmail } from 'src/infrastructure/notifications/mail/constants/email-notifications.type';
 import { NotificationsSender } from '../../../../domain/notifications/notifications-sender.interface';
 import { MailTemplateService } from './mail-template.service';
 

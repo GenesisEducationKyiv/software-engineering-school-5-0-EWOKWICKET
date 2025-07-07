@@ -1,5 +1,5 @@
-import { WeatherUpdate } from 'src/infrastructure/notifications/types/weather-update.interface';
-import { Templates } from '../enums/templates.enum';
+import { WeatherUpdate } from 'src/application/notifications/constants/weather-update.interface';
+import { Templates } from './templates.enum';
 
 export type TemplateParams =
   | {

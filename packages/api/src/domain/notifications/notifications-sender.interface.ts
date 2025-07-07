@@ -1,5 +1,5 @@
-import { NotificationType } from 'src/application/notifications/constants/enums/notification-type.enum';
-import { Notification } from 'src/application/notifications/constants/types/notification.interface';
+import { NotificationType } from 'src/application/notifications/constants/notification-type.enum';
+import { Notification } from 'src/application/notifications/constants/notification.type';
 
 export interface NotificationsSender {
   type: NotificationType;

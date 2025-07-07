@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { NotificationSubjects } from 'src/application/notifications/constants/enums/notification-subjects.enum';
-import { NotificationType } from 'src/application/notifications/constants/enums/notification-type.enum';
+import { NotificationSubjects } from 'src/application/notifications/constants/notification-subjects.enum';
+import { NotificationType } from 'src/application/notifications/constants/notification-type.enum';
 import { NotificationsServiceInterface } from 'src/domain/notifications/notifications-service.abstract';
+import { Frequency } from 'src/domain/subscription/frequency.vo';
 import { GroupSubscriptionRepository } from 'src/domain/subscription/interfaces/subscription-repository.abstract';
-import { Frequency } from 'src/domain/subscription/valueObjects/frequency.vo';
 import { WeatherProvider } from 'src/domain/weather/interfaces/weather-provider.abstract';
 import { CacheInvalidator } from 'src/infrastructure/cache/interfaces/cache-service.interface';
 import { transformKey } from 'src/infrastructure/cache/utils/key-transformation';

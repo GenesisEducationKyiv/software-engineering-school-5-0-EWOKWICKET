@@ -6,7 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { ChainableCityProvider } from 'src/domain/city/chainable-city.provider';
-import { OpenWeatherWeatherFetch } from 'src/infrastructure/shared/types/openweather-weather-fetch.type';
+import { OpenWeatherWeatherFetch } from 'src/infrastructure/shared/constants/openweather-weather-fetch.type';
 
 @Injectable()
 export class OpenWeatherCityProvider extends ChainableCityProvider {

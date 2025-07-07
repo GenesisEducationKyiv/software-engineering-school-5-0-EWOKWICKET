@@ -1,4 +1,4 @@
-import { WeatherApiCityFetch } from 'src/infrastructure/shared/types/weatherapi-city-fetch.type';
+import { WeatherApiCityFetch } from 'src/infrastructure/shared/constants/weatherapi-city-fetch.type';
 
 export type WeatherApiWeatherFetch = {
   location: WeatherApiCityFetch;
