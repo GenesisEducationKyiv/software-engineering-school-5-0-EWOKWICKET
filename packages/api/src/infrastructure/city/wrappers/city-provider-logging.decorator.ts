@@ -1,4 +1,4 @@
-import { ChainableCityProvider } from 'src/domain/city/chainable-city.provider';
+import { ChainableCityProvider } from 'src/application/city/interfaces/chainable-city.provider';
 import { LoggerService } from 'src/infrastructure/logger/logger.service';
 
 export class CityProviderLoggingDecorator extends ChainableCityProvider {

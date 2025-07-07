@@ -1,4 +1,4 @@
-import { ChainableWeatherProvider } from 'src/domain/weather/interfaces/chainable-weather-provider.abstract';
+import { ChainableWeatherProvider } from 'src/application/weather/interfaces/chainable-weather-provider.abstract';
 import { Weather } from 'src/domain/weather/weather.entity';
 import { LoggerService } from 'src/infrastructure/logger/logger.service';
 

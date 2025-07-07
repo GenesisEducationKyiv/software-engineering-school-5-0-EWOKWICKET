@@ -1,5 +1,5 @@
-import { ChainableCityProvider } from 'src/domain/city/chainable-city.provider';
-import { CityProvider } from 'src/domain/city/city-provider.abstract';
+import { ChainableCityProvider } from 'src/application/city/interfaces/chainable-city.provider';
+import { CityProvider } from 'src/application/city/interfaces/city-provider.abstract';
 
 export class CityProviderAdapter implements CityProvider {
   constructor(private readonly chain: ChainableCityProvider) {}

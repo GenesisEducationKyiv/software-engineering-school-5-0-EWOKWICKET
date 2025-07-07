@@ -5,10 +5,10 @@ import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
-import { ChainableWeatherProvider } from 'src/domain/weather/interfaces/chainable-weather-provider.abstract';
 import { Weather } from 'src/domain/weather/weather.entity';
 import { WeatherApiWeatherFetch } from 'src/infrastructure/shared/constants/weatherapi-weather-fetch.type';
 import { WeatherApiDtoMapper } from '../mappers/weatherapi.mapper';
+import { ChainableWeatherProvider } from 'src/application/weather/interfaces/chainable-weather-provider.abstract';
 
 @Injectable()
 export class WeatherApiWeatherProvider extends ChainableWeatherProvider {

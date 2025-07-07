@@ -1,5 +1,5 @@
-import { ChainableWeatherProvider } from 'src/domain/weather/interfaces/chainable-weather-provider.abstract';
-import { WeatherProvider } from 'src/domain/weather/interfaces/weather-provider.abstract';
+import { ChainableWeatherProvider } from 'src/application/weather/interfaces/chainable-weather-provider.abstract';
+import { WeatherProvider } from 'src/application/weather/interfaces/weather-provider.abstract';
 import { Weather } from 'src/domain/weather/weather.entity';
 
 export class WeatherProviderAdapter implements WeatherProvider {
