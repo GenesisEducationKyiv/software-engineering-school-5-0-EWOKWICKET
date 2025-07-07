@@ -36,16 +36,16 @@ export class WeatherSchedulerService {
     const grouped = await this.subscriptionRepository.findGroupedByCities(frequency);
 
     if (invalidateCache) {
-      const cities = grouped.map((group) => group._id);
+      const cities = grouped.map((group) => group.city);
       this.invalidateCachedWeather(cities);
     }
 
     for (const group of grouped) {
-      const city = group._id;
+      const city = group.city;
       const weather = await this.weatherService.getCurrentWeather(city);
 
       await Promise.all(
-        group.map((subscription) => {
+        group.subscriptions.map((subscription) => {
           this.notificationsService.sendWeatherUpdateNotification(
             {
               to: subscription.email,

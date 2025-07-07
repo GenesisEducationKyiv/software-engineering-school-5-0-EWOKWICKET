@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 import { Frequency } from './valueObjects/frequency.vo';
 
-export interface SubscriptionEntity {
+export class SubscriptionEntity {
   _id: Types.ObjectId;
   email: string;
   city: string;

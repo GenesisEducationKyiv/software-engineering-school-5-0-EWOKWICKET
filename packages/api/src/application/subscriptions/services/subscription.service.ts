@@ -8,6 +8,7 @@ import { SubscriptionServiceInterface, SubscriptionServiceLookup } from 'src/dom
 import { ServiceSubscriptionRepository } from 'src/domain/subscription/interfaces/subscription-repository.abstract';
 import { Subscription } from 'src/infrastructure/subscription/schemas/subscription.schema';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
+import { SubscriptionEntity } from 'src/domain/subscription/subscription.entity';
 
 @Injectable()
 export class SubscriptionService implements SubscriptionServiceLookup, SubscriptionServiceInterface {
@@ -40,7 +41,7 @@ export class SubscriptionService implements SubscriptionServiceLookup, Subscript
     if (!deleted) throw new InvalidTokenException('Token Not Found');
   }
 
-  async find(options: RootFilterQuery<Subscription>): Promise<Subscription[]> {
+  async find(options: RootFilterQuery<Subscription>): Promise<SubscriptionEntity[]> {
     const found = await this.subscriptionRepository.find(options);
     return found;
   }
