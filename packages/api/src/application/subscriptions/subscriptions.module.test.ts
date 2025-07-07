@@ -4,7 +4,7 @@ import { CityTestModule } from 'src/application/city/city.module.test';
 import { SubscriptionServiceInterface, SubscriptionServiceLookup } from 'src/domain/subscription/interfaces/subcription-service.abstract';
 import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from 'src/domain/subscription/interfaces/subscription-repository.abstract';
 import { SubscriptionRepository } from 'src/infrastructure/subscription/repositories/subscription.repository';
-import { Subscription, SubscriptionSchema } from 'src/infrastructure/subscription/schemas/subscription.schema';
+import { SubscriptionDb, SubscriptionSchema } from 'src/infrastructure/subscription/schemas/subscription.schema';
 import { SubscriptionController } from 'src/presentation/subscription.controller';
 import { NotificationsTestModule } from '../notifications/notifications.module.test';
 import { SubscriptionService } from './services/subscription.service';
@@ -13,7 +13,7 @@ import { SubscriptionService } from './services/subscription.service';
   imports: [
     MongooseModule.forFeature([
       {
-        name: Subscription.name,
+        name: SubscriptionDb.name,
         schema: SubscriptionSchema,
       },
     ]),

@@ -6,9 +6,9 @@ import { NotificationsServiceInterface } from 'src/domain/notifications/notifica
 import { InvalidTokenException } from 'src/domain/subscription/errors/invalid-token.error';
 import { SubscriptionServiceInterface, SubscriptionServiceLookup } from 'src/domain/subscription/interfaces/subcription-service.abstract';
 import { ServiceSubscriptionRepository } from 'src/domain/subscription/interfaces/subscription-repository.abstract';
-import { Subscription } from 'src/infrastructure/subscription/schemas/subscription.schema';
+import { Subscription } from 'src/domain/subscription/subscription.entity';
+import { SubscriptionDb } from 'src/infrastructure/subscription/schemas/subscription.schema';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
-import { SubscriptionEntity } from 'src/domain/subscription/subscription.entity';
 
 @Injectable()
 export class SubscriptionService implements SubscriptionServiceLookup, SubscriptionServiceInterface {
@@ -41,7 +41,7 @@ export class SubscriptionService implements SubscriptionServiceLookup, Subscript
     if (!deleted) throw new InvalidTokenException('Token Not Found');
   }
 
-  async find(options: RootFilterQuery<Subscription>): Promise<SubscriptionEntity[]> {
+  async find(options: RootFilterQuery<SubscriptionDb>): Promise<Subscription[]> {
     const found = await this.subscriptionRepository.find(options);
     return found;
   }

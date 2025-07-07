@@ -4,19 +4,19 @@ import { Model, RootFilterQuery } from 'mongoose';
 import { CreateSubscriptionDto } from 'src/application/subscriptions/dtos/create-subscription.dto';
 import { HOUR } from 'src/common/utils/time-units';
 import { ServiceSubscriptionRepository } from 'src/domain/subscription/interfaces/subscription-repository.abstract';
-import { SubscriptionEntity } from 'src/domain/subscription/subscription.entity';
+import { Subscription } from 'src/domain/subscription/subscription.entity';
 import { SubscriptionEntityMapper } from '../mappers/subscription-entity.mapper';
-import { Subscription } from '../schemas/subscription.schema';
+import { SubscriptionDb } from '../schemas/subscription.schema';
 
 @Injectable()
 export class SubscriptionRepository implements ServiceSubscriptionRepository {
-  constructor(@InjectModel(Subscription.name) private readonly subscriptionModel: Model<Subscription>) {}
-  async find(options: RootFilterQuery<Subscription>): Promise<SubscriptionEntity[]> {
+  constructor(@InjectModel(SubscriptionDb.name) private readonly subscriptionModel: Model<SubscriptionDb>) {}
+  async find(options: RootFilterQuery<SubscriptionDb>): Promise<Subscription[]> {
     const found = await this.subscriptionModel.find(options);
     return found.map(SubscriptionEntityMapper.toEntity);
   }
 
-  async create(createDto: CreateSubscriptionDto): Promise<SubscriptionEntity> {
+  async create(createDto: CreateSubscriptionDto): Promise<Subscription> {
     const newSubscription = new this.subscriptionModel({
       ...createDto,
       expiresAt: new Date(Date.now() + HOUR),
@@ -26,13 +26,15 @@ export class SubscriptionRepository implements ServiceSubscriptionRepository {
     return SubscriptionEntityMapper.toEntity(savedSubscription);
   }
 
-  async updateById(id: string, updateDto: Partial<Subscription>): Promise<SubscriptionEntity | null> {
+  async updateById(id: string, updateDto: Partial<SubscriptionDb>): Promise<Subscription | null> {
     const updated = await this.subscriptionModel.findByIdAndUpdate(id, updateDto).exec();
+    if (!updated) return null;
     return SubscriptionEntityMapper.toEntity(updated);
   }
 
-  async deleteById(id: string): Promise<SubscriptionEntity | null> {
+  async deleteById(id: string): Promise<Subscription | null> {
     const deleted = await this.subscriptionModel.findByIdAndDelete(id).exec();
+    if (!deleted) return null;
     return SubscriptionEntityMapper.toEntity(deleted);
   }
 

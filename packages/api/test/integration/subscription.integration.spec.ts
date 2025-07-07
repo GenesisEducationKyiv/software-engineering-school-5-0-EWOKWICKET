@@ -19,7 +19,7 @@ import { OpenWeatherCityProvider } from 'src/infrastructure/city/providers/openw
 import { WeatherApiCityProvider } from 'src/infrastructure/city/providers/weatherapi.provider';
 import { DatabaseTestModule } from 'src/infrastructure/database/test/database.module.test';
 import { SubscriptionRepository } from 'src/infrastructure/subscription/repositories/subscription.repository';
-import { Subscription } from 'src/infrastructure/subscription/schemas/subscription.schema';
+import { SubscriptionDb } from 'src/infrastructure/subscription/schemas/subscription.schema';
 import * as request from 'supertest';
 import { TestsUrl } from 'test/utils/test-urls.enum';
 
@@ -32,7 +32,7 @@ const succesfulSubscriptionDto: CreateSubscriptionDto = {
 describe('SubscriptionController (Integration)', () => {
   let app: INestApplication;
   let subscriptionRepository: SubscriptionRepository; // to check repo calls
-  let subscriptionModel: Model<Subscription>;
+  let subscriptionModel: Model<SubscriptionDb>;
   let primaryProvider: WeatherApiCityProvider;
   let secondaryProvider: OpenWeatherCityProvider;
 
@@ -70,7 +70,7 @@ describe('SubscriptionController (Integration)', () => {
     await app.init();
 
     subscriptionRepository = module.get<SubscriptionRepository>(SubscriptionRepository);
-    subscriptionModel = module.get<Model<Subscription>>(getModelToken(Subscription.name));
+    subscriptionModel = module.get<Model<SubscriptionDb>>(getModelToken(SubscriptionDb.name));
     primaryProvider = module.get<WeatherApiCityProvider>(WeatherApiCityProvider);
     secondaryProvider = module.get<OpenWeatherCityProvider>(OpenWeatherCityProvider);
   });

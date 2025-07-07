@@ -1,7 +1,7 @@
 import { RootFilterQuery } from 'mongoose';
-import { Subscription } from 'src/infrastructure/subscription/schemas/subscription.schema';
+import { SubscriptionDb } from 'src/infrastructure/subscription/schemas/subscription.schema';
 import { CreateSubscriptionDto } from '../../../application/subscriptions/dtos/create-subscription.dto';
-import { SubscriptionEntity } from '../subscription.entity';
+import { Subscription } from '../subscription.entity';
 
 export abstract class SubscriptionServiceInterface {
   abstract subscribe(subscribeDto: CreateSubscriptionDto): Promise<void>;
@@ -10,5 +10,5 @@ export abstract class SubscriptionServiceInterface {
 }
 
 export abstract class SubscriptionServiceLookup {
-  abstract find(options: RootFilterQuery<Subscription>): Promise<SubscriptionEntity[]>;
+  abstract find(options: RootFilterQuery<SubscriptionDb>): Promise<Subscription[]>;
 }

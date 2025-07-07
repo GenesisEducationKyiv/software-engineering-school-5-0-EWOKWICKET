@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 import { Frequency } from 'src/domain/subscription/valueObjects/frequency.vo';
 
 @Schema()
-export class Subscription {
+export class SubscriptionDb {
   _id: Types.ObjectId;
 
   @Prop({ required: true, unique: false })
@@ -22,4 +22,4 @@ export class Subscription {
   expiresAt: Date;
 }
 
-export const SubscriptionSchema = SchemaFactory.createForClass(Subscription);
+export const SubscriptionSchema = SchemaFactory.createForClass(SubscriptionDb);
