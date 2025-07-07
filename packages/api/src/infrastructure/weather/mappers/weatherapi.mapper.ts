@@ -1,8 +1,8 @@
-import { WeatherResponseDto } from 'src/application/weather/dtos/weather-response.dto';
+import { Weather } from 'src/domain/weather/weather.entity';
 import { WeatherApiWeatherFetch } from 'src/infrastructure/shared/types/weatherapi-weather-fetch.type';
 
 export class WeatherApiDtoMapper {
-  static toEntity(data: WeatherApiWeatherFetch): WeatherResponseDto {
+  static toEntity(data: WeatherApiWeatherFetch): Weather {
     return {
       temperature: data.current.temp_c,
       humidity: data.current.humidity,

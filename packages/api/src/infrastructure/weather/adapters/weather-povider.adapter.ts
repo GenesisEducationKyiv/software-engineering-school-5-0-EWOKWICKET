@@ -1,11 +1,11 @@
-import { WeatherResponseDto } from 'src/application/weather/dtos/weather-response.dto';
-import { ChainableWeatherProvider } from 'src/domain/weather/chainable-weather-provider.abstract';
-import { WeatherProvider } from 'src/domain/weather/weather-provider.abstract';
+import { ChainableWeatherProvider } from 'src/domain/weather/interfaces/chainable-weather-provider.abstract';
+import { WeatherProvider } from 'src/domain/weather/interfaces/weather-provider.abstract';
+import { Weather } from 'src/domain/weather/weather.entity';
 
 export class WeatherProviderAdapter implements WeatherProvider {
   constructor(private readonly weatherChain: ChainableWeatherProvider) {}
 
-  async getCurrentWeather(city: string): Promise<WeatherResponseDto> {
+  async getCurrentWeather(city: string): Promise<Weather> {
     return await this.weatherChain.handle(city);
   }
 }

@@ -1,6 +1,6 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { WeatherProvider } from 'src/domain/weather/weather-provider.abstract';
+import { WeatherProvider } from 'src/domain/weather/interfaces/weather-provider.abstract';
 import { WeatherProviderAdapter } from 'src/infrastructure/weather/adapters/weather-povider.adapter';
 import { OpenWeatherWeatherProvider } from 'src/infrastructure/weather/providers/openweather.provider';
 import { WeatherApiWeatherProvider } from 'src/infrastructure/weather/providers/weatherapi.provider';

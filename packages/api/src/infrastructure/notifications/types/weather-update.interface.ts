@@ -1,5 +1,5 @@
-import { WeatherResponseDto } from 'src/application/weather/dtos/weather-response.dto';
+import { Weather } from 'src/domain/weather/weather.entity';
 
 export type WeatherUpdate = {
   city: string;
-} & WeatherResponseDto;
+} & Weather;

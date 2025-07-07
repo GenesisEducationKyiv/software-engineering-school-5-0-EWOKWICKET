@@ -3,10 +3,10 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
-import { WeatherResponseDto } from 'src/application/weather/dtos/weather-response.dto';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
-import { ChainableWeatherProvider } from 'src/domain/weather/chainable-weather-provider.abstract';
+import { ChainableWeatherProvider } from 'src/domain/weather/interfaces/chainable-weather-provider.abstract';
+import { Weather } from 'src/domain/weather/weather.entity';
 import { OpenWeatherWeatherFetch } from 'src/infrastructure/shared/types/openweather-weather-fetch.type';
 import { OpenWeatherDtoMapper } from '../mappers/openweather.mapper';
 
@@ -24,7 +24,7 @@ export class OpenWeatherWeatherProvider extends ChainableWeatherProvider {
     this.apiUrl = this.configService.get('app.urls.openWeatherApi');
   }
 
-  async getCurrentWeather(city: string): Promise<WeatherResponseDto> {
+  async getCurrentWeather(city: string): Promise<Weather> {
     const data = await this.getRawWeather(city);
     return OpenWeatherDtoMapper.toEntity(data);
   }

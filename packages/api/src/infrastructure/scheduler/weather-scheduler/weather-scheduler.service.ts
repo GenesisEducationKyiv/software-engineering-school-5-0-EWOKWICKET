@@ -5,7 +5,7 @@ import { NotificationType } from 'src/application/notifications/constants/enums/
 import { NotificationsServiceInterface } from 'src/domain/notifications/notifications-service.abstract';
 import { GroupSubscriptionRepository } from 'src/domain/subscription/interfaces/subscription-repository.abstract';
 import { Frequency } from 'src/domain/subscription/valueObjects/frequency.vo';
-import { WeatherProvider } from 'src/domain/weather/weather-provider.abstract';
+import { WeatherProvider } from 'src/domain/weather/interfaces/weather-provider.abstract';
 import { CacheInvalidator } from 'src/infrastructure/cache/interfaces/cache-service.interface';
 import { transformKey } from 'src/infrastructure/cache/utils/key-transformation';
 import { WeatherUpdateOptions } from 'src/infrastructure/scheduler/weather-scheduler/types/weather-update.options';

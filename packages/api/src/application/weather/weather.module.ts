@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { WeatherProvider } from 'src/domain/weather/interfaces/weather-provider.abstract';
 import { CacheModule } from 'src/infrastructure/cache/cache.module';
 import { CacheAccessor } from 'src/infrastructure/cache/interfaces/cache-service.interface';
 import { LoggerModule } from 'src/infrastructure/logger/logger.module';
@@ -9,7 +10,6 @@ import { OpenWeatherWeatherProvider } from 'src/infrastructure/weather/providers
 import { WeatherApiWeatherProvider } from 'src/infrastructure/weather/providers/weatherapi.provider';
 import { WeatherProviderCacheProxy } from 'src/infrastructure/weather/proxies/weather-cache.proxy';
 import { WeatherController } from 'src/presentation/weather.controller';
-import { WeatherProvider } from '../../domain/weather/weather-provider.abstract';
 
 @Module({
   imports: [LoggerModule, CacheModule],
