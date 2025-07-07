@@ -1,5 +1,5 @@
 import { Chainable } from 'src/common/interfaces/chainable.abstract';
-import { Weather } from '../weather.entity';
+import { Weather } from 'src/domain/weather/weather.entity';
 import { WeatherProvider } from './weather-provider.abstract';
 
 export abstract class ChainableWeatherProvider extends Chainable<string, Weather> implements WeatherProvider {

@@ -2,12 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { RootFilterQuery } from 'mongoose';
 import { NotificationSubjects } from 'src/application/notifications/constants/notification-subjects.enum';
 import { NotificationType } from 'src/application/notifications/constants/notification-type.enum';
-import { NotificationsServiceInterface } from 'src/domain/notifications/notifications-service.abstract';
+import { NotificationsServiceInterface } from 'src/application/notifications/interfaces/notifications-service.abstract';
+import { SubscriptionServiceInterface, SubscriptionServiceLookup } from 'src/application/subscriptions/interfaces/subcription-service.abstract';
+import { ServiceSubscriptionRepository } from 'src/application/subscriptions/interfaces/subscription-repository.abstract';
 import { InvalidTokenException } from 'src/domain/subscription/errors/invalid-token.error';
-import { SubscriptionServiceInterface, SubscriptionServiceLookup } from 'src/domain/subscription/interfaces/subcription-service.abstract';
-import { ServiceSubscriptionRepository } from 'src/domain/subscription/interfaces/subscription-repository.abstract';
 import { Subscription } from 'src/domain/subscription/subscription.entity';
-import { SubscriptionDb } from 'src/infrastructure/subscription/schemas/subscription.schema';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
 
 @Injectable()
@@ -41,7 +40,7 @@ export class SubscriptionService implements SubscriptionServiceLookup, Subscript
     if (!deleted) throw new InvalidTokenException('Token Not Found');
   }
 
-  async find(options: RootFilterQuery<SubscriptionDb>): Promise<Subscription[]> {
+  async find(options: RootFilterQuery<Subscription>): Promise<Subscription[]> {
     const found = await this.subscriptionRepository.find(options);
     return found;
   }
