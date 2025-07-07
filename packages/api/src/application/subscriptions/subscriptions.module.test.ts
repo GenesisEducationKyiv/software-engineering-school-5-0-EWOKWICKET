@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CityTestModule } from 'src/application/city/city.module.test';
+import { SubscriptionServiceInterface, SubscriptionServiceLookup } from 'src/domain/subscription/interfaces/subcription-service.abstract';
+import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from 'src/domain/subscription/interfaces/subscription-repository.abstract';
 import { SubscriptionRepository } from 'src/infrastructure/subscription/repositories/subscription.repository';
 import { Subscription, SubscriptionSchema } from 'src/infrastructure/subscription/schemas/subscription.schema';
 import { SubscriptionController } from 'src/presentation/subscription.controller';
-import { SubscriptionServiceInterface, SubscriptionServiceLookup } from '../../domain/subscription/services/subcription-service.abstract';
-import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from '../../domain/subscription/services/subscription-repository.abstract';
 import { NotificationsTestModule } from '../notifications/notifications.module.test';
 import { SubscriptionService } from './services/subscription.service';
 

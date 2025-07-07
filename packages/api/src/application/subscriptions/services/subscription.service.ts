@@ -3,11 +3,11 @@ import { RootFilterQuery } from 'mongoose';
 import { NotificationSubjects } from 'src/application/notifications/constants/enums/notification-subjects.enum';
 import { NotificationType } from 'src/application/notifications/constants/enums/notification-type.enum';
 import { NotificationsServiceInterface } from 'src/domain/notifications/notifications-service.abstract';
+import { InvalidTokenException } from 'src/domain/subscription/errors/invalid-token.error';
+import { SubscriptionServiceInterface, SubscriptionServiceLookup } from 'src/domain/subscription/interfaces/subcription-service.abstract';
+import { ServiceSubscriptionRepository } from 'src/domain/subscription/interfaces/subscription-repository.abstract';
 import { Subscription } from 'src/infrastructure/subscription/schemas/subscription.schema';
-import { SubscriptionServiceInterface, SubscriptionServiceLookup } from '../../../domain/subscription/services/subcription-service.abstract';
-import { ServiceSubscriptionRepository } from '../../../domain/subscription/services/subscription-repository.abstract';
 import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
-import { InvalidTokenException } from '../errors/invalid-token.error';
 
 @Injectable()
 export class SubscriptionService implements SubscriptionServiceLookup, SubscriptionServiceInterface {

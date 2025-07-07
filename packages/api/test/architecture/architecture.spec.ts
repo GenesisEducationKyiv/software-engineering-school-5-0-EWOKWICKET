@@ -2,19 +2,20 @@ import { filesOfProject } from 'tsarch';
 import 'tsarch/dist/jest';
 
 describe('arch rules', () => {
-  it("presentation shouldn't depend on infrastructure layer", () => {
-    const rule = filesOfProject().inFolder('src/presentation').shouldNot().dependOnFiles().inFolder('src/infrastructure');
+  const project = filesOfProject().inFolder('src');
 
-    expect(rule).toPassAsync();
+  it("presentation shouldn't depend on infrastructure layer", async () => {
+    const rule = project.inFolder('presentation').shouldNot().dependOnFiles().inFolder('infrastructure');
+    await expect(rule).toPassAsync();
   });
 
-  it("application should't depend on presentation layer", () => {
-    const rule = filesOfProject().inFolder('src/application').shouldNot().dependOnFiles().inFolder('src/presentation');
-    expect(rule).toPassAsync();
+  it("application should't depend on presentation layer", async () => {
+    const rule = project.inFolder('application').shouldNot().dependOnFiles().inFolder('presentation');
+    await expect(rule).toPassAsync();
   });
 
-  it("domain should't depend on any other layer", () => {
-    const rule = filesOfProject().inFolder('src/domain').shouldNot().dependOnFiles().matchingPattern('**/{presentation,application,infrastructure}/**');
-    expect(rule).toPassAsync();
+  it("domain should't depend on any other layer", async () => {
+    const rule = project.inFolder('domain').shouldNot().dependOnFiles().matchingPattern('(presentation|application|infrastructure)/**');
+    await expect(rule).toPassAsync();
   });
 });

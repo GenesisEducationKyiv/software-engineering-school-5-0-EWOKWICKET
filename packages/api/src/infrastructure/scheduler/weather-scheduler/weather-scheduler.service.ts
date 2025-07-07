@@ -3,7 +3,7 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { NotificationSubjects } from 'src/application/notifications/constants/enums/notification-subjects.enum';
 import { NotificationType } from 'src/application/notifications/constants/enums/notification-type.enum';
 import { NotificationsServiceInterface } from 'src/domain/notifications/notifications-service.abstract';
-import { GroupSubscriptionRepository } from 'src/domain/subscription/services/subscription-repository.abstract';
+import { GroupSubscriptionRepository } from 'src/domain/subscription/interfaces/subscription-repository.abstract';
 import { Frequency } from 'src/domain/subscription/valueObjects/frequency.vo';
 import { WeatherProvider } from 'src/domain/weather/weather-provider.abstract';
 import { CachePrefixes } from 'src/infrastructure/cache/enums/cache-prefixes.enum';

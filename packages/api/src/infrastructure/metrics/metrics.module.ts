@@ -11,11 +11,7 @@ import { MetricsService } from './metrics.service';
       },
     }),
   ],
-  providers: [
-    MetricsService, 
-    makeCounterProvider(Metrics.cacheHit), 
-    makeCounterProvider(Metrics.cacheMiss)
-  ],
+  providers: [MetricsService, makeCounterProvider(Metrics.cacheHit), makeCounterProvider(Metrics.cacheMiss)],
   exports: [MetricsService],
 })
 export class MetricsModule {}
