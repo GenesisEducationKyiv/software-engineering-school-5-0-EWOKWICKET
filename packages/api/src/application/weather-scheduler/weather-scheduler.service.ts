@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { NotificationSubjects } from 'src/application/notifications/constants/notification-subjects.enum';
 import { NotificationType } from 'src/application/notifications/constants/notification-type.enum';
+import { WeatherUpdateOptions } from 'src/application/weather-scheduler/types/weather-update.options';
 import { NotificationsServiceInterface } from 'src/domain/notifications/notifications-service.abstract';
 import { Frequency } from 'src/domain/subscription/frequency.vo';
 import { GroupSubscriptionRepository } from 'src/domain/subscription/interfaces/subscription-repository.abstract';
 import { WeatherProvider } from 'src/domain/weather/interfaces/weather-provider.abstract';
 import { CacheInvalidator } from 'src/infrastructure/cache/interfaces/cache-service.interface';
 import { transformKey } from 'src/infrastructure/cache/utils/key-transformation';
-import { WeatherUpdateOptions } from 'src/infrastructure/scheduler/weather-scheduler/types/weather-update.options';
 import { CachePrefixes } from 'src/infrastructure/shared/constants/cache-prefixes.enum';
 
 @Injectable()

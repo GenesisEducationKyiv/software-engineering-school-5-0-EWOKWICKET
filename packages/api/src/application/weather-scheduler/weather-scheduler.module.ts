@@ -4,9 +4,10 @@ import { SubscriptionModule } from 'src/application/subscriptions/subscription.m
 import { WeatherModule } from 'src/application/weather/weather.module';
 import { CacheModule } from 'src/infrastructure/cache/cache.module';
 import { WeatherSchedulerService } from './weather-scheduler.service';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
-  imports: [NotificationsModule, WeatherModule, SubscriptionModule, CacheModule],
+  imports: [ScheduleModule.forRoot(), NotificationsModule, WeatherModule, SubscriptionModule, CacheModule],
   providers: [WeatherSchedulerService],
 })
 export class WeatherSchedulerModule {}
