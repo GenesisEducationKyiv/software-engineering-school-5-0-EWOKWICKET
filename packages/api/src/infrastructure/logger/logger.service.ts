@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ProviderLogger } from 'src/common/interfaces/logger.interface';
-import { localTimestampFormat } from 'src/infrastructure/logger/configs/timezone';
 import { createLogger, format, Logger, transports } from 'winston';
+import { localTimestampFormat } from './configs/timezone';
 
 const { combine, timestamp, json, prettyPrint } = format;
 

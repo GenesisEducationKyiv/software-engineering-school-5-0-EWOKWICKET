@@ -5,10 +5,10 @@ import { GroupSubscriptionRepository } from 'src/application/subscriptions/inter
 import { WeatherUpdateInterface } from 'src/application/weather-scheduler/interfaces/weather-update.abstract';
 import { WeatherUpdateOptions } from 'src/application/weather-scheduler/types/weather-update.options';
 import { WeatherProvider } from 'src/application/weather/interfaces/weather-provider.abstract';
+import { CacheInvalidator } from 'src/common/interfaces/cache-service.interface';
 import { Subscription } from 'src/domain/subscription/subscription.entity';
-import { CacheInvalidator } from '../../common/interfaces/cache-service.interface';
-import { transformKey } from '../cache/utils/key-transformation';
-import { CachePrefixes } from '../shared/constants/cache-prefixes.enum';
+import { transformKey } from 'src/infrastructure/cache/utils/key-transformation';
+import { CachePrefixes } from 'src/infrastructure/shared/constants/cache-prefixes.enum';
 
 @Injectable()
 export class WeatherUpdateService implements WeatherUpdateInterface {

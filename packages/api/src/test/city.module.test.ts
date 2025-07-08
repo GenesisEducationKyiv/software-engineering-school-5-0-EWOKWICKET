@@ -1,10 +1,10 @@
 import { Injectable, Module } from '@nestjs/common';
+import { ChainableCityProvider } from 'src/application/city/interfaces/chainable-city.provider';
+import { CityProvider } from 'src/application/city/interfaces/city-provider.abstract';
+import { CityExistsConstraint } from 'src/application/city/validators/city-exists.constraint';
+import { OpenWeatherCityProvider } from 'src/infrastructure/city/providers/openweather.provider';
+import { WeatherApiCityProvider } from 'src/infrastructure/city/providers/weatherapi.provider';
 import { CityProviderAdapter } from 'src/infrastructure/city/wrappers/city-provider.adapter';
-import { OpenWeatherCityProvider } from '../../infrastructure/city/providers/openweather.provider';
-import { WeatherApiCityProvider } from '../../infrastructure/city/providers/weatherapi.provider';
-import { ChainableCityProvider } from './interfaces/chainable-city.provider';
-import { CityProvider } from './interfaces/city-provider.abstract';
-import { CityExistsConstraint } from './validators/city-exists.constraint';
 
 @Injectable()
 class WeatherProviderMock extends ChainableCityProvider {

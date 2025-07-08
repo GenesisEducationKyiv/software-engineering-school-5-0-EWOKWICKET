@@ -7,7 +7,7 @@ import { SubscriptionServiceInterface, SubscriptionServiceLookup } from 'src/app
 import { ServiceSubscriptionRepository } from 'src/application/subscriptions/interfaces/subscription-repository.abstract';
 import { InvalidTokenException } from 'src/domain/subscription/errors/invalid-token.error';
 import { Subscription } from 'src/domain/subscription/subscription.entity';
-import { CreateSubscriptionDto } from '../../../presentation/subscription/dtos/create-subscription.dto';
+import { CreateSubscriptionDto } from 'src/presentation/subscription/dtos/create-subscription.dto';
 
 @Injectable()
 export class SubscriptionService implements SubscriptionServiceLookup, SubscriptionServiceInterface {

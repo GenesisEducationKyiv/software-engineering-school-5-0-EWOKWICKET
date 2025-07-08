@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
+import { NotificationsSender, NotificationsSenderToken } from 'src/application/notifications/interfaces/notifications-sender.interface';
 import { NotificationsServiceInterface } from 'src/application/notifications/interfaces/notifications-service.abstract';
-import { MailModule } from '../../infrastructure/mail/mail.module';
-import { MailSender } from '../../infrastructure/mail/services/mail-sender.service';
-import { NotificationsSender, NotificationsSenderToken } from './interfaces/notifications-sender.interface';
-import { NotificationsService } from './services/notifications.service';
+import { NotificationsService } from 'src/application/notifications/notifications.service';
+import { MailModule } from './mail/mail.module';
+import { MailSender } from './mail/services/mail-sender.service';
 
 @Module({
   imports: [MailModule],

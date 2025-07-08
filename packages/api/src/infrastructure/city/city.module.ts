@@ -6,10 +6,10 @@ import { CityProviderLoggingDecorator } from 'src/infrastructure/city/wrappers/c
 import { CityProviderAdapter } from 'src/infrastructure/city/wrappers/city-provider.adapter';
 import { CityProviderCacheProxy } from 'src/infrastructure/city/wrappers/city-validation-cache.proxy';
 import { LoggerModule } from 'src/infrastructure/logger/logger.module';
-import { OpenWeatherCityProvider } from '../../infrastructure/city/providers/openweather.provider';
-import { WeatherApiCityProvider } from '../../infrastructure/city/providers/weatherapi.provider';
-import { CityProvider } from './interfaces/city-provider.abstract';
-import { CityExistsConstraint } from './validators/city-exists.constraint';
+import { CityProvider } from '../../application/city/interfaces/city-provider.abstract';
+import { CityExistsConstraint } from '../../application/city/validators/city-exists.constraint';
+import { OpenWeatherCityProvider } from './providers/openweather.provider';
+import { WeatherApiCityProvider } from './providers/weatherapi.provider';
 
 @Module({
   imports: [LoggerModule, CacheModule],

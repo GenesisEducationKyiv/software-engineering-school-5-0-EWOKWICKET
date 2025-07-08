@@ -8,8 +8,6 @@ import { CityTestModule } from 'src/application/city/city.module.test';
 import { NotificationSubjects } from 'src/application/notifications/constants/notification-subjects.enum';
 import { NotificationType } from 'src/application/notifications/constants/notification-type.enum';
 import { NotificationsServiceInterface } from 'src/application/notifications/interfaces/notifications-service.abstract';
-import { NotificationsTestModule } from 'src/application/notifications/notifications.module.test';
-import { SubscriptionTestModule } from 'src/application/subscriptions/subscriptions.module.test';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { DatabaseExceptionFilter } from 'src/common/filters/database-exception.filter';
 import { appTestConfig, databaseTestConfig } from 'src/config/test.config';
@@ -20,6 +18,8 @@ import { DatabaseTestModule } from 'src/infrastructure/database/test/database.mo
 import { SubscriptionRepository } from 'src/infrastructure/subscription/repositories/subscription.repository';
 import { SubscriptionDb } from 'src/infrastructure/subscription/schemas/subscription.schema';
 import { CreateSubscriptionDto } from 'src/presentation/subscription/dtos/create-subscription.dto';
+import { NotificationsTestModule } from 'src/test/notifications.module.test';
+import { SubscriptionTestModule } from 'src/test/subscriptions.module.test';
 import * as request from 'supertest';
 import { TestsUrl } from 'test/utils/test-urls.enum';
 
