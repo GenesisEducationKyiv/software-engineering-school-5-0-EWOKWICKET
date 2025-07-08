@@ -37,6 +37,17 @@ Need to choose effective and scalable way of communication between each microser
 
 **gRPC**
 
+## Consequences
+
+### Positive 
+- Fast and efficient communication between internal microservices
+- Streaming support for asynchronous communication
+- Easily implemented without changing business logic, especially in NestJS
+- Strict communication contracts
+
+### Negative
+- Unnecessary complexity for current project
+
 ## Diagram
 
 ![Service-Communication](../img/Service-Communication.png)
