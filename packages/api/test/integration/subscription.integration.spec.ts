@@ -4,7 +4,6 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { useContainer } from 'class-validator';
 import { Model, Types } from 'mongoose';
-import { CityTestModule } from 'src/application/city/city.module.test';
 import { NotificationSubjects } from 'src/application/notifications/constants/notification-subjects.enum';
 import { NotificationType } from 'src/application/notifications/constants/notification-type.enum';
 import { NotificationsServiceInterface } from 'src/application/notifications/interfaces/notifications-service.abstract';
@@ -18,6 +17,7 @@ import { DatabaseTestModule } from 'src/infrastructure/database/test/database.mo
 import { SubscriptionRepository } from 'src/infrastructure/subscription/repositories/subscription.repository';
 import { SubscriptionDb } from 'src/infrastructure/subscription/schemas/subscription.schema';
 import { CreateSubscriptionDto } from 'src/presentation/subscription/dtos/create-subscription.dto';
+import { CityTestModule } from 'src/test/city.module.test';
 import { NotificationsTestModule } from 'src/test/notifications.module.test';
 import { SubscriptionTestModule } from 'src/test/subscriptions.module.test';
 import * as request from 'supertest';
