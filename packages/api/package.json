@@ -13,7 +13,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main",
-    "start:test": "node dist/main.test",
+    "start:test": "node dist/test/main.test",
     "migrate": "yarn tscpaths src/infrastructure/database/scripts/run-migrations.ts",
     "migrate:test": "yarn tscpaths src/infrastructure/database/scripts/run-migrations.test.ts",
     "test:integration": "jest --config test/jest-integration.config.js",
