@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { CacheAccessor } from 'src/common/interfaces/cache-service.interface';
 import { ProviderLogger } from 'src/common/interfaces/logger.interface';
+import { LoggerModule } from 'src/common/logger/logger.module';
 import { CacheModule } from 'src/infrastructure/cache/cache.module';
 import { CityProviderLoggingDecorator } from 'src/infrastructure/city/wrappers/city-provider-logging.decorator';
 import { CityProviderAdapter } from 'src/infrastructure/city/wrappers/city-provider.adapter';
 import { CityProviderCacheProxy } from 'src/infrastructure/city/wrappers/city-validation-cache.proxy';
-import { LoggerModule } from 'src/infrastructure/logger/logger.module';
 import { CityProvider } from '../../application/city/interfaces/city-provider.abstract';
 import { CityExistsConstraint } from '../../application/city/validators/city-exists.constraint';
 import { OpenWeatherCityProvider } from './providers/openweather.provider';
