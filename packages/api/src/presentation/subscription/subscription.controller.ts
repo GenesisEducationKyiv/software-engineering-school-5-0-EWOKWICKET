@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpCode, Inject, Param, Post } from '@nestjs/common';
-import { CreateSubscriptionDto } from 'src/application/subscriptions/dtos/create-subscription.dto';
 import { SubscriptionServiceInterface } from 'src/application/subscriptions/interfaces/subcription-service.abstract';
 import { MongoIdValidationPipe } from 'src/common/pipes/mongo-id-validation.pipe';
+import { CreateSubscriptionDto } from 'src/presentation/subscription/dtos/create-subscription.dto';
 
 @Controller()
 export class SubscriptionController {

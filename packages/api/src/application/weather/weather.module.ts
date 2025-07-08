@@ -8,7 +8,7 @@ import { WeatherApiWeatherProvider } from 'src/infrastructure/weather/providers/
 import { WeatherProviderCacheProxy } from 'src/infrastructure/weather/wrappers/weather-cache.proxy';
 import { WeatherProviderAdapter } from 'src/infrastructure/weather/wrappers/weather-povider.adapter';
 import { WeatherProviderLoggingDecorator } from 'src/infrastructure/weather/wrappers/weather-provider-logging.decorator';
-import { WeatherController } from 'src/presentation/weather.controller';
+import { WeatherController } from 'src/presentation/weather/weather.controller';
 import { WeatherProvider } from './interfaces/weather-provider.abstract';
 
 @Module({

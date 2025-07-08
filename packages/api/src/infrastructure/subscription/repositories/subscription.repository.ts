@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, RootFilterQuery } from 'mongoose';
-import { CreateSubscriptionDto } from 'src/application/subscriptions/dtos/create-subscription.dto';
 import { ServiceSubscriptionRepository } from 'src/application/subscriptions/interfaces/subscription-repository.abstract';
 import { HOUR } from 'src/common/utils/time-units';
 import { Subscription } from 'src/domain/subscription/subscription.entity';
+import { CreateSubscriptionDto } from 'src/presentation/subscription/dtos/create-subscription.dto';
 import { SubscriptionEntityMapper } from '../mappers/subscription-entity.mapper';
 import { SubscriptionDb } from '../schemas/subscription.schema';
 

@@ -3,10 +3,10 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
+import { ChainableCityProvider } from 'src/application/city/interfaces/chainable-city.provider';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { WeatherApiCityFetch } from '../../shared/constants/weatherapi-city-fetch.type';
-import { ChainableCityProvider } from 'src/application/city/interfaces/chainable-city.provider';
 
 @Injectable()
 export class WeatherApiCityProvider extends ChainableCityProvider {

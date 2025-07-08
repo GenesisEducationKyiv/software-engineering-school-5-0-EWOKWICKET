@@ -1,6 +1,6 @@
 import { RootFilterQuery } from 'mongoose';
 import { Subscription } from 'src/domain/subscription/subscription.entity';
-import { CreateSubscriptionDto } from '../dtos/create-subscription.dto';
+import { CreateSubscriptionDto } from '../../../presentation/subscription/dtos/create-subscription.dto';
 
 export abstract class SubscriptionServiceInterface {
   abstract subscribe(subscribeDto: CreateSubscriptionDto): Promise<void>;

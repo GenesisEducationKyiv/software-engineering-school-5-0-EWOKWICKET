@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { OpenWeatherWeatherProvider } from 'src/infrastructure/weather/providers/openweather.provider';
 import { WeatherApiWeatherProvider } from 'src/infrastructure/weather/providers/weatherapi.provider';
 import { WeatherProviderAdapter } from 'src/infrastructure/weather/wrappers/weather-povider.adapter';
-import { WeatherController } from 'src/presentation/weather.controller';
+import { WeatherController } from 'src/presentation/weather/weather.controller';
 import { WeatherProvider } from './interfaces/weather-provider.abstract';
 
 @Module({

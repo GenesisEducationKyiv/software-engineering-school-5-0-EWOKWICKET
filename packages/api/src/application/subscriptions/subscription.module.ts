@@ -5,7 +5,7 @@ import { NotificationsModule } from 'src/application/notifications/notifications
 import { SubscriptionServiceInterface, SubscriptionServiceLookup } from 'src/application/subscriptions/interfaces/subcription-service.abstract';
 import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from 'src/application/subscriptions/interfaces/subscription-repository.abstract';
 import { SubscriptionRepository } from 'src/infrastructure/subscription/repositories/subscription.repository';
-import { SubscriptionController } from 'src/presentation/subscription.controller';
+import { SubscriptionController } from 'src/presentation/subscription/subscription.controller';
 import { SubscriptionDb, SubscriptionSchema } from '../../infrastructure/subscription/schemas/subscription.schema';
 import { SubscriptionService } from './services/subscription.service';
 

@@ -9,7 +9,6 @@ import { NotificationSubjects } from 'src/application/notifications/constants/no
 import { NotificationType } from 'src/application/notifications/constants/notification-type.enum';
 import { NotificationsServiceInterface } from 'src/application/notifications/interfaces/notifications-service.abstract';
 import { NotificationsTestModule } from 'src/application/notifications/notifications.module.test';
-import { CreateSubscriptionDto } from 'src/application/subscriptions/dtos/create-subscription.dto';
 import { SubscriptionTestModule } from 'src/application/subscriptions/subscriptions.module.test';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { DatabaseExceptionFilter } from 'src/common/filters/database-exception.filter';
@@ -20,6 +19,7 @@ import { WeatherApiCityProvider } from 'src/infrastructure/city/providers/weathe
 import { DatabaseTestModule } from 'src/infrastructure/database/test/database.module.test';
 import { SubscriptionRepository } from 'src/infrastructure/subscription/repositories/subscription.repository';
 import { SubscriptionDb } from 'src/infrastructure/subscription/schemas/subscription.schema';
+import { CreateSubscriptionDto } from 'src/presentation/subscription/dtos/create-subscription.dto';
 import * as request from 'supertest';
 import { TestsUrl } from 'test/utils/test-urls.enum';
 
