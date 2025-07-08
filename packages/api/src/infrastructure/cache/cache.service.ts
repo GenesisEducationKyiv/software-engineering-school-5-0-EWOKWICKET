@@ -2,7 +2,7 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import { MINUTE } from 'src/common/utils/time-units';
-import { CacheAccessor, CacheInvalidator } from './interfaces/cache-service.interface';
+import { CacheAccessor, CacheInvalidator } from '../../common/interfaces/cache-service.interface';
 
 @Injectable()
 export class CacheService implements CacheAccessor, CacheInvalidator {

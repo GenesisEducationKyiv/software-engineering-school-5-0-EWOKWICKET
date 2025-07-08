@@ -6,7 +6,7 @@ import { WeatherUpdateInterface } from 'src/application/weather-scheduler/interf
 import { WeatherUpdateOptions } from 'src/application/weather-scheduler/types/weather-update.options';
 import { WeatherProvider } from 'src/application/weather/interfaces/weather-provider.abstract';
 import { Subscription } from 'src/domain/subscription/subscription.entity';
-import { CacheInvalidator } from '../cache/interfaces/cache-service.interface';
+import { CacheInvalidator } from '../../common/interfaces/cache-service.interface';
 import { transformKey } from '../cache/utils/key-transformation';
 import { CachePrefixes } from '../shared/constants/cache-prefixes.enum';
 

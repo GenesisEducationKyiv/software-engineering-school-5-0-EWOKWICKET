@@ -1,5 +1,5 @@
+import { CacheAccessor } from 'src/common/interfaces/cache-service.interface';
 import { MINUTE } from 'src/common/utils/time-units';
-import { CacheAccessor } from 'src/infrastructure/cache/interfaces/cache-service.interface';
 import { MetricsService } from 'src/infrastructure/metrics/metrics.service';
 
 export class CacheMetricsDecorator implements CacheAccessor {

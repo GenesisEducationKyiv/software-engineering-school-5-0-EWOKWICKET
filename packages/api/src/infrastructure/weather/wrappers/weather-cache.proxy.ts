@@ -1,8 +1,8 @@
 import { ChainableWeatherProvider } from 'src/application/weather/interfaces/chainable-weather-provider.abstract';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
+import { CacheAccessor } from 'src/common/interfaces/cache-service.interface';
 import { HOUR, MINUTE } from 'src/common/utils/time-units';
 import { Weather } from 'src/domain/weather/weather.entity';
-import { CacheAccessor } from 'src/infrastructure/cache/interfaces/cache-service.interface';
 import { transformKey } from 'src/infrastructure/cache/utils/key-transformation';
 import { CachePrefixes } from 'src/infrastructure/shared/constants/cache-prefixes.enum';
 

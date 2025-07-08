@@ -1,11 +1,11 @@
 import { ChainableWeatherProvider } from 'src/application/weather/interfaces/chainable-weather-provider.abstract';
+import { ProviderLogger } from 'src/common/interfaces/logger.interface';
 import { Weather } from 'src/domain/weather/weather.entity';
-import { LoggerService } from 'src/infrastructure/logger/logger.service';
 
 export class WeatherProviderLoggingDecorator extends ChainableWeatherProvider {
   constructor(
     private readonly wrapped: ChainableWeatherProvider,
-    private readonly logger: LoggerService,
+    private readonly logger: ProviderLogger,
   ) {
     super();
   }
