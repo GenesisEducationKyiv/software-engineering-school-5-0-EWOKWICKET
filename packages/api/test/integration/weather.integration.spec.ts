@@ -4,10 +4,10 @@ import { Test } from '@nestjs/testing';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { appTestConfig, databaseTestConfig } from 'src/config/test.config';
-import { Weather } from 'src/domain/weather/weather.entity';
-import { OpenWeatherWeatherProvider } from 'src/infrastructure/weather/providers/openweather.provider';
-import { WeatherApiWeatherProvider } from 'src/infrastructure/weather/providers/weatherapi.provider';
 import { WeatherTestModule } from 'src/test/weather.module.test';
+import { Weather } from 'src/weather/domain/weather.entity';
+import { OpenWeatherWeatherProvider } from 'src/weather/infrastructure/providers/openweather.provider';
+import { WeatherApiWeatherProvider } from 'src/weather/infrastructure/providers/weatherapi.provider';
 import * as request from 'supertest';
 import { TestsUrl } from 'test/utils/test-urls.enum';
 

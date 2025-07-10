@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ProviderLogger } from 'src/common/interfaces/logger.interface';
+import { ProviderLogger } from 'src/common/logger/interfaces/logger.interface';
 import { createLogger, format, Logger, transports } from 'winston';
 import { localTimestampFormat } from './configs/timezone';
 

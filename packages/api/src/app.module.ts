@@ -2,19 +2,19 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import appConfig from './config/app.config';
-import cacheConfig from './config/cache.config';
-import databaseConfig from './config/database.config';
-import { envSchema } from './config/env.validation';
-import mailConfig from './config/mail.config';
-import { CacheModule } from './infrastructure/cache/cache.module';
-import { CityModule } from './infrastructure/city/city.module';
-import { DatabaseModule } from './infrastructure/database/database.module';
-import { MetricsModule } from './infrastructure/metrics/metrics.module';
-import { WeatherSchedulerModule } from './infrastructure/weather/scheduler/weather-scheduler.module';
-import { NotificationsModule } from './infrastructure/notifications/notifications.module';
-import { SubscriptionModule } from './infrastructure/subscription/subscription.module';
-import { WeatherModule } from './infrastructure/weather/weather.module';
+import { CacheModule } from 'src/cache/cache.module';
+import { CityModule } from 'src/city/city.module';
+import appConfig from 'src/config/app.config';
+import cacheConfig from 'src/config/cache.config';
+import databaseConfig from 'src/config/database.config';
+import { envSchema } from 'src/config/env.validation';
+import mailConfig from 'src/config/mail.config';
+import { DatabaseModule } from 'src/database/database.module';
+import { MetricsModule } from 'src/metrics/metrics.module';
+import { NotificationsModule } from 'src/notifications/notifications.module';
+import { SubscriptionModule } from 'src/subscriptions/subscription.module';
+import { WeatherSchedulerModule } from 'src/weather-scheduler/weather-scheduler.module';
+import { WeatherModule } from 'src/weather/weather.module';
 
 @Module({
   imports: [
