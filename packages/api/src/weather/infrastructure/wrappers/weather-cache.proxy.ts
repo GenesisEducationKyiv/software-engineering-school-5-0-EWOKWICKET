@@ -1,11 +1,11 @@
 import { CacheAccessor } from 'src/cache/application/interfaces/cache-service.interface';
-import { transformKey } from 'src/cache/infrastructure/utils/key-transformation';
-import { CityCachePrefixes } from 'src/city/application/constants/weather-cache-prefixes.enum';
+import { CityCachePrefixes } from 'src/common/cache/constants/city-cache-prefixes.enum';
+import { createCacheKey } from 'src/common/cache/utils/create-cache-key';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { HOUR, MINUTE } from 'src/common/utils/time-units';
-import { WeatherCachePrefixes } from '../../application/constants/weather-cache-prefixes.enum';
 import { ChainableWeatherProvider } from '../../application/interfaces/chainable-weather-provider.abstract';
 import { Weather } from '../../domain/weather.entity';
+import { WeatherCachePrefixes } from '../constants/weather-cache-prefixes.enum';
 
 export class WeatherProviderCacheProxy extends ChainableWeatherProvider {
   private readonly weatherTtl: number = MINUTE * 10;
@@ -19,10 +19,10 @@ export class WeatherProviderCacheProxy extends ChainableWeatherProvider {
   }
 
   async getCurrentWeather(city: string): Promise<Weather> {
-    const cityCacheKey = transformKey(CityCachePrefixes.CITY_VALIDATION, city); // city cache key
+    const cityCacheKey = createCacheKey(CityCachePrefixes.CITY_VALIDATION, city); // city cache key
     await this.cityExists(cityCacheKey);
 
-    const weatherCacheKey = transformKey(WeatherCachePrefixes.CURRENT_WEATHER, city); // weather cache key
+    const weatherCacheKey = createCacheKey(WeatherCachePrefixes.CURRENT_WEATHER, city); // weather cache key
     const cachedWeather = await this.cacheService.get<Weather>(weatherCacheKey);
     if (cachedWeather) return cachedWeather; // cache hit
 

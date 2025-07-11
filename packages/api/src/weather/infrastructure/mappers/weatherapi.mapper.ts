@@ -1,4 +1,4 @@
-import { WeatherApiWeatherFetch } from 'src/weather/application/constants/weatherapi-weather-fetch.type';
+import { WeatherApiWeatherFetch } from 'src/weather/infrastructure/constants/weatherapi-weather-fetch.type';
 import { Weather } from '../../domain/weather.entity';
 
 export class WeatherApiDtoMapper {

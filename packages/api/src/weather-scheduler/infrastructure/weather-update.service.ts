@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CacheInvalidator } from 'src/cache/application/interfaces/cache-service.interface';
-import { transformKey } from 'src/cache/infrastructure/utils/key-transformation';
+import { createCacheKey } from 'src/common/cache/utils/create-cache-key';
 import { NotificationType } from 'src/notifications/application/constants/notification-type.enum';
 import { NotificationsServiceInterface } from 'src/notifications/application/interfaces/notifications-service.abstract';
 import { GroupSubscriptionRepository } from 'src/subscriptions/application/interfaces/subscription-repository.abstract';
 import { Subscription } from 'src/subscriptions/domain/subscription.entity';
-import { WeatherCachePrefixes } from 'src/weather/application/constants/weather-cache-prefixes.enum';
 import { WeatherProvider } from 'src/weather/application/interfaces/weather-provider.abstract';
+import { WeatherCachePrefixes } from 'src/weather/infrastructure/constants/weather-cache-prefixes.enum';
 import { WeatherUpdateInterface } from '../application/interfaces/weather-update.abstract';
 import { WeatherUpdateOptions } from '../application/types/weather-update.options';
 
@@ -51,7 +51,7 @@ export class WeatherUpdateService implements WeatherUpdateInterface {
 
   // invalidates weather cache
   private async invalidateCachedWeather(cities: string[]): Promise<void> {
-    const keys = cities.map((city) => transformKey(WeatherCachePrefixes.CURRENT_WEATHER, city));
+    const keys = cities.map((city) => createCacheKey(WeatherCachePrefixes.CURRENT_WEATHER, city));
     await this.cacheService.mdel(keys);
   }
 }

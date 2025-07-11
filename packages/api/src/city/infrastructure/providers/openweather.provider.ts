@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
-import { OpenWeatherWeatherFetch } from 'src/weather/application/constants/openweather-weather-fetch.type';
+import { OpenWeatherWeatherFetch } from 'src/common/weather-provider/types/openweather-weather-fetch.type';
 import { ChainableCityProvider } from '../../application/interfaces/chainable-city.provider';
 
 @Injectable()

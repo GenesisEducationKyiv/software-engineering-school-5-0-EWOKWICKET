@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/common/errors/external-api.error';
-import { WeatherApiCityFetch } from 'src/weather/application/constants/weatherapi-city-fetch.type';
+import { WeatherApiCityFetch } from 'src/common/weather-provider/types/weatherapi-city-fetch.type';
 import { ChainableCityProvider } from '../../application/interfaces/chainable-city.provider';
 
 @Injectable()
