@@ -4,22 +4,23 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { useContainer } from 'class-validator';
 import { Model, Types } from 'mongoose';
-import { OpenWeatherCityProvider } from 'src/city/infrastructure/providers/openweather.provider';
-import { WeatherApiCityProvider } from 'src/city/infrastructure/providers/weatherapi.provider';
-import { ExternalApiException } from 'src/common/errors/external-api.error';
 import { DatabaseExceptionFilter } from 'src/common/filters/database-exception.filter';
-import { appTestConfig, databaseTestConfig } from 'src/config/test.config';
+import { appTestConfig } from 'src/config/test.config';
 import { NotificationSubjects } from 'src/notifications/application/constants/notification-subjects.enum';
 import { NotificationType } from 'src/notifications/application/constants/notification-type.enum';
 import { NotificationsServiceInterface } from 'src/notifications/application/interfaces/notifications-service.abstract';
-import { Frequency } from 'src/subscriptions/domain/frequency.vo';
-import { SubscriptionRepository } from 'src/subscriptions/infrastructure/persistence/repositories/subscription.repository';
-import { SubscriptionDb } from 'src/subscriptions/infrastructure/persistence/schemas/subscription.schema';
-import { CreateSubscriptionDto } from 'src/subscriptions/presentation/dtos/create-subscription.dto';
-import { CityTestModule } from 'src/test/city.module.test';
-import { DatabaseTestModule } from 'src/test/database.module.test';
-import { NotificationsTestModule } from 'src/test/notifications.module.test';
-import { SubscriptionTestModule } from 'src/test/subscriptions.module.test';
+import { NotificationsServiceTestModule } from 'src/notifications/notifications-service.module.test';
+import { databaseTestConfig } from 'src/subscription/config/test.config';
+import { SubscriptionDatabaseTestModule } from 'src/subscription/database/database.module.test';
+import { Frequency } from 'src/subscription/subscriptions/domain/frequency.vo';
+import { SubscriptionRepository } from 'src/subscription/subscriptions/infrastructure/persistence/repositories/subscription.repository';
+import { SubscriptionDb } from 'src/subscription/subscriptions/infrastructure/persistence/schemas/subscription.schema';
+import { CreateSubscriptionDto } from 'src/subscription/subscriptions/presentation/dtos/create-subscription.dto';
+import { SubscriptionTestModule } from 'src/subscription/subscriptions/subscriptions.module.test';
+import { CityTestModule } from 'src/weather/city/city.module.test';
+import { OpenWeatherCityProvider } from 'src/weather/city/infrastructure/providers/openweather.provider';
+import { WeatherApiCityProvider } from 'src/weather/city/infrastructure/providers/weatherapi.provider';
+import { ExternalApiException } from 'src/weather/common/errors/external-api.error';
 import * as request from 'supertest';
 import { TestsUrl } from 'test/utils/test-urls.enum';
 
@@ -50,9 +51,9 @@ describe('SubscriptionController (Integration)', () => {
           load: [appTestConfig, databaseTestConfig],
         }),
         SubscriptionTestModule,
-        DatabaseTestModule,
+        SubscriptionDatabaseTestModule,
         CityTestModule,
-        NotificationsTestModule,
+        NotificationsServiceTestModule,
       ],
     })
       .overrideProvider(NotificationsServiceInterface)

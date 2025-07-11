@@ -1,13 +1,14 @@
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
-import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
-import { ExternalApiException } from 'src/common/errors/external-api.error';
-import { appTestConfig, databaseTestConfig } from 'src/config/test.config';
-import { WeatherTestModule } from 'src/test/weather.module.test';
-import { Weather } from 'src/weather/domain/weather.entity';
-import { OpenWeatherWeatherProvider } from 'src/weather/infrastructure/providers/openweather.provider';
-import { WeatherApiWeatherProvider } from 'src/weather/infrastructure/providers/weatherapi.provider';
+import { appTestConfig } from 'src/config/test.config';
+import { databaseTestConfig } from 'src/subscription/config/test.config';
+import { CityNotFoundException } from 'src/weather/common/errors/city-not-found.error';
+import { ExternalApiException } from 'src/weather/common/errors/external-api.error';
+import { Weather } from 'src/weather/weather/domain/weather.entity';
+import { OpenWeatherWeatherProvider } from 'src/weather/weather/infrastructure/providers/openweather.provider';
+import { WeatherApiWeatherProvider } from 'src/weather/weather/infrastructure/providers/weatherapi.provider';
+import { WeatherTestModule } from 'src/weather/weather/weather.module.test';
 import * as request from 'supertest';
 import { TestsUrl } from 'test/utils/test-urls.enum';
 

@@ -1,5 +1,5 @@
-import { NotificationType } from '../../application/constants/notification-type.enum';
-import { ConfirmationNotification, WeatherUpdateNotification } from '../../application/constants/notification.type';
+import { NotificationType } from '../constants/notification-type.enum';
+import { ConfirmationNotification, WeatherUpdateNotification } from '../constants/notification.type';
 
 export abstract class NotificationsServiceInterface {
   abstract sendConfirmationNotification(data: ConfirmationNotification, type: NotificationType): Promise<void>;

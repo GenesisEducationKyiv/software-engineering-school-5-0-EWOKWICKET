@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { Frequency } from 'src/subscriptions/domain/frequency.vo';
+import { Frequency } from 'src/subscription/subscriptions/domain/frequency.vo';
 import { SubscriptionPage } from 'test/utils/subscription.page';
 
 test.describe('Subscription Page', () => {
