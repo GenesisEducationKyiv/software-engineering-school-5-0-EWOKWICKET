@@ -1,5 +1,5 @@
 import { CacheAccessor } from 'src/cache/application/interfaces/cache-service.interface';
-import { CityCachePrefixes } from 'src/common/cache/constants/city-cache-prefixes.enum';
+import { CityCachePrefixes } from 'src/city/infrastructure/constants/city-cache-prefixes.enum';
 import { createCacheKey } from 'src/common/cache/utils/create-cache-key';
 import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
 import { HOUR, MINUTE } from 'src/common/utils/time-units';

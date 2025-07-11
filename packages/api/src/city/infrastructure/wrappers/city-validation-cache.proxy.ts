@@ -1,8 +1,8 @@
 import { CacheAccessor } from 'src/cache/application/interfaces/cache-service.interface';
 import { createCacheKey } from 'src/common/cache/utils/create-cache-key';
 import { HOUR } from 'src/common/utils/time-units';
-import { CityCachePrefixes } from '../../../common/cache/constants/city-cache-prefixes.enum';
 import { ChainableCityProvider } from '../../application/interfaces/chainable-city.provider';
+import { CityCachePrefixes } from '../constants/city-cache-prefixes.enum';
 
 export class CityProviderCacheProxy extends ChainableCityProvider {
   constructor(
