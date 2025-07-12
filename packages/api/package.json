@@ -15,7 +15,7 @@
     "start:prod": "node dist/main",
     "start:test": "node dist/test/main.test",
     "migrate": "yarn tscpaths src/subscription/database/infrastructure/scripts/run-migrations.ts",
-    "migrate:test": "yarn tscpaths src/subscription/database/infrastructure/scripts/run-migrations.test.ts",
+    "migrate:test": "yarn tscpaths src/subscription/test/run-migrations.test.ts",
     "test:integration": "jest --config test/jest-integration.config.js",
     "test:e2e": "playwright test",
     "test:architecture": "jest --config test/jest-architecture.config.js",

@@ -20,14 +20,8 @@ import { NotificationsFacade } from './public/notifications.facade';
     MailModule,
   ],
   providers: [
-    {
-      provide: NotificationsServiceInterface,
-      useClass: NotificationsService,
-    },
-    {
-      provide: NotificationsFacadeInterface,
-      useClass: NotificationsFacade,
-    },
+    { provide: NotificationsServiceInterface, useClass: NotificationsService },
+    { provide: NotificationsFacadeInterface, useClass: NotificationsFacade },
     {
       provide: NotificationsSenderToken,
       useFactory: (mailSender: MailSender): NotificationsSender[] => {

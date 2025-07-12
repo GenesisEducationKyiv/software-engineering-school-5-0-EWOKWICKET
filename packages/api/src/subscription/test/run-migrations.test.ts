@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
-import { SubscriptionDatabaseTestModule } from 'src/subscription/database/database.module.test';
-import { DatabaseMigration } from '../database.migration';
+import { SubscriptionDatabaseTestModule } from 'src/subscription/test/database.module.test';
+import { DatabaseMigration } from '../database/infrastructure/database.migration';
 
 async function runMigrations() {
   const app = await NestFactory.createApplicationContext(SubscriptionDatabaseTestModule);

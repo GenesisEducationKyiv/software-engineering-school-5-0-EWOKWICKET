@@ -3,9 +3,9 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
-import { CityNotFoundException } from '../../../common/errors/city-not-found.error';
-import { ExternalApiException } from '../../../common/errors/external-api.error';
-import { OpenWeatherWeatherFetch } from '../../../common/weather-provider/types/openweather-weather-fetch.type';
+import { CityNotFoundException } from 'src/weather/common/errors/city-not-found.error';
+import { ExternalApiException } from 'src/weather/common/errors/external-api.error';
+import { OpenWeatherWeatherFetch } from 'src/weather/common/weather-provider/types/openweather-weather-fetch.type';
 import { ChainableCityProvider } from '../../application/interfaces/chainable-city.provider';
 
 @Injectable()

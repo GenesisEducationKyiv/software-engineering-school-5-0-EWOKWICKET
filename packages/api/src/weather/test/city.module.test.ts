@@ -1,10 +1,9 @@
 import { Injectable, Module } from '@nestjs/common';
-import { CityExistsConstraint } from '../../subscription/subscriptions/infrastructure/validators/city-exists.constraint';
-import { ChainableCityProvider } from './application/interfaces/chainable-city.provider';
-import { CityProvider } from './application/interfaces/city-provider.abstract';
-import { OpenWeatherCityProvider } from './infrastructure/providers/openweather.provider';
-import { WeatherApiCityProvider } from './infrastructure/providers/weatherapi.provider';
-import { CityProviderAdapter } from './infrastructure/wrappers/city-provider.adapter';
+import { ChainableCityProvider } from '../city/application/interfaces/chainable-city.provider';
+import { CityProvider } from '../city/application/interfaces/city-provider.abstract';
+import { OpenWeatherCityProvider } from '../city/infrastructure/providers/openweather.provider';
+import { WeatherApiCityProvider } from '../city/infrastructure/providers/weatherapi.provider';
+import { CityProviderAdapter } from '../city/infrastructure/wrappers/city-provider.adapter';
 
 @Injectable()
 class WeatherProviderMock extends ChainableCityProvider {
@@ -15,7 +14,6 @@ class WeatherProviderMock extends ChainableCityProvider {
 
 @Module({
   providers: [
-    CityExistsConstraint,
     { provide: WeatherApiCityProvider, useClass: WeatherProviderMock },
     { provide: OpenWeatherCityProvider, useClass: WeatherProviderMock },
     {
@@ -26,6 +24,6 @@ class WeatherProviderMock extends ChainableCityProvider {
       },
     },
   ],
-  exports: [CityExistsConstraint],
+  exports: [CityProvider],
 })
 export class CityTestModule {}

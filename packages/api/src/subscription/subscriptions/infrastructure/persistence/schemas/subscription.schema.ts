@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
-import { Frequency } from '../../../../../common/subscription/domain/frequency.vo';
+import { Frequency } from 'src/common/subscription/domain/frequency.vo';
 
 @Schema()
 export class Subscription {

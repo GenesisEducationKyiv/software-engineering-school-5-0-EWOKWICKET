@@ -1,5 +1,5 @@
 import { RootFilterQuery } from 'mongoose';
-import { Frequency } from '../../../../common/subscription/domain/frequency.vo';
+import { Frequency } from 'src/common/subscription/domain/frequency.vo';
 import { Subscription } from '../../domain/subscription.entity';
 import { CreateSubscriptionDto } from '../../presentation/dtos/create-subscription.dto';
 

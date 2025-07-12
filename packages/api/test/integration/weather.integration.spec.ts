@@ -5,10 +5,10 @@ import { appTestConfig } from 'src/config/test.config';
 import { databaseTestConfig } from 'src/subscription/config/test.config';
 import { CityNotFoundException } from 'src/weather/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/weather/common/errors/external-api.error';
+import { WeatherServiceTestModule } from 'src/weather/test/weather-service.module.test';
 import { Weather } from 'src/weather/weather/domain/weather.entity';
 import { OpenWeatherWeatherProvider } from 'src/weather/weather/infrastructure/providers/openweather.provider';
 import { WeatherApiWeatherProvider } from 'src/weather/weather/infrastructure/providers/weatherapi.provider';
-import { WeatherTestModule } from 'src/weather/weather/weather.module.test';
 import * as request from 'supertest';
 import { TestsUrl } from 'test/utils/test-urls.enum';
 
@@ -31,7 +31,7 @@ describe('WeatherContoller (Integration)', () => {
           isGlobal: true,
           load: [appTestConfig, databaseTestConfig],
         }),
-        WeatherTestModule,
+        WeatherServiceTestModule,
       ],
     }).compile();
 

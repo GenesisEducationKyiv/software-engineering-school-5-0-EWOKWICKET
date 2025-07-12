@@ -25,6 +25,6 @@ export class SubscriptionFacade implements SubscriptionFacadeRepository, Subscri
   }
 
   async getGroupedSubscriptionsByFrequency(frequency: Frequency) {
-    await this.subscriptionRepository.findGroupedByCities(frequency);
+    return await this.subscriptionRepository.findGroupedByCities(frequency);
   }
 }

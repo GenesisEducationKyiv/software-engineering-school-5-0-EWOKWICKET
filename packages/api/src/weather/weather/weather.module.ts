@@ -1,8 +1,8 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { ProviderLogger } from 'src/common/logger/interfaces/logger.interface';
 import { LoggerModule } from 'src/common/logger/logger.module';
-import { CacheAccessor } from '../../cache/application/interfaces/cache-service.interface';
-import { CacheModule } from '../../cache/cache.module';
+import { CacheAccessor } from '../cache/application/interfaces/cache-service.interface';
+import { CacheModule } from '../cache/cache.module';
 import { WeatherServiceModule } from '../weather-service.module';
 import { WeatherProvider } from './application/interfaces/weather-provider.abstract';
 import { OpenWeatherWeatherProvider } from './infrastructure/providers/openweather.provider';

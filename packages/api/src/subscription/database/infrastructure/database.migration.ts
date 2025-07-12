@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
-import { Subscription } from '../../subscriptions/infrastructure/persistence/schemas/subscription.schema';
+import { Subscription } from 'src/subscription/subscriptions/infrastructure/persistence/schemas/subscription.schema';
 
 @Injectable()
 export class DatabaseMigration {

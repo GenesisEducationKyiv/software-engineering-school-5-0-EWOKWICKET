@@ -1,4 +1,4 @@
-import { OpenWeatherWeatherFetch } from '../../../common/weather-provider/types/openweather-weather-fetch.type';
+import { OpenWeatherWeatherFetch } from 'src/weather/common/weather-provider/types/openweather-weather-fetch.type';
 import { Weather } from '../../domain/weather.entity';
 
 export class OpenWeatherDtoMapper {

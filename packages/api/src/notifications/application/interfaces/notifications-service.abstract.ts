@@ -1,4 +1,4 @@
-import { NotificationType } from '../../../common/notifications/constants/notification-type.enum';
+import { NotificationType } from 'src/common/notifications/constants/notification-type.enum';
 import { ConfirmationNotification, WeatherUpdateNotification } from '../constants/notification.type';
 
 export abstract class NotificationsServiceInterface {

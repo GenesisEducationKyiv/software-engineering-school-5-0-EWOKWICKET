@@ -2,7 +2,7 @@ import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NotificationsServiceModule } from 'src/notifications/notifications-service.module';
 import { WeatherServiceModule } from 'src/weather/weather-service.module';
-import { SubscripionServiceModule } from '../subscription-service.module';
+import { SubscriptionServiceModule } from '../subscription-service.module';
 import { SubscriptionServiceInterface, SubscriptionServiceLookup } from './application/interfaces/subcription-service.abstract';
 import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from './application/interfaces/subscription-repository.abstract';
 import { SubscriptionService } from './application/subscription.service';
@@ -21,7 +21,7 @@ import { SubscriptionController } from './presentation/subscription.controller';
     ]),
     NotificationsServiceModule,
     WeatherServiceModule,
-    forwardRef(() => SubscripionServiceModule),
+    forwardRef(() => SubscriptionServiceModule),
   ],
   controllers: [SubscriptionController],
   providers: [

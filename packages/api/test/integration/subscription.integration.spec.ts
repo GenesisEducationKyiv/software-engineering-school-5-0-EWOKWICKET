@@ -10,14 +10,12 @@ import { NotificationType } from 'src/common/notifications/constants/notificatio
 import { Frequency } from 'src/common/subscription/domain/frequency.vo';
 import { appTestConfig } from 'src/config/test.config';
 import { NotificationsServiceInterface } from 'src/notifications/application/interfaces/notifications-service.abstract';
-import { NotificationsServiceTestModule } from 'src/notifications/notifications-service.module.test';
 import { databaseTestConfig } from 'src/subscription/config/test.config';
-import { SubscriptionDatabaseTestModule } from 'src/subscription/database/database.module.test';
 import { SubscriptionRepository } from 'src/subscription/subscriptions/infrastructure/persistence/repositories/subscription.repository';
 import { Subscription } from 'src/subscription/subscriptions/infrastructure/persistence/schemas/subscription.schema';
 import { CreateSubscriptionDto } from 'src/subscription/subscriptions/presentation/dtos/create-subscription.dto';
-import { SubscriptionTestModule } from 'src/subscription/subscriptions/subscriptions.module.test';
-import { CityTestModule } from 'src/weather/city/city.module.test';
+import { SubscriptionServiceTestModule } from 'src/subscription/test/subscription-service.module.test';
+import { SubscriptionTestModule } from 'src/subscription/test/subscriptions.module.test';
 import { OpenWeatherCityProvider } from 'src/weather/city/infrastructure/providers/openweather.provider';
 import { WeatherApiCityProvider } from 'src/weather/city/infrastructure/providers/weatherapi.provider';
 import { ExternalApiException } from 'src/weather/common/errors/external-api.error';
@@ -50,10 +48,7 @@ describe('SubscriptionController (Integration)', () => {
           isGlobal: true,
           load: [appTestConfig, databaseTestConfig],
         }),
-        SubscriptionTestModule,
-        SubscriptionDatabaseTestModule,
-        CityTestModule,
-        NotificationsServiceTestModule,
+        SubscriptionServiceTestModule,
       ],
     })
       .overrideProvider(NotificationsServiceInterface)
@@ -105,11 +100,11 @@ describe('SubscriptionController (Integration)', () => {
     });
 
     it('should use reserve weather provider for city validation', async () => {
-      jest.spyOn(primaryProvider, 'validateCity').mockImplementationOnce(async () => {
+      jest.spyOn(primaryProvider, 'cityExists').mockImplementationOnce(async () => {
         throw new ExternalApiException();
       });
 
-      const secondaryProviderSpy = jest.spyOn(secondaryProvider, 'validateCity');
+      const secondaryProviderSpy = jest.spyOn(secondaryProvider, 'cityExists');
 
       await request(app.getHttpServer()).post(TestsUrl.SUBSCRIBE).send(succesfulSubscriptionDto);
 

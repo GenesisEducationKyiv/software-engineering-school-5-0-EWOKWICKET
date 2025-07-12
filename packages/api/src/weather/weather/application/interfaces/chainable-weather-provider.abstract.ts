@@ -1,4 +1,4 @@
-import { Chainable } from '../../../common/interfaces/chainable.abstract';
+import { Chainable } from 'src/weather/common/interfaces/chainable.abstract';
 import { Weather } from '../../domain/weather.entity';
 import { WeatherProvider } from './weather-provider.abstract';
 
