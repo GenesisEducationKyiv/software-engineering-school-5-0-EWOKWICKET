@@ -21,6 +21,7 @@ Need to choose effective and scalable way of communication between each microser
 
    - ➕ Asynchronous communication
    - ➕ Good for load balancing
+   - ➕ Better delivery control
    - ➖ Harder to scale
    - ➖ Requires major architectural changes
 
@@ -34,8 +35,8 @@ Need to choose effective and scalable way of communication between each microser
    - ➖ Overhead for small projects(no significant perfomance improvements)
 
 ## Decision
-
-**gRPC**
+**RabbitMQ** for communication with NotificationService for better control and efficiency\
+**gRPC** in other cases
 
 ## Consequences
 
