@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ProviderLogger } from 'src/common/logger/interfaces/logger.interface';
 import { LoggerModule } from 'src/common/logger/logger.module';
-import { CacheAccessor } from '../cache/application/interfaces/cache-service.interface';
-import { CacheModule } from '../cache/cache.module';
+import { CacheAccessor } from '../../cache/application/interfaces/cache-service.interface';
+import { CacheModule } from '../../cache/cache.module';
+import { WeatherServiceModule } from '../weather-service.module';
 import { WeatherProvider } from './application/interfaces/weather-provider.abstract';
 import { OpenWeatherWeatherProvider } from './infrastructure/providers/openweather.provider';
 import { WeatherApiWeatherProvider } from './infrastructure/providers/weatherapi.provider';
@@ -12,7 +13,7 @@ import { WeatherProviderLoggingDecorator } from './infrastructure/wrappers/weath
 import { WeatherController } from './presentation/weather.controller';
 
 @Module({
-  imports: [LoggerModule, CacheModule],
+  imports: [LoggerModule, CacheModule, forwardRef(() => WeatherServiceModule)],
   controllers: [WeatherController],
   providers: [
     WeatherApiWeatherProvider,
@@ -23,9 +24,9 @@ import { WeatherController } from './presentation/weather.controller';
       useFactory: (weatherApiProvider: WeatherApiWeatherProvider, openWeatherProvider: OpenWeatherWeatherProvider, logger: ProviderLogger, cacheService: CacheAccessor) => {
         const decoratedWeatherAPI = new WeatherProviderLoggingDecorator(weatherApiProvider, logger);
         const decoratedOpenWeather = new WeatherProviderLoggingDecorator(openWeatherProvider, logger);
-        const cachProxied = new WeatherProviderCacheProxy(decoratedWeatherAPI.setNext(decoratedOpenWeather), cacheService);
+        const cacheProxied = new WeatherProviderCacheProxy(decoratedWeatherAPI.setNext(decoratedOpenWeather), cacheService);
 
-        return new WeatherProviderAdapter(cachProxied);
+        return new WeatherProviderAdapter(cacheProxied);
       },
     },
   ],

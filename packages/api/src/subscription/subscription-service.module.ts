@@ -1,8 +1,10 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { SubscriptionFacadePublic, SubscriptionFacadeRepository } from 'src/common/interfaces/subscription-facade.interface';
 import databaseConfig from './config/database.config';
 import { subscriptionEnvSchema } from './config/env.validation';
 import { SubscriptionDatabaseModule } from './database/database.module';
+import { SubscriptionFacade } from './public/subscription.facade';
 import { SubscriptionModule } from './subscriptions/subscription.module';
 
 @Module({
@@ -13,7 +15,19 @@ import { SubscriptionModule } from './subscriptions/subscription.module';
       validationSchema: subscriptionEnvSchema,
     }),
     SubscriptionDatabaseModule,
-    SubscriptionModule,
+    forwardRef(() => SubscriptionModule),
   ],
+  providers: [
+    SubscriptionFacade,
+    {
+      provide: SubscriptionFacadeRepository,
+      useExisting: SubscriptionFacade,
+    },
+    {
+      provide: SubscriptionFacadePublic,
+      useExisting: SubscriptionFacade,
+    },
+  ],
+  exports: [SubscriptionFacadeRepository, SubscriptionFacadePublic],
 })
 export class SubscripionServiceModule {}

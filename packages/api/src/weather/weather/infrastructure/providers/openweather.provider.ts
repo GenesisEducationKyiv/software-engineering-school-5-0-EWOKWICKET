@@ -3,9 +3,9 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
-import { CityNotFoundException } from 'src/weather/common/errors/city-not-found.error';
-import { ExternalApiException } from 'src/weather/common/errors/external-api.error';
-import { OpenWeatherWeatherFetch } from 'src/weather/common/weather-provider/types/openweather-weather-fetch.type';
+import { CityNotFoundException } from '../../../common/errors/city-not-found.error';
+import { ExternalApiException } from '../../../common/errors/external-api.error';
+import { OpenWeatherWeatherFetch } from '../../../common/weather-provider/types/openweather-weather-fetch.type';
 import { ChainableWeatherProvider } from '../../application/interfaces/chainable-weather-provider.abstract';
 import { Weather } from '../../domain/weather.entity';
 import { OpenWeatherDtoMapper } from '../mappers/openweather.mapper';
@@ -20,8 +20,8 @@ export class OpenWeatherWeatherProvider extends ChainableWeatherProvider {
     private readonly httpService: HttpService,
   ) {
     super();
-    this.apiKey = this.configService.get('app.openWeatherApiKey');
-    this.apiUrl = this.configService.get('app.urls.openWeatherApi');
+    this.apiKey = this.configService.get('providers.openWeatherApiKey');
+    this.apiUrl = this.configService.get('providers.urls.openWeather');
   }
 
   async getCurrentWeather(city: string): Promise<Weather> {

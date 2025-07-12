@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { NotificationsFacadeInterface } from 'src/common/interfaces/notifications-facade.interface';
-import { SubscriptionFacadeGroup } from 'src/common/interfaces/subscription-facade.interface';
+import { SubscriptionFacadeRepository } from 'src/common/interfaces/subscription-facade.interface';
+import { WeatherFacadeInterface } from 'src/common/interfaces/weather-facade.interfaces';
 import { NotificationType } from 'src/common/notifications/constants/notification-type.enum';
-import { CacheInvalidator } from 'src/weather/cache/application/interfaces/cache-service.interface';
 import { createCacheKey } from 'src/weather/common/cache/utils/create-cache-key';
-import { WeatherProvider } from 'src/weather/weather/application/interfaces/weather-provider.abstract';
 import { WeatherCachePrefixes } from 'src/weather/weather/infrastructure/constants/weather-cache-prefixes.enum';
+import { CacheInvalidator } from '../../cache/application/interfaces/cache-service.interface';
 import { WeatherUpdateInterface } from '../application/interfaces/weather-update.abstract';
 import { WeatherUpdateOptions } from '../application/types/weather-update.options';
 
@@ -13,8 +13,8 @@ import { WeatherUpdateOptions } from '../application/types/weather-update.option
 export class WeatherUpdateService implements WeatherUpdateInterface {
   constructor(
     private readonly notifications: NotificationsFacadeInterface,
-    private readonly weatherService: WeatherProvider,
-    private readonly subscription: SubscriptionFacadeGroup,
+    private readonly weather: WeatherFacadeInterface,
+    private readonly subscription: SubscriptionFacadeRepository,
     private readonly cacheService: CacheInvalidator,
   ) {}
 
@@ -28,7 +28,7 @@ export class WeatherUpdateService implements WeatherUpdateInterface {
 
     for (const group of grouped) {
       const city = group.city;
-      const weather = await this.weatherService.getCurrentWeather(city);
+      const weather = await this.weather.getCurrentWeather(city);
 
       await Promise.all(
         group.subscriptions.map((subscription) => {

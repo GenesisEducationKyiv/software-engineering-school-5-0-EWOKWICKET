@@ -3,12 +3,12 @@ import { ConfigModule } from '@nestjs/config';
 import { NotificationsFacadeInterface } from 'src/common/interfaces/notifications-facade.interface';
 import { NotificationsSender, NotificationsSenderToken } from './application/interfaces/notifications-sender.interface';
 import { NotificationsServiceInterface } from './application/interfaces/notifications-service.abstract';
-import { NotificationsFacade } from './application/notifications.facade';
 import { NotificationsService } from './application/notifications.service';
 import { notificationsEnvSchema } from './config/env.validation';
 import mailConfig from './config/mail.config';
 import { MailModule } from './infrastructure/mail/mail.module';
 import { MailSender } from './infrastructure/mail/services/mail-sender.service';
+import { NotificationsFacade } from './public/notifications.facade';
 
 @Module({
   imports: [

@@ -1,3 +1,3 @@
 export abstract class CityProvider {
-  abstract validateCity(city: string): Promise<boolean>;
+  abstract cityExists(city: string): Promise<boolean>;
 }

@@ -6,6 +6,7 @@ import appConfig from 'src/config/app.config';
 import { appEnvSchema } from 'src/config/env.validation';
 import { NotificationsServiceModule } from './notifications/notifications-service.module';
 import { SubscripionServiceModule } from './subscription/subscription-service.module';
+import { WeatherSchedulerModule } from './weather-scheduler/weather-scheduler.module';
 import { WeatherServiceModule } from './weather/weather-service.module';
 
 @Module({
@@ -25,6 +26,7 @@ import { WeatherServiceModule } from './weather/weather-service.module';
     WeatherServiceModule,
     SubscripionServiceModule,
     NotificationsServiceModule,
+    WeatherSchedulerModule,
   ],
 })
 export class AppModule {}

@@ -1,8 +1,8 @@
 import { HOUR, MINUTE } from 'src/common/utils/time-units';
-import { CacheAccessor } from 'src/weather/cache/application/interfaces/cache-service.interface';
-import { CityCachePrefixes } from 'src/weather/city/infrastructure/constants/city-cache-prefixes.enum';
-import { createCacheKey } from 'src/weather/common/cache/utils/create-cache-key';
-import { CityNotFoundException } from 'src/weather/common/errors/city-not-found.error';
+import { CacheAccessor } from '../../../../cache/application/interfaces/cache-service.interface';
+import { CityCachePrefixes } from '../../../city/infrastructure/constants/city-cache-prefixes.enum';
+import { createCacheKey } from '../../../common/cache/utils/create-cache-key';
+import { CityNotFoundException } from '../../../common/errors/city-not-found.error';
 import { ChainableWeatherProvider } from '../../application/interfaces/chainable-weather-provider.abstract';
 import { Weather } from '../../domain/weather.entity';
 import { WeatherCachePrefixes } from '../constants/weather-cache-prefixes.enum';

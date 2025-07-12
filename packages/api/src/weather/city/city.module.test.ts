@@ -1,14 +1,14 @@
 import { Injectable, Module } from '@nestjs/common';
+import { CityExistsConstraint } from '../../subscription/subscriptions/infrastructure/validators/city-exists.constraint';
 import { ChainableCityProvider } from './application/interfaces/chainable-city.provider';
 import { CityProvider } from './application/interfaces/city-provider.abstract';
-import { CityExistsConstraint } from './application/validators/city-exists.constraint';
 import { OpenWeatherCityProvider } from './infrastructure/providers/openweather.provider';
 import { WeatherApiCityProvider } from './infrastructure/providers/weatherapi.provider';
 import { CityProviderAdapter } from './infrastructure/wrappers/city-provider.adapter';
 
 @Injectable()
 class WeatherProviderMock extends ChainableCityProvider {
-  async validateCity(city: string): Promise<boolean> {
+  async cityExists(city: string): Promise<boolean> {
     return city === 'CityValid';
   }
 }

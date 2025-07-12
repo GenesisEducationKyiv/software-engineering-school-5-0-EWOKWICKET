@@ -9,8 +9,8 @@ export class CityProviderLoggingDecorator extends ChainableCityProvider {
     super();
   }
 
-  async validateCity(city: string): Promise<boolean> {
-    const result = await this.wrapped.validateCity(city);
+  async cityExists(city: string): Promise<boolean> {
+    const result = await this.wrapped.cityExists(city);
     this.logger.logProvider('City validation', this.wrapped.constructor.name, result);
     return result;
   }

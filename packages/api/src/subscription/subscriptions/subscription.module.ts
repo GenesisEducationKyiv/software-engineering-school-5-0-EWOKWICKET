@@ -1,14 +1,14 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SubscriptionFacadeGroup, SubscriptionFacadePublic } from 'src/common/interfaces/subscription-facade.interface';
 import { NotificationsServiceModule } from 'src/notifications/notifications-service.module';
-import { CityModule } from 'src/weather/city/city.module';
+import { WeatherServiceModule } from 'src/weather/weather-service.module';
+import { SubscripionServiceModule } from '../subscription-service.module';
 import { SubscriptionServiceInterface, SubscriptionServiceLookup } from './application/interfaces/subcription-service.abstract';
 import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from './application/interfaces/subscription-repository.abstract';
-import { SubscriptionFacade } from './application/subscription.facade';
 import { SubscriptionService } from './application/subscription.service';
 import { SubscriptionRepository } from './infrastructure/persistence/repositories/subscription.repository';
 import { Subscription, SubscriptionSchema } from './infrastructure/persistence/schemas/subscription.schema';
+import { CityExistsConstraint } from './infrastructure/validators/city-exists.constraint';
 import { SubscriptionController } from './presentation/subscription.controller';
 
 @Module({
@@ -20,10 +20,12 @@ import { SubscriptionController } from './presentation/subscription.controller';
       },
     ]),
     NotificationsServiceModule,
-    CityModule,
+    WeatherServiceModule,
+    forwardRef(() => SubscripionServiceModule),
   ],
   controllers: [SubscriptionController],
   providers: [
+    CityExistsConstraint,
     SubscriptionService,
     {
       provide: SubscriptionServiceLookup,
@@ -42,16 +44,7 @@ import { SubscriptionController } from './presentation/subscription.controller';
       provide: GroupSubscriptionRepository,
       useExisting: SubscriptionRepository,
     },
-    SubscriptionFacade,
-    {
-      provide: SubscriptionFacadeGroup,
-      useExisting: SubscriptionFacade,
-    },
-    {
-      provide: SubscriptionFacadePublic,
-      useExisting: SubscriptionFacade,
-    },
   ],
-  exports: [SubscriptionFacadeGroup, SubscriptionFacadePublic],
+  exports: [GroupSubscriptionRepository, SubscriptionServiceInterface],
 })
 export class SubscriptionModule {}

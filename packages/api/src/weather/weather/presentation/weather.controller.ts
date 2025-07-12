@@ -1,12 +1,12 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { WeatherProvider } from '../application/interfaces/weather-provider.abstract';
+import { WeatherFacadeInterface } from 'src/common/interfaces/weather-facade.interfaces';
 
 @Controller('weather')
 export class WeatherController {
-  constructor(private readonly weatherProvider: WeatherProvider) {}
+  constructor(private readonly weather: WeatherFacadeInterface) {}
 
   @Get()
   async getCurrentWeather(@Query('city') city: string) {
-    return this.weatherProvider.getCurrentWeather(city);
+    return this.weather.getCurrentWeather(city);
   }
 }
