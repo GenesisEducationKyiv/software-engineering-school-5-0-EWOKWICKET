@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { RootFilterQuery } from 'mongoose';
-import { NotificationSubjects } from 'src/notifications/application/constants/notification-subjects.enum';
-import { NotificationType } from 'src/notifications/application/constants/notification-type.enum';
-import { NotificationsServiceInterface } from 'src/notifications/application/interfaces/notifications-service.abstract';
+import { NotificationsFacadeInterface } from 'src/common/interfaces/notifications-facade.interface';
+import { NotificationSubjects } from 'src/common/notifications/notification-subjects.enum';
+import { NotificationType } from 'src/common/notifications/notification-type.enum';
 import { InvalidTokenException } from '../domain/errors/invalid-token.error';
 import { Subscription } from '../domain/subscription.entity';
 import { CreateSubscriptionDto } from '../presentation/dtos/create-subscription.dto';
@@ -13,13 +13,13 @@ import { ServiceSubscriptionRepository } from './interfaces/subscription-reposit
 export class SubscriptionService implements SubscriptionServiceLookup, SubscriptionServiceInterface {
   constructor(
     private readonly subscriptionRepository: ServiceSubscriptionRepository,
-    private readonly notificationsService: NotificationsServiceInterface,
+    private readonly notifications: NotificationsFacadeInterface,
   ) {}
 
   async subscribe(subscribeDto: CreateSubscriptionDto): Promise<void> {
     const newSubscription = await this.subscriptionRepository.create(subscribeDto);
 
-    await this.notificationsService.sendConfirmationNotification(
+    await this.notifications.sendConfirmationNotification(
       {
         to: newSubscription.email,
         subject: `${NotificationSubjects.SUBSCRIPTION_CONFIRMATION} ${newSubscription.city}`,

@@ -1,4 +1,4 @@
-import { WeatherUpdate } from './weather-update.interface';
+import { WeatherUpdate } from './weather-update.type';
 
 export type Notification = {
   to: string;

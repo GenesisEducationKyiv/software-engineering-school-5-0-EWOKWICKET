@@ -1,4 +1,4 @@
-import { WeatherUpdate } from '../../../application/constants/weather-update.interface';
+import { WeatherUpdate } from '../../../application/constants/weather-update.type';
 import { Templates } from './templates.enum';
 
 export type TemplateParams =

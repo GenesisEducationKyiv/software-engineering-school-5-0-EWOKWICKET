@@ -1,4 +1,4 @@
-import { NotificationSubjects } from 'src/notifications/application/constants/notification-subjects.enum';
+import { NotificationSubjects } from 'src/common/notifications/notification-subjects.enum';
 import { Frequency } from 'src/subscription/subscriptions/domain/frequency.vo';
 
 export type WeatherUpdateOptions = {

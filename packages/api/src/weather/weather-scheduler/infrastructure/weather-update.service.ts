@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { NotificationType } from 'src/notifications/application/constants/notification-type.enum';
-import { NotificationsServiceInterface } from 'src/notifications/application/interfaces/notifications-service.abstract';
+import { NotificationsFacadeInterface } from 'src/common/interfaces/notifications-facade.interface';
+import { NotificationType } from 'src/common/notifications/notification-type.enum';
 import { GroupSubscriptionRepository } from 'src/subscription/subscriptions/application/interfaces/subscription-repository.abstract';
 import { Subscription } from 'src/subscription/subscriptions/domain/subscription.entity';
 import { CacheInvalidator } from 'src/weather/cache/application/interfaces/cache-service.interface';
@@ -13,7 +13,7 @@ import { WeatherUpdateOptions } from '../application/types/weather-update.option
 @Injectable()
 export class WeatherUpdateService implements WeatherUpdateInterface {
   constructor(
-    private readonly notificationsService: NotificationsServiceInterface,
+    private readonly notifications: NotificationsFacadeInterface,
     private readonly weatherService: WeatherProvider,
     private readonly subscriptionRepository: GroupSubscriptionRepository,
     private readonly cacheService: CacheInvalidator,
@@ -33,7 +33,7 @@ export class WeatherUpdateService implements WeatherUpdateInterface {
 
       await Promise.all(
         group.subscriptions.map((subscription: Subscription) => {
-          this.notificationsService.sendWeatherUpdateNotification(
+          this.notifications.sendWeatherUpdateNotification(
             {
               to: subscription.email,
               subject,

@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { NotificationsFacadeInterface } from 'src/common/interfaces/notifications-facade.interface';
 import { NotificationsSender, NotificationsSenderToken } from './application/interfaces/notifications-sender.interface';
 import { NotificationsServiceInterface } from './application/interfaces/notifications-service.abstract';
+import { NotificationsFacade } from './application/notifications.facade';
 import { NotificationsService } from './application/notifications.service';
 import { notificationsEnvSchema } from './config/env.validation';
 import mailConfig from './config/mail.config';
@@ -24,6 +26,10 @@ import { MailSender } from './infrastructure/mail/services/mail-sender.service';
       useClass: NotificationsService,
     },
     {
+      provide: NotificationsFacadeInterface,
+      useClass: NotificationsFacade,
+    },
+    {
       provide: NotificationsSenderToken,
       useFactory: (mailSender: MailSender): NotificationsSender[] => {
         return [mailSender];
@@ -31,6 +37,6 @@ import { MailSender } from './infrastructure/mail/services/mail-sender.service';
       inject: [MailSender],
     },
   ],
-  exports: [NotificationsServiceInterface],
+  exports: [NotificationsFacadeInterface],
 })
 export class NotificationsServiceModule {}

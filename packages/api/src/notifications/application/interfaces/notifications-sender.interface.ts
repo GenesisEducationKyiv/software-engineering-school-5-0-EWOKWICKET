@@ -1,4 +1,4 @@
-import { NotificationType } from '../constants/notification-type.enum';
+import { NotificationType } from '../../../common/notifications/notification-type.enum';
 import { Notification } from '../constants/notification.type';
 
 export interface NotificationsSender {
