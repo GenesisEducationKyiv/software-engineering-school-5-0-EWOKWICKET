@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import databaseConfig from '../config/database.config';
-import { SubscriptionDb, SubscriptionSchema } from '../subscriptions/infrastructure/persistence/schemas/subscription.schema';
+import { Subscription, SubscriptionSchema } from '../subscriptions/infrastructure/persistence/schemas/subscription.schema';
 import { DatabaseConfig } from './config/database.config';
 import { DatabaseMigration } from './infrastructure/database.migration';
 
@@ -10,7 +10,7 @@ import { DatabaseMigration } from './infrastructure/database.migration';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: 'src/subscription/.env',
       load: [databaseConfig],
     }),
     MongooseModule.forRootAsync({
@@ -18,7 +18,7 @@ import { DatabaseMigration } from './infrastructure/database.migration';
     }),
     MongooseModule.forFeature([
       {
-        name: SubscriptionDb.name,
+        name: Subscription.name,
         schema: SubscriptionSchema,
       },
     ]),

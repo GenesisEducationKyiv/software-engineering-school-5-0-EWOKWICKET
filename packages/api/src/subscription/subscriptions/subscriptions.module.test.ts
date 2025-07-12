@@ -6,14 +6,14 @@ import { SubscriptionServiceInterface, SubscriptionServiceLookup } from './appli
 import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from './application/interfaces/subscription-repository.abstract';
 import { SubscriptionService } from './application/subscription.service';
 import { SubscriptionRepository } from './infrastructure/persistence/repositories/subscription.repository';
-import { SubscriptionDb, SubscriptionSchema } from './infrastructure/persistence/schemas/subscription.schema';
+import { Subscription, SubscriptionSchema } from './infrastructure/persistence/schemas/subscription.schema';
 import { SubscriptionController } from './presentation/subscription.controller';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       {
-        name: SubscriptionDb.name,
+        name: Subscription.name,
         schema: SubscriptionSchema,
       },
     ]),

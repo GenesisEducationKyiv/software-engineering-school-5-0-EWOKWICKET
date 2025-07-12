@@ -2,15 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, RootFilterQuery } from 'mongoose';
 import { HOUR } from 'src/common/utils/time-units';
+import { Frequency } from '../../../../../common/subscription/domain/frequency.vo';
 import { ServiceSubscriptionRepository } from '../../../application/interfaces/subscription-repository.abstract';
 import { Subscription } from '../../../domain/subscription.entity';
 import { CreateSubscriptionDto } from '../../../presentation/dtos/create-subscription.dto';
 import { SubscriptionEntityMapper } from '../../mappers/subscription-entity.mapper';
-import { SubscriptionDb } from '../schemas/subscription.schema';
 
 @Injectable()
 export class SubscriptionRepository implements ServiceSubscriptionRepository {
-  constructor(@InjectModel(SubscriptionDb.name) private readonly subscriptionModel: Model<SubscriptionDb>) {}
+  constructor(@InjectModel(Subscription.name) private readonly subscriptionModel: Model<Subscription>) {}
   async find(options: RootFilterQuery<Subscription>): Promise<Subscription[]> {
     const found = await this.subscriptionModel.find(options);
     return found.map(SubscriptionEntityMapper.toEntity);
@@ -38,7 +38,7 @@ export class SubscriptionRepository implements ServiceSubscriptionRepository {
     return SubscriptionEntityMapper.toEntity(deleted);
   }
 
-  async findGroupedByCities(frequency: string) {
+  async findGroupedByCities(frequency: Frequency) {
     const rawGroup = await this.subscriptionModel.aggregate([
       { $match: { frequency: frequency, confirmed: true } },
       {

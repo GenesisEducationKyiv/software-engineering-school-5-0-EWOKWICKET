@@ -3,7 +3,7 @@ import * as Joi from 'joi';
 import * as path from 'path';
 
 export const subscriptionEnvSchema = Joi.object({
-  DB_URI: Joi.string().optional(),
+  DB_URI: Joi.string().optional().default(''),
 }).unknown(true);
 
 const envPath = path.resolve(process.cwd(), 'src/subscription/.env');

@@ -18,8 +18,8 @@ export class OpenWeatherCityProvider extends ChainableCityProvider {
     private readonly configService: ConfigService,
   ) {
     super();
-    this.apiKey = this.configService.get('app.openWeatherApiKey');
-    this.apiUrl = this.configService.get('app.urls.openWeatherApi');
+    this.apiKey = this.configService.get('providers.openWeatherApiKey');
+    this.apiUrl = this.configService.get('providers.urls.openWeather');
   }
 
   async validateCity(city: string): Promise<boolean> {

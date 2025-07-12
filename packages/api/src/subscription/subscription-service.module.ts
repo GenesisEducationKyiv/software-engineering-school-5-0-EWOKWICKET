@@ -9,12 +9,11 @@ import { SubscriptionModule } from './subscriptions/subscription.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
       load: [databaseConfig],
       validationSchema: subscriptionEnvSchema,
     }),
     SubscriptionDatabaseModule,
-    SubscriptionModule
+    SubscriptionModule,
   ],
 })
 export class SubscripionServiceModule {}

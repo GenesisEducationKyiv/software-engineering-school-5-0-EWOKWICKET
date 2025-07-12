@@ -14,8 +14,8 @@ export class MailTemplateService {
   private readonly unsubscribeUrl: string;
 
   constructor(private readonly configServie: ConfigService) {
-    this.confirmURL = this.configServie.get<string>('app.urls.confirm');
-    this.unsubscribeUrl = this.configServie.get<string>('app.urls.unsubscribe');
+    this.confirmURL = this.configServie.get<string>('providers.urls.confirm');
+    this.unsubscribeUrl = this.configServie.get<string>('providers.urls.unsubscribe');
     this.loadTemplates();
   }
 

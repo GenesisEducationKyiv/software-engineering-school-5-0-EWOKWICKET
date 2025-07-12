@@ -5,16 +5,16 @@ import { Test } from '@nestjs/testing';
 import { useContainer } from 'class-validator';
 import { Model, Types } from 'mongoose';
 import { DatabaseExceptionFilter } from 'src/common/filters/database-exception.filter';
-import { NotificationSubjects } from 'src/common/notifications/notification-subjects.enum';
-import { NotificationType } from 'src/common/notifications/notification-type.enum';
+import { NotificationSubjects } from 'src/common/notifications/constants/notification-subjects.enum';
+import { NotificationType } from 'src/common/notifications/constants/notification-type.enum';
+import { Frequency } from 'src/common/subscription/domain/frequency.vo';
 import { appTestConfig } from 'src/config/test.config';
 import { NotificationsServiceInterface } from 'src/notifications/application/interfaces/notifications-service.abstract';
 import { NotificationsServiceTestModule } from 'src/notifications/notifications-service.module.test';
 import { databaseTestConfig } from 'src/subscription/config/test.config';
 import { SubscriptionDatabaseTestModule } from 'src/subscription/database/database.module.test';
-import { Frequency } from 'src/subscription/subscriptions/domain/frequency.vo';
 import { SubscriptionRepository } from 'src/subscription/subscriptions/infrastructure/persistence/repositories/subscription.repository';
-import { SubscriptionDb } from 'src/subscription/subscriptions/infrastructure/persistence/schemas/subscription.schema';
+import { Subscription } from 'src/subscription/subscriptions/infrastructure/persistence/schemas/subscription.schema';
 import { CreateSubscriptionDto } from 'src/subscription/subscriptions/presentation/dtos/create-subscription.dto';
 import { SubscriptionTestModule } from 'src/subscription/subscriptions/subscriptions.module.test';
 import { CityTestModule } from 'src/weather/city/city.module.test';
@@ -33,7 +33,7 @@ const succesfulSubscriptionDto: CreateSubscriptionDto = {
 describe('SubscriptionController (Integration)', () => {
   let app: INestApplication;
   let subscriptionRepository: SubscriptionRepository; // to check repo calls
-  let subscriptionModel: Model<SubscriptionDb>;
+  let subscriptionModel: Model<Subscription>;
   let primaryProvider: WeatherApiCityProvider;
   let secondaryProvider: OpenWeatherCityProvider;
 
@@ -71,7 +71,7 @@ describe('SubscriptionController (Integration)', () => {
     await app.init();
 
     subscriptionRepository = module.get<SubscriptionRepository>(SubscriptionRepository);
-    subscriptionModel = module.get<Model<SubscriptionDb>>(getModelToken(SubscriptionDb.name));
+    subscriptionModel = module.get<Model<Subscription>>(getModelToken(Subscription.name));
     primaryProvider = module.get<WeatherApiCityProvider>(WeatherApiCityProvider);
     secondaryProvider = module.get<OpenWeatherCityProvider>(OpenWeatherCityProvider);
   });

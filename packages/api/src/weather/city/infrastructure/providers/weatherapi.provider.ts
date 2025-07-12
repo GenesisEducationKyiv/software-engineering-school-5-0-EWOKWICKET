@@ -18,8 +18,8 @@ export class WeatherApiCityProvider extends ChainableCityProvider {
     private readonly configService: ConfigService,
   ) {
     super();
-    this.apiKey = this.configService.get('app.weatherApiKey');
-    this.apiUrl = this.configService.get('app.urls.weatherApi');
+    this.apiKey = this.configService.get('providers.weatherApiKey');
+    this.apiUrl = this.configService.get('providers.urls.weatherApi');
   }
 
   async validateCity(city: string): Promise<boolean> {

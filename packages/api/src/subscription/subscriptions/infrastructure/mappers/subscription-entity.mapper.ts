@@ -1,8 +1,7 @@
 import { Subscription } from '../../domain/subscription.entity';
-import { SubscriptionDb } from '../persistence/schemas/subscription.schema';
 
 export class SubscriptionEntityMapper {
-  static toEntity(sub: SubscriptionDb): Subscription {
+  static toEntity(sub: Subscription): Subscription {
     return {
       _id: sub._id.toString(),
       email: sub.email,

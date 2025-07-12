@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { NotificationsFacadeInterface } from 'src/common/interfaces/notifications-facade.interface';
-import { NotificationType } from 'src/common/notifications/notification-type.enum';
-import { GroupSubscriptionRepository } from 'src/subscription/subscriptions/application/interfaces/subscription-repository.abstract';
-import { Subscription } from 'src/subscription/subscriptions/domain/subscription.entity';
+import { SubscriptionFacadeGroup } from 'src/common/interfaces/subscription-facade.interface';
+import { NotificationType } from 'src/common/notifications/constants/notification-type.enum';
 import { CacheInvalidator } from 'src/weather/cache/application/interfaces/cache-service.interface';
 import { createCacheKey } from 'src/weather/common/cache/utils/create-cache-key';
 import { WeatherProvider } from 'src/weather/weather/application/interfaces/weather-provider.abstract';
@@ -15,12 +14,12 @@ export class WeatherUpdateService implements WeatherUpdateInterface {
   constructor(
     private readonly notifications: NotificationsFacadeInterface,
     private readonly weatherService: WeatherProvider,
-    private readonly subscriptionRepository: GroupSubscriptionRepository,
+    private readonly subscription: SubscriptionFacadeGroup,
     private readonly cacheService: CacheInvalidator,
   ) {}
 
   async sendUpdates({ frequency, subject, invalidateCache = false }: WeatherUpdateOptions) {
-    const grouped = await this.subscriptionRepository.findGroupedByCities(frequency);
+    const grouped = await this.subscription.getGroupedSubscriptionsByFrequency(frequency);
 
     if (invalidateCache) {
       const cities = grouped.map((group) => group.city);
@@ -32,7 +31,7 @@ export class WeatherUpdateService implements WeatherUpdateInterface {
       const weather = await this.weatherService.getCurrentWeather(city);
 
       await Promise.all(
-        group.subscriptions.map((subscription: Subscription) => {
+        group.subscriptions.map((subscription) => {
           this.notifications.sendWeatherUpdateNotification(
             {
               to: subscription.email,

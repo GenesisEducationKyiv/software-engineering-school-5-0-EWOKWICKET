@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
-import { SubscriptionDb } from 'src/subscription/subscriptions/infrastructure/persistence/schemas/subscription.schema';
+import { Subscription } from '../../subscriptions/infrastructure/persistence/schemas/subscription.schema';
 
 @Injectable()
 export class DatabaseMigration {
   constructor(
-    @InjectModel(SubscriptionDb.name) private readonly subscriptionModel: Model<SubscriptionDb>,
+    @InjectModel(Subscription.name) private readonly subscriptionModel: Model<Subscription>,
     @InjectConnection() private readonly connection: Connection,
   ) {}
 

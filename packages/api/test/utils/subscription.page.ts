@@ -1,5 +1,5 @@
 import { Page, expect } from '@playwright/test';
-import { Frequency } from 'src/subscription/subscriptions/domain/frequency.vo';
+import { Frequency } from 'src/common/subscription/domain/frequency.vo';
 
 export class SubscriptionPage {
   page: Page;

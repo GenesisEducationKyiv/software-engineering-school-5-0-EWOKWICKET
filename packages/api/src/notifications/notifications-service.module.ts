@@ -14,7 +14,6 @@ import { MailSender } from './infrastructure/mail/services/mail-sender.service';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: 'src/notifications/.env',
       validationSchema: notificationsEnvSchema,
       load: [mailConfig],
     }),

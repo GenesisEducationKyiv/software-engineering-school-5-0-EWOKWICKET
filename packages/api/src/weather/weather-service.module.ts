@@ -12,7 +12,7 @@ import { WeatherModule } from './weather/weather.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: 'src/weather/.env',
       load: [providersConfig, cacheConfig],
       validationSchema: weatherEnvSchema,
     }),

@@ -12,6 +12,6 @@ export default registerAs('providers', () => ({
     confirm: `${BASE}/confirm`,
     unsubscribe: `${BASE}/unsubscribe`,
     weatherApi: 'http://api.weatherapi.com/v1',
-    openWeatherApi: 'https://api.openweathermap.org/data/2.5',
+    openWeather: 'https://api.openweathermap.org/data/2.5',
   },
 }));

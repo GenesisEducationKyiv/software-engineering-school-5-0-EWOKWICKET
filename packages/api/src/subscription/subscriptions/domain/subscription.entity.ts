@@ -1,4 +1,4 @@
-import { Frequency } from './frequency.vo';
+import { Frequency } from 'src/common/subscription/domain/frequency.vo';
 
 export class Subscription {
   _id: string;

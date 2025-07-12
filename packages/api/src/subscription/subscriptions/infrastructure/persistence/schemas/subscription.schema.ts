@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
-import { Frequency } from '../../../domain/frequency.vo';
+import { Frequency } from '../../../../../common/subscription/domain/frequency.vo';
 
 @Schema()
-export class SubscriptionDb {
+export class Subscription {
   _id: Types.ObjectId;
 
   @Prop({ required: true, unique: false })
@@ -22,4 +22,4 @@ export class SubscriptionDb {
   expiresAt: Date;
 }
 
-export const SubscriptionSchema = SchemaFactory.createForClass(SubscriptionDb);
+export const SubscriptionSchema = SchemaFactory.createForClass(Subscription);
