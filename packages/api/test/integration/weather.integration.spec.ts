@@ -2,10 +2,10 @@ import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { appTestConfig } from 'src/config/test.config';
+import { GatewayTestModule } from 'src/gateway/test/gateway.module.test';
 import { databaseTestConfig } from 'src/subscription/config/test.config';
 import { CityNotFoundException } from 'src/weather/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/weather/common/errors/external-api.error';
-import { WeatherServiceTestModule } from 'src/weather/test/weather-service.module.test';
 import { Weather } from 'src/weather/weather-api/domain/weather.entity';
 import { OpenWeatherWeatherProvider } from 'src/weather/weather-api/infrastructure/providers/openweather.provider';
 import { WeatherApiWeatherProvider } from 'src/weather/weather-api/infrastructure/providers/weatherapi.provider';
@@ -31,7 +31,7 @@ describe('WeatherContoller (Integration)', () => {
           isGlobal: true,
           load: [appTestConfig, databaseTestConfig],
         }),
-        WeatherServiceTestModule,
+        GatewayTestModule,
       ],
     }).compile();
 

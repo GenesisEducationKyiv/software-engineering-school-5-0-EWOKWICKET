@@ -26,4 +26,4 @@ import { Subscription, SubscriptionSchema } from '../subscriptions/infrastructur
   ],
   providers: [DatabaseMigration],
 })
-export class SubscriptionDatabaseTestModule {}
+export class DatabaseTestModule {}

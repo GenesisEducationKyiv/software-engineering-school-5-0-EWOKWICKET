@@ -2,10 +2,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { appTestConfig } from 'src/config/test.config';
-import { NotificationsServiceTestModule } from 'src/notifications/test/notifications-service.module.test';
+import { GatewayTestModule } from 'src/gateway/test/gateway.module.test';
+import { NotificationsTestModule } from 'src/notifications/test/notifications.module.test';
 import { databaseTestConfig } from 'src/subscription/config/test.config';
-import { SubscriptionServiceTestModule } from 'src/subscription/test/subscription-service.module.test';
-import { WeatherServiceTestModule } from 'src/weather/test/weather-service.module.test';
+import { SubscriptionTestModule } from 'src/subscription/test/subscription.module.test';
+import { WeatherTestModule } from 'src/weather/test/weather.module.test';
 
 @Module({
   imports: [
@@ -19,9 +20,10 @@ import { WeatherServiceTestModule } from 'src/weather/test/weather-service.modul
       serveRoot: '/weatherapi.app',
       exclude: ['/weatherapi.app/api/(.*)'],
     }),
-    WeatherServiceTestModule,
-    NotificationsServiceTestModule,
-    SubscriptionServiceTestModule,
+    WeatherTestModule,
+    NotificationsTestModule,
+    SubscriptionTestModule,
+    GatewayTestModule,
   ],
 })
 export class AppTestModule {}

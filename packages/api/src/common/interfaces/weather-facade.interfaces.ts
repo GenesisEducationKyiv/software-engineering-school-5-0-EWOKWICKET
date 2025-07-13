@@ -1,4 +1,4 @@
-export abstract class WeatherFacadeInterface {
+export abstract class WeatherFacadePublic {
   abstract getCurrentWeather(city: string);
 }
 

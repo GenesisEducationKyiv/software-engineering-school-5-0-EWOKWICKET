@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { CityFacadeInterface, WeatherFacadeInterface } from 'src/common/interfaces/weather-facade.interfaces';
+import { CityFacadeInterface, WeatherFacadePublic } from 'src/common/interfaces/weather-facade.interfaces';
 import { CacheModule } from './cache/cache.module';
 import { CityModule } from './city/city.module';
 import cacheConfig from './config/cache.config';
@@ -22,7 +22,7 @@ import { WeatherSchedulerModule } from './weather-scheduler/weather-scheduler.mo
     CacheModule,
     WeatherSchedulerModule,
   ],
-  providers: [WeatherFacade, { provide: WeatherFacadeInterface, useExisting: WeatherFacade }, { provide: CityFacadeInterface, useExisting: WeatherFacade }],
-  exports: [WeatherFacadeInterface, CityFacadeInterface],
+  providers: [WeatherFacade, { provide: WeatherFacadePublic, useExisting: WeatherFacade }, { provide: CityFacadeInterface, useExisting: WeatherFacade }],
+  exports: [WeatherFacadePublic, CityFacadeInterface],
 })
 export class WeatherModule {}

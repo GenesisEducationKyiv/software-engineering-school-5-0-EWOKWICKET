@@ -3,8 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { SubscriptionFacadePublic, SubscriptionFacadeRepository } from 'src/common/interfaces/subscription-facade.interface';
 import { databaseTestConfig } from '../config/test.config';
 import { SubscriptionFacade } from '../public/subscription.facade';
-import { SubscriptionDatabaseTestModule } from './database.module.test';
-import { SubscriptionTestModule } from './subscriptions.module.test';
+import { DatabaseTestModule } from './database.module.test';
+import { SubscriptionDomainTestModule } from './subscriptions-domain.module.test';
 
 @Module({
   imports: [
@@ -13,8 +13,8 @@ import { SubscriptionTestModule } from './subscriptions.module.test';
       isGlobal: true,
       load: [databaseTestConfig],
     }),
-    SubscriptionDatabaseTestModule,
-    SubscriptionTestModule,
+    DatabaseTestModule,
+    SubscriptionDomainTestModule,
   ],
   providers: [
     SubscriptionFacade,
@@ -23,4 +23,4 @@ import { SubscriptionTestModule } from './subscriptions.module.test';
   ],
   exports: [SubscriptionFacadeRepository, SubscriptionFacadePublic],
 })
-export class SubscriptionServiceTestModule {}
+export class SubscriptionTestModule {}

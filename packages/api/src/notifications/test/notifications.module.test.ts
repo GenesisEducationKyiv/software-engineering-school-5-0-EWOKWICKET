@@ -15,4 +15,4 @@ const notificationsServiceMock: NotificationsServiceInterface = {
   ],
   exports: [NotificationsFacadeInterface],
 })
-export class NotificationsServiceTestModule {}
+export class NotificationsTestModule {}

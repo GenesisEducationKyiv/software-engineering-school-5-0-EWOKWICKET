@@ -10,12 +10,11 @@ import { NotificationType } from 'src/common/notifications/constants/notificatio
 import { Frequency } from 'src/common/subscription/domain/frequency.vo';
 import { appTestConfig } from 'src/config/test.config';
 import { CreateSubscriptionDto } from 'src/gateway/subscription/dtos/create-subscription.dto';
+import { GatewayTestModule } from 'src/gateway/test/gateway.module.test';
 import { NotificationsServiceInterface } from 'src/notifications/application/interfaces/notifications-service.abstract';
 import { databaseTestConfig } from 'src/subscription/config/test.config';
 import { SubscriptionRepository } from 'src/subscription/subscriptions/infrastructure/persistence/repositories/subscription.repository';
 import { Subscription } from 'src/subscription/subscriptions/infrastructure/persistence/schemas/subscription.schema';
-import { SubscriptionServiceTestModule } from 'src/subscription/test/subscription-service.module.test';
-import { SubscriptionTestModule } from 'src/subscription/test/subscriptions.module.test';
 import { OpenWeatherCityProvider } from 'src/weather/city/infrastructure/providers/openweather.provider';
 import { WeatherApiCityProvider } from 'src/weather/city/infrastructure/providers/weatherapi.provider';
 import { ExternalApiException } from 'src/weather/common/errors/external-api.error';
@@ -48,7 +47,7 @@ describe('SubscriptionController (Integration)', () => {
           isGlobal: true,
           load: [appTestConfig, databaseTestConfig],
         }),
-        SubscriptionServiceTestModule,
+        GatewayTestModule,
       ],
     })
       .overrideProvider(NotificationsServiceInterface)
@@ -56,7 +55,7 @@ describe('SubscriptionController (Integration)', () => {
       .compile();
 
     app = module.createNestApplication();
-    useContainer(app.select(SubscriptionTestModule), { fallbackOnErrors: true });
+    useContainer(app.select(GatewayTestModule), { fallbackOnErrors: true });
     app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
