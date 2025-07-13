@@ -1,14 +1,13 @@
 import { HttpModule } from '@nestjs/axios';
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { WeatherController } from '../../gateway/weather/weather.controller';
 import { WeatherProvider } from '../weather/application/interfaces/weather-provider.abstract';
 import { OpenWeatherWeatherProvider } from '../weather/infrastructure/providers/openweather.provider';
 import { WeatherApiWeatherProvider } from '../weather/infrastructure/providers/weatherapi.provider';
 import { WeatherProviderAdapter } from '../weather/infrastructure/wrappers/weather-povider.adapter';
-import { WeatherController } from '../weather/presentation/weather.controller';
-import { WeatherServiceTestModule } from './weather-service.module.test';
 
 @Module({
-  imports: [HttpModule.register({}), forwardRef(() => WeatherServiceTestModule)],
+  imports: [HttpModule.register({})],
   controllers: [WeatherController],
   providers: [
     WeatherApiWeatherProvider,

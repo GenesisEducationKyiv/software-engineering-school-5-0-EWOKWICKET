@@ -1,20 +1,17 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ProviderLogger } from 'src/common/logger/interfaces/logger.interface';
 import { LoggerModule } from 'src/common/logger/logger.module';
 import { CacheAccessor } from '../cache/application/interfaces/cache-service.interface';
 import { CacheModule } from '../cache/cache.module';
-import { WeatherServiceModule } from '../weather-service.module';
 import { WeatherProvider } from './application/interfaces/weather-provider.abstract';
 import { OpenWeatherWeatherProvider } from './infrastructure/providers/openweather.provider';
 import { WeatherApiWeatherProvider } from './infrastructure/providers/weatherapi.provider';
 import { WeatherProviderCacheProxy } from './infrastructure/wrappers/weather-cache.proxy';
 import { WeatherProviderAdapter } from './infrastructure/wrappers/weather-povider.adapter';
 import { WeatherProviderLoggingDecorator } from './infrastructure/wrappers/weather-provider-logging.decorator';
-import { WeatherController } from './presentation/weather.controller';
 
 @Module({
-  imports: [LoggerModule, CacheModule, forwardRef(() => WeatherServiceModule)],
-  controllers: [WeatherController],
+  imports: [LoggerModule, CacheModule],
   providers: [
     WeatherApiWeatherProvider,
     OpenWeatherWeatherProvider,

@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SubscriptionFacadePublic, SubscriptionFacadeRepository } from 'src/common/interfaces/subscription-facade.interface';
 import { databaseTestConfig } from '../config/test.config';
@@ -14,7 +14,7 @@ import { SubscriptionTestModule } from './subscriptions.module.test';
       load: [databaseTestConfig],
     }),
     SubscriptionDatabaseTestModule,
-    forwardRef(() => SubscriptionTestModule),
+    SubscriptionTestModule,
   ],
   providers: [
     SubscriptionFacade,

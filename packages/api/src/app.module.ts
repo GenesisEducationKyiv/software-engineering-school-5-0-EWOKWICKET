@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import appConfig from 'src/config/app.config';
 import { appEnvSchema } from 'src/config/env.validation';
+import { GatewayModule } from './gateway/gateway.module';
 import { NotificationsServiceModule } from './notifications/notifications-service.module';
 import { SubscriptionServiceModule } from './subscription/subscription-service.module';
 import { WeatherServiceModule } from './weather/weather-service.module';
@@ -25,6 +26,7 @@ import { WeatherServiceModule } from './weather/weather-service.module';
     WeatherServiceModule,
     SubscriptionServiceModule,
     NotificationsServiceModule,
+    GatewayModule,
   ],
 })
 export class AppModule {}

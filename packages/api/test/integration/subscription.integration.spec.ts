@@ -9,11 +9,11 @@ import { NotificationSubjects } from 'src/common/notifications/constants/notific
 import { NotificationType } from 'src/common/notifications/constants/notification-type.enum';
 import { Frequency } from 'src/common/subscription/domain/frequency.vo';
 import { appTestConfig } from 'src/config/test.config';
+import { CreateSubscriptionDto } from 'src/gateway/subscription/dtos/create-subscription.dto';
 import { NotificationsServiceInterface } from 'src/notifications/application/interfaces/notifications-service.abstract';
 import { databaseTestConfig } from 'src/subscription/config/test.config';
 import { SubscriptionRepository } from 'src/subscription/subscriptions/infrastructure/persistence/repositories/subscription.repository';
 import { Subscription } from 'src/subscription/subscriptions/infrastructure/persistence/schemas/subscription.schema';
-import { CreateSubscriptionDto } from 'src/subscription/subscriptions/presentation/dtos/create-subscription.dto';
 import { SubscriptionServiceTestModule } from 'src/subscription/test/subscription-service.module.test';
 import { SubscriptionTestModule } from 'src/subscription/test/subscriptions.module.test';
 import { OpenWeatherCityProvider } from 'src/weather/city/infrastructure/providers/openweather.provider';
