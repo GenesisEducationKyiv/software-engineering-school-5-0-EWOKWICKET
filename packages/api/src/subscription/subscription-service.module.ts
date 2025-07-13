@@ -3,9 +3,9 @@ import { ConfigModule } from '@nestjs/config';
 import { SubscriptionFacadePublic, SubscriptionFacadeRepository } from 'src/common/interfaces/subscription-facade.interface';
 import databaseConfig from './config/database.config';
 import { subscriptionEnvSchema } from './config/env.validation';
-import { SubscriptionDatabaseModule } from './database/database.module';
+import { DatabaseModule } from './database/database.module';
 import { SubscriptionFacade } from './public/subscription.facade';
-import { SubscriptionModule } from './subscriptions/subscription.module';
+import { SubscriptionDomainModule } from './subscriptions/subscription.module';
 
 @Module({
   imports: [
@@ -14,8 +14,8 @@ import { SubscriptionModule } from './subscriptions/subscription.module';
       load: [databaseConfig],
       validationSchema: subscriptionEnvSchema,
     }),
-    SubscriptionDatabaseModule,
-    SubscriptionModule,
+    DatabaseModule,
+    SubscriptionDomainModule,
   ],
   providers: [
     SubscriptionFacade,
@@ -24,4 +24,4 @@ import { SubscriptionModule } from './subscriptions/subscription.module';
   ],
   exports: [SubscriptionFacadeRepository, SubscriptionFacadePublic],
 })
-export class SubscriptionServiceModule {}
+export class SubscriptionModule {}

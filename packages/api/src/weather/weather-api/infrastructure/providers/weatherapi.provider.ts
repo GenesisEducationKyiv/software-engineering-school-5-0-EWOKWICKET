@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
 import { CityNotFoundException } from 'src/weather/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/weather/common/errors/external-api.error';
-import { WeatherApiWeatherFetch } from 'src/weather/weather/infrastructure/constants/weatherapi-weather-fetch.type';
+import { WeatherApiWeatherFetch } from 'src/weather/weather-api/infrastructure/constants/weatherapi-weather-fetch.type';
 import { ChainableWeatherProvider } from '../../application/interfaces/chainable-weather-provider.abstract';
 import { Weather } from '../../domain/weather.entity';
 import { WeatherApiDtoMapper } from '../mappers/weatherapi.mapper';

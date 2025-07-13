@@ -32,4 +32,4 @@ import { NotificationsFacade } from './public/notifications.facade';
   ],
   exports: [NotificationsFacadeInterface],
 })
-export class NotificationsServiceModule {}
+export class NotificationsModule {}

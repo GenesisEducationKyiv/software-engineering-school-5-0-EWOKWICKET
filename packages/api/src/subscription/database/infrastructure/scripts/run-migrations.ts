@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
-import { SubscriptionDatabaseModule } from '../../database.module';
+import { DatabaseModule } from '../../database.module';
 import { DatabaseMigration } from '../database.migration';
 
 async function runMigrations() {
-  const app = await NestFactory.createApplicationContext(SubscriptionDatabaseModule);
+  const app = await NestFactory.createApplicationContext(DatabaseModule);
   const migrationService = app.get<DatabaseMigration>(DatabaseMigration);
   await migrationService.migrateDatabase();
   await app.close();

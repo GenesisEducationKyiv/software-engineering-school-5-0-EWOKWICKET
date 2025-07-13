@@ -4,8 +4,8 @@ import { SubscriptionFacadeRepository } from 'src/common/interfaces/subscription
 import { NotificationType } from 'src/common/notifications/constants/notification-type.enum';
 import { CacheInvalidator } from 'src/weather/cache/application/interfaces/cache-service.interface';
 import { createCacheKey } from 'src/weather/common/cache/utils/create-cache-key';
-import { WeatherProvider } from 'src/weather/weather/application/interfaces/weather-provider.abstract';
-import { WeatherCachePrefixes } from 'src/weather/weather/infrastructure/constants/weather-cache-prefixes.enum';
+import { WeatherProvider } from 'src/weather/weather-api/application/interfaces/weather-provider.abstract';
+import { WeatherCachePrefixes } from 'src/weather/weather-api/infrastructure/constants/weather-cache-prefixes.enum';
 import { WeatherUpdateInterface } from '../application/interfaces/weather-update.abstract';
 import { WeatherUpdateOptions } from '../application/types/weather-update.options';
 

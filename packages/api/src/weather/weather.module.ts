@@ -7,8 +7,8 @@ import cacheConfig from './config/cache.config';
 import { weatherEnvSchema } from './config/env.validation';
 import providersConfig from './config/providers.config';
 import { WeatherFacade } from './public/weather.facade';
+import { WeatherAPIModule } from './weather-api/weather-api.module';
 import { WeatherSchedulerModule } from './weather-scheduler/weather-scheduler.module';
-import { WeatherModule } from './weather/weather.module';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { WeatherModule } from './weather/weather.module';
       load: [providersConfig, cacheConfig],
       validationSchema: weatherEnvSchema,
     }),
-    WeatherModule,
+    WeatherAPIModule,
     CityModule,
     CacheModule,
     WeatherSchedulerModule,
@@ -25,4 +25,4 @@ import { WeatherModule } from './weather/weather.module';
   providers: [WeatherFacade, { provide: WeatherFacadeInterface, useExisting: WeatherFacade }, { provide: CityFacadeInterface, useExisting: WeatherFacade }],
   exports: [WeatherFacadeInterface, CityFacadeInterface],
 })
-export class WeatherServiceModule {}
+export class WeatherModule {}

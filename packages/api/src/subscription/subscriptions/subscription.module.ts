@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CityExistsConstraint } from 'src/common/subscription/validators/city-exists.constraint';
-import { NotificationsServiceModule } from 'src/notifications/notifications-service.module';
-import { WeatherServiceModule } from 'src/weather/weather-service.module';
+import { NotificationsModule } from 'src/notifications/notifications.module';
+import { WeatherModule } from 'src/weather/weather.module';
 import { SubscriptionServiceInterface, SubscriptionServiceLookup } from './application/interfaces/subcription-service.abstract';
 import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from './application/interfaces/subscription-repository.abstract';
 import { SubscriptionService } from './application/subscription.service';
@@ -17,8 +17,8 @@ import { Subscription, SubscriptionSchema } from './infrastructure/persistence/s
         schema: SubscriptionSchema,
       },
     ]),
-    NotificationsServiceModule,
-    WeatherServiceModule,
+    NotificationsModule,
+    WeatherModule,
   ],
   providers: [
     CityExistsConstraint,
@@ -43,4 +43,4 @@ import { Subscription, SubscriptionSchema } from './infrastructure/persistence/s
   ],
   exports: [GroupSubscriptionRepository, SubscriptionServiceInterface],
 })
-export class SubscriptionModule {}
+export class SubscriptionDomainModule {}

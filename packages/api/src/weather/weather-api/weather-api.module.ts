@@ -29,4 +29,4 @@ import { WeatherProviderLoggingDecorator } from './infrastructure/wrappers/weath
   ],
   exports: [WeatherProvider],
 })
-export class WeatherModule {}
+export class WeatherAPIModule {}

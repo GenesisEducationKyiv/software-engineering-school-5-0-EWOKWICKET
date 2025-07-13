@@ -6,9 +6,9 @@ import { databaseTestConfig } from 'src/subscription/config/test.config';
 import { CityNotFoundException } from 'src/weather/common/errors/city-not-found.error';
 import { ExternalApiException } from 'src/weather/common/errors/external-api.error';
 import { WeatherServiceTestModule } from 'src/weather/test/weather-service.module.test';
-import { Weather } from 'src/weather/weather/domain/weather.entity';
-import { OpenWeatherWeatherProvider } from 'src/weather/weather/infrastructure/providers/openweather.provider';
-import { WeatherApiWeatherProvider } from 'src/weather/weather/infrastructure/providers/weatherapi.provider';
+import { Weather } from 'src/weather/weather-api/domain/weather.entity';
+import { OpenWeatherWeatherProvider } from 'src/weather/weather-api/infrastructure/providers/openweather.provider';
+import { WeatherApiWeatherProvider } from 'src/weather/weather-api/infrastructure/providers/weatherapi.provider';
 import * as request from 'supertest';
 import { TestsUrl } from 'test/utils/test-urls.enum';
 

@@ -1,4 +1,4 @@
-import { Weather } from 'src/weather/weather/domain/weather.entity';
+import { Weather } from 'src/weather/weather-api/domain/weather.entity';
 
 export type WeatherUpdate = {
   city: string;

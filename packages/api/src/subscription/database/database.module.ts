@@ -25,4 +25,4 @@ import { DatabaseMigration } from './infrastructure/database.migration';
   ],
   providers: [DatabaseMigration],
 })
-export class SubscriptionDatabaseModule {}
+export class DatabaseModule {}

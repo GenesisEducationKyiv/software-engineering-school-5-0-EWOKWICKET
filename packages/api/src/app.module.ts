@@ -5,9 +5,9 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import appConfig from 'src/config/app.config';
 import { appEnvSchema } from 'src/config/env.validation';
 import { GatewayModule } from './gateway/gateway.module';
-import { NotificationsServiceModule } from './notifications/notifications-service.module';
-import { SubscriptionServiceModule } from './subscription/subscription-service.module';
-import { WeatherServiceModule } from './weather/weather-service.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { SubscriptionModule } from './subscription/subscription-service.module';
+import { WeatherModule } from './weather/weather.module';
 
 @Module({
   imports: [
@@ -23,9 +23,9 @@ import { WeatherServiceModule } from './weather/weather-service.module';
       exclude: ['/weatherapi.app/api*'],
     }),
     HttpModule.register({ global: true }),
-    WeatherServiceModule,
-    SubscriptionServiceModule,
-    NotificationsServiceModule,
+    WeatherModule,
+    SubscriptionModule,
+    NotificationsModule,
     GatewayModule,
   ],
 })
