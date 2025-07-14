@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Frequency } from 'src/common/subscription/domain/frequency.vo';
-import { SubscriptionFacadeInterface } from 'src/subscription/facade/interfaces/subscription-facade.interface';
 import { SubscriptionServiceInterface } from '../subscription-domain/application/interfaces/subcription-service.abstract';
 import { GroupSubscriptionRepository } from '../subscription-domain/application/interfaces/subscription-repository.abstract';
 import { CreateSubscriptionDto } from '../subscription-domain/presentation/dtos/create-subscription.dto';
+import { SubscriptionFacadeInterface } from './interfaces/subscription-facade.interface';
 
 @Injectable()
 export class SubscriptionFacade implements SubscriptionFacadeInterface {

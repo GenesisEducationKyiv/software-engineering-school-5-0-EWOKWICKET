@@ -2,7 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CacheModule } from './cache/cache.module';
 import { CityModule } from './city/city.module';
+import { NotificationsClient } from './clients/interfaces/notifications-client.interface';
 import { SubscriptionClient } from './clients/interfaces/subscription-client.interface';
+import { NotificationsHttpClient } from './clients/notifications.http-client';
 import { SubscriptionHttpClient } from './clients/subscription.http-client';
 import cacheConfig from './config/cache.config';
 import { weatherEnvSchema } from './config/env.validation';
@@ -29,7 +31,8 @@ import { WeatherAPIModule } from './weather-api/weather-api.module';
   providers: [
     { provide: WeatherFacadeInterface, useClass: WeatherFacade },
     { provide: SubscriptionClient, useClass: SubscriptionHttpClient },
+    { provide: NotificationsClient, useClass: NotificationsHttpClient },
   ],
-  exports: [WeatherFacadeInterface, SubscriptionClient],
+  exports: [WeatherFacadeInterface, SubscriptionClient, NotificationsClient],
 })
 export class WeatherModule {}

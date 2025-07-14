@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { NotificationsFacadeInterface } from 'src/common/interfaces/notifications-facade.interface';
 import { NotificationType } from 'src/common/notifications/constants/notification-type.enum';
-import { CacheInvalidator } from 'src/weather/cache/application/interfaces/cache-service.interface';
-import { createCacheKey } from 'src/weather/common/cache/utils/create-cache-key';
-import { WeatherProvider } from 'src/weather/weather-api/application/interfaces/weather-provider.abstract';
-import { WeatherCachePrefixes } from 'src/weather/weather-api/infrastructure/constants/weather-cache-prefixes.enum';
+import { CacheInvalidator } from '../../cache/application/interfaces/cache-service.interface';
+import { NotificationsClient } from '../../clients/interfaces/notifications-client.interface';
 import { SubscriptionClient } from '../../clients/interfaces/subscription-client.interface';
+import { createCacheKey } from '../../common/cache/utils/create-cache-key';
+import { WeatherProvider } from '../../weather-api/application/interfaces/weather-provider.abstract';
+import { WeatherCachePrefixes } from '../../weather-api/infrastructure/constants/weather-cache-prefixes.enum';
 import { WeatherUpdateInterface } from '../application/interfaces/weather-update.abstract';
 import { WeatherUpdateOptions } from '../application/types/weather-update.options';
 
 @Injectable()
 export class WeatherUpdateService implements WeatherUpdateInterface {
   constructor(
-    private readonly notifications: NotificationsFacadeInterface,
+    private readonly notifications: NotificationsClient,
     private readonly weather: WeatherProvider,
     private readonly cacheService: CacheInvalidator,
     private readonly subscription: SubscriptionClient,

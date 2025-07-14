@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { RootFilterQuery } from 'mongoose';
-import { NotificationsFacadeInterface } from 'src/common/interfaces/notifications-facade.interface';
 import { NotificationSubjects } from 'src/common/notifications/constants/notification-subjects.enum';
 import { NotificationType } from 'src/common/notifications/constants/notification-type.enum';
+import { NotificationsClient } from 'src/subscription/clients/interfaces/notifications-client.interface';
 import { InvalidTokenException } from '../../../common/subscription/domain/errors/invalid-token.error';
 import { Subscription } from '../domain/subscription.entity';
 import { CreateSubscriptionDto } from '../presentation/dtos/create-subscription.dto';
@@ -13,7 +13,7 @@ import { ServiceSubscriptionRepository } from './interfaces/subscription-reposit
 export class SubscriptionService implements SubscriptionServiceLookup, SubscriptionServiceInterface {
   constructor(
     private readonly subscriptionRepository: ServiceSubscriptionRepository,
-    private readonly notifications: NotificationsFacadeInterface,
+    private readonly notifications: NotificationsClient,
   ) {}
 
   async subscribe(subscribeDto: CreateSubscriptionDto): Promise<void> {

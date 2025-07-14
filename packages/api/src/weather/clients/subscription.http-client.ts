@@ -21,7 +21,7 @@ export class SubscriptionHttpClient implements SubscriptionClient {
       this.http.request({
         method: 'GET',
         baseURL: this.subscriptionBaseUrl,
-        url: 'internal/groupedSubscription',
+        url: 'groupedSubscription',
         params: { frequency },
       }),
     );

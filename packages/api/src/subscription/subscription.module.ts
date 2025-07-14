@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { NotificationsClient } from './clients/interfaces/notifications-client.interface';
 import { WeatherClient } from './clients/interfaces/weather-client.interface';
+import { NotificationsHttpClient } from './clients/notifications.http-client';
 import { WeatherHttpClient } from './clients/weather.http-client';
 import databaseConfig from './config/database.config';
 import { subscriptionEnvSchema } from './config/env.validation';
@@ -24,7 +26,8 @@ import { SubscriptionDomainModule } from './subscription-domain/subscription-dom
   providers: [
     { provide: SubscriptionFacadeInterface, useClass: SubscriptionFacade },
     { provide: WeatherClient, useClass: WeatherHttpClient },
+    { provide: NotificationsClient, useClass: NotificationsHttpClient },
   ],
-  exports: [SubscriptionFacadeInterface, WeatherClient],
+  exports: [SubscriptionFacadeInterface, WeatherClient, NotificationsClient],
 })
 export class SubscriptionModule {}
