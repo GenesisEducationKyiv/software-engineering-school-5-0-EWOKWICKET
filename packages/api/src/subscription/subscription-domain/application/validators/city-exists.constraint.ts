@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
-import { CityFacadeInterface } from 'src/common/interfaces/weather-facade.interfaces';
+import { CityFacadeInterface } from 'src/weather/application/interfaces/weather-facade.interfaces';
 
 @ValidatorConstraint({ async: true })
 @Injectable()

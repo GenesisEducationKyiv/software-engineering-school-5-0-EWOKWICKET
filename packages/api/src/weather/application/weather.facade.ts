@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CityFacadeInterface, WeatherFacadePublic } from 'src/common/interfaces/weather-facade.interfaces';
+import { CityFacadeInterface, WeatherFacadePublic } from 'src/weather/application/interfaces/weather-facade.interfaces';
 import { CityProvider } from '../city/application/interfaces/city-provider.abstract';
 import { WeatherProvider } from '../weather-api/application/interfaces/weather-provider.abstract';
 

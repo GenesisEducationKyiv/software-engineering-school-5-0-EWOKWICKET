@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { CityFacadeInterface, WeatherFacadePublic } from 'src/common/interfaces/weather-facade.interfaces';
-import { WeatherFacade } from '../public/weather.facade';
+import { CityFacadeInterface, WeatherFacadePublic } from 'src/weather/application/interfaces/weather-facade.interfaces';
+import { WeatherFacade } from '../application/weather.facade';
 import { CityTestModule } from './city.module.test';
 import { WeatherAPITestModule } from './weather-api.module.test';
 

@@ -8,7 +8,7 @@ import { notificationsEnvSchema } from './config/env.validation';
 import mailConfig from './config/mail.config';
 import { MailModule } from './infrastructure/mail/mail.module';
 import { MailSender } from './infrastructure/mail/services/mail-sender.service';
-import { NotificationsFacade } from './public/notifications.facade';
+import { NotificationsFacade } from './application/notifications.facade';
 
 @Module({
   imports: [

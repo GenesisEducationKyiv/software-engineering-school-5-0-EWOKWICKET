@@ -7,4 +7,5 @@ export default registerAs('urls', () => ({
   baseUrl,
   publicBaseUrl: `${baseUrl}/weatherapi.app/api`,
   subscription: `${baseUrl}/subscription`,
+  weather: `${baseUrl}/weather`,
 }));
