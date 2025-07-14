@@ -1,7 +1,7 @@
 import { RootFilterQuery } from 'mongoose';
 import { Frequency } from 'src/common/subscription/domain/frequency.vo';
-import { CreateSubscriptionDto } from 'src/gateway/subscription/dtos/create-subscription.dto';
 import { Subscription } from '../../domain/subscription.entity';
+import { CreateSubscriptionDto } from '../../presentation/dtos/create-subscription.dto';
 
 export abstract class ServiceSubscriptionRepository {
   abstract find(options: RootFilterQuery<Subscription>): Promise<Subscription[]>;

@@ -1,15 +1,14 @@
 import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
-import { SubscriptionFacadePublic } from 'src/common/interfaces/subscription-facade.interface';
 import { MongoIdValidationPipe } from 'src/common/pipes/mongo-id-validation.pipe';
-import { CreateSubscriptionDto } from './dtos/create-subscription.dto';
+import { SubscriptionClient } from '../application/interfaces/subscription-client.interface';
 
-@Controller()
+@Controller('weatherapi.app/api')
 export class SubscriptionController {
-  constructor(private readonly subscription: SubscriptionFacadePublic) {}
+  constructor(private readonly subscription: SubscriptionClient) {}
 
   @HttpCode(200)
   @Post('subscribe')
-  async subscribe(@Body() subscribeDto: CreateSubscriptionDto) {
+  async subscribe(@Body() subscribeDto: unknown) {
     await this.subscription.subscribe(subscribeDto);
   }
 

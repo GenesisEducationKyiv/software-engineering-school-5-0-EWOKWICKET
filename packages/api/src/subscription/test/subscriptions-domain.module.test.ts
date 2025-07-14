@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NotificationsTestModule } from 'src/notifications/test/notifications.module.test';
 import { WeatherTestModule } from 'src/weather/test/weather.module.test';
-import { CityExistsConstraint } from '../../common/subscription/validators/city-exists.constraint';
-import { SubscriptionServiceInterface, SubscriptionServiceLookup } from '../subscriptions/application/interfaces/subcription-service.abstract';
-import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from '../subscriptions/application/interfaces/subscription-repository.abstract';
-import { SubscriptionService } from '../subscriptions/application/subscription.service';
-import { Subscription } from '../subscriptions/domain/subscription.entity';
-import { SubscriptionRepository } from '../subscriptions/infrastructure/persistence/repositories/subscription.repository';
-import { SubscriptionSchema } from '../subscriptions/infrastructure/persistence/schemas/subscription.schema';
+import { SubscriptionServiceInterface, SubscriptionServiceLookup } from '../subscription-domain/application/interfaces/subcription-service.abstract';
+import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from '../subscription-domain/application/interfaces/subscription-repository.abstract';
+import { SubscriptionService } from '../subscription-domain/application/subscription.service';
+import { CityExistsConstraint } from '../subscription-domain/application/validators/city-exists.constraint';
+import { Subscription } from '../subscription-domain/domain/subscription.entity';
+import { SubscriptionRepository } from '../subscription-domain/infrastructure/persistence/repositories/subscription.repository';
+import { SubscriptionSchema } from '../subscription-domain/infrastructure/persistence/schemas/subscription.schema';
 
 @Module({
   imports: [

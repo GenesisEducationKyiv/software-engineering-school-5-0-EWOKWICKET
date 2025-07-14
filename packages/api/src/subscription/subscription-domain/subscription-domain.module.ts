@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CityExistsConstraint } from 'src/common/subscription/validators/city-exists.constraint';
 import { NotificationsModule } from 'src/notifications/notifications.module';
+import { CityExistsConstraint } from 'src/subscription/subscription-domain/application/validators/city-exists.constraint';
 import { WeatherModule } from 'src/weather/weather.module';
 import { SubscriptionServiceInterface, SubscriptionServiceLookup } from './application/interfaces/subcription-service.abstract';
 import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from './application/interfaces/subscription-repository.abstract';

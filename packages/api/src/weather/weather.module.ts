@@ -6,6 +6,8 @@ import { CityModule } from './city/city.module';
 import cacheConfig from './config/cache.config';
 import { weatherEnvSchema } from './config/env.validation';
 import providersConfig from './config/providers.config';
+import { SubscriptionClient } from './public/interfaces/subscription-client.interface';
+import { SubscriptionHttpClient } from './public/subscription.http-client';
 import { WeatherFacade } from './public/weather.facade';
 import { WeatherAPIModule } from './weather-api/weather-api.module';
 import { WeatherSchedulerModule } from './weather-scheduler/weather-scheduler.module';
@@ -22,7 +24,12 @@ import { WeatherSchedulerModule } from './weather-scheduler/weather-scheduler.mo
     CacheModule,
     WeatherSchedulerModule,
   ],
-  providers: [WeatherFacade, { provide: WeatherFacadePublic, useExisting: WeatherFacade }, { provide: CityFacadeInterface, useExisting: WeatherFacade }],
-  exports: [WeatherFacadePublic, CityFacadeInterface],
+  providers: [
+    WeatherFacade,
+    { provide: WeatherFacadePublic, useExisting: WeatherFacade },
+    { provide: CityFacadeInterface, useExisting: WeatherFacade },
+    { provide: SubscriptionClient, useClass: SubscriptionHttpClient },
+  ],
+  exports: [WeatherFacadePublic, CityFacadeInterface, SubscriptionClient],
 })
 export class WeatherModule {}

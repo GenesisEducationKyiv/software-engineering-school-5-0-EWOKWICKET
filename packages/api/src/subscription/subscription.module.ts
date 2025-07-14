@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { SubscriptionFacadePublic, SubscriptionFacadeRepository } from 'src/common/interfaces/subscription-facade.interface';
+import { SubscriptionFacadePublic, SubscriptionFacadeRepository } from 'src/subscription/application/interfaces/subscription-facade.interface';
+import { SubscriptionFacade } from './application/subscription.facade';
 import databaseConfig from './config/database.config';
 import { subscriptionEnvSchema } from './config/env.validation';
 import { DatabaseModule } from './database/database.module';
-import { SubscriptionFacade } from './public/subscription.facade';
-import { SubscriptionDomainModule } from './subscriptions/subscription.module';
+import { InternalSubscriptionController } from './presentation/internal.controller';
+import { PublicSubscriptionController } from './presentation/public.controller';
+import { SubscriptionDomainModule } from './subscription-domain/subscription-domain.module';
 
 @Module({
   imports: [
@@ -17,6 +19,7 @@ import { SubscriptionDomainModule } from './subscriptions/subscription.module';
     DatabaseModule,
     SubscriptionDomainModule,
   ],
+  controllers: [PublicSubscriptionController, InternalSubscriptionController],
   providers: [
     SubscriptionFacade,
     { provide: SubscriptionFacadeRepository, useExisting: SubscriptionFacade },

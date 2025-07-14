@@ -1,4 +1,4 @@
-import { Frequency } from '../subscription/domain/frequency.vo';
+import { Frequency } from 'src/common/subscription/domain/frequency.vo';
 
 export abstract class SubscriptionFacadeRepository {
   abstract getGroupedSubscriptionsByFrequency(frequency: Frequency);

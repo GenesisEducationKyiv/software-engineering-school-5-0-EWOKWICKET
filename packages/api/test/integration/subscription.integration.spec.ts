@@ -9,12 +9,12 @@ import { NotificationSubjects } from 'src/common/notifications/constants/notific
 import { NotificationType } from 'src/common/notifications/constants/notification-type.enum';
 import { Frequency } from 'src/common/subscription/domain/frequency.vo';
 import { appTestConfig } from 'src/config/test.config';
-import { CreateSubscriptionDto } from 'src/gateway/subscription/dtos/create-subscription.dto';
+import { CreateSubscriptionDto } from 'src/gateway/subscription/presentation/dtos/create-subscription.dto';
 import { GatewayTestModule } from 'src/gateway/test/gateway.module.test';
 import { NotificationsServiceInterface } from 'src/notifications/application/interfaces/notifications-service.abstract';
 import { databaseTestConfig } from 'src/subscription/config/test.config';
-import { SubscriptionRepository } from 'src/subscription/subscriptions/infrastructure/persistence/repositories/subscription.repository';
-import { Subscription } from 'src/subscription/subscriptions/infrastructure/persistence/schemas/subscription.schema';
+import { SubscriptionRepository } from 'src/subscription/subscription-domain/infrastructure/persistence/repositories/subscription.repository';
+import { Subscription } from 'src/subscription/subscription-domain/infrastructure/persistence/schemas/subscription.schema';
 import { OpenWeatherCityProvider } from 'src/weather/city/infrastructure/providers/openweather.provider';
 import { WeatherApiCityProvider } from 'src/weather/city/infrastructure/providers/weatherapi.provider';
 import { ExternalApiException } from 'src/weather/common/errors/external-api.error';

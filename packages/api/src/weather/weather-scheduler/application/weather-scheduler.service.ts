@@ -8,7 +8,7 @@ import { WeatherUpdateInterface } from './interfaces/weather-update.abstract';
 export class WeatherSchedulerService {
   constructor(private readonly weatherUpdateService: WeatherUpdateInterface) {}
 
-  @Cron(CronExpression.EVERY_HOUR)
+  @Cron(CronExpression.EVERY_MINUTE)
   private async sendHourlyUpdates() {
     console.log(NotificationSubjects.WEATHER_UPDATES_HOURLY);
     await this.weatherUpdateService.sendUpdates({

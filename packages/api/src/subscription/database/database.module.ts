@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import databaseConfig from '../config/database.config';
-import { Subscription, SubscriptionSchema } from '../subscriptions/infrastructure/persistence/schemas/subscription.schema';
+import { Subscription, SubscriptionSchema } from '../subscription-domain/infrastructure/persistence/schemas/subscription.schema';
 import { DatabaseConfig } from './config/database.config';
 import { DatabaseMigration } from './infrastructure/database.migration';
 

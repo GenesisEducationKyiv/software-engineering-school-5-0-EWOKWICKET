@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, RootFilterQuery } from 'mongoose';
 import { Frequency } from 'src/common/subscription/domain/frequency.vo';
 import { HOUR } from 'src/common/utils/time-units';
-import { CreateSubscriptionDto } from 'src/gateway/subscription/dtos/create-subscription.dto';
+import { CreateSubscriptionDto } from 'src/subscription/subscription-domain/presentation/dtos/create-subscription.dto';
 import { ServiceSubscriptionRepository } from '../../../application/interfaces/subscription-repository.abstract';
 import { Subscription } from '../../../domain/subscription.entity';
 import { SubscriptionEntityMapper } from '../../mappers/subscription-entity.mapper';

@@ -4,7 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { databaseTestConfig } from '../config/test.config';
 import { DatabaseConfig } from '../database/config/database.config';
 import { DatabaseMigration } from '../database/infrastructure/database.migration';
-import { Subscription, SubscriptionSchema } from '../subscriptions/infrastructure/persistence/schemas/subscription.schema';
+import { Subscription, SubscriptionSchema } from '../subscription-domain/infrastructure/persistence/schemas/subscription.schema';
 
 @Module({
   imports: [

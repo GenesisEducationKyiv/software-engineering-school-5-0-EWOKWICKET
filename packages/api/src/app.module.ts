@@ -4,9 +4,10 @@ import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import appConfig from 'src/config/app.config';
 import { appEnvSchema } from 'src/config/env.validation';
+import urlsConfig from './config/urls.config';
 import { GatewayModule } from './gateway/gateway.module';
 import { NotificationsModule } from './notifications/notifications.module';
-import { SubscriptionModule } from './subscription/subscription-service.module';
+import { SubscriptionModule } from './subscription/subscription.module';
 import { WeatherModule } from './weather/weather.module';
 
 @Module({
@@ -14,7 +15,7 @@ import { WeatherModule } from './weather/weather.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
-      load: [appConfig],
+      load: [appConfig, urlsConfig],
       validationSchema: appEnvSchema,
     }),
     ServeStaticModule.forRoot({
