@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { SubscriptionFacadePublic, SubscriptionFacadeRepository } from 'src/subscription/application/interfaces/subscription-facade.interface';
-import { SubscriptionFacade } from './application/subscription.facade';
+import { WeatherClient } from './clients/interfaces/weather-client.interface';
+import { WeatherHttpClient } from './clients/weather.http-client';
 import databaseConfig from './config/database.config';
 import { subscriptionEnvSchema } from './config/env.validation';
 import { DatabaseModule } from './database/database.module';
-import { InternalSubscriptionController } from './presentation/internal.controller';
-import { PublicSubscriptionController } from './presentation/public.controller';
+import { SubscriptionFacadeInterface } from './facade/interfaces/subscription-facade.interface';
+import { SubscriptionFacade } from './facade/subscription.facade';
+import { SubscriptionController } from './presentation/subcription.controller';
 import { SubscriptionDomainModule } from './subscription-domain/subscription-domain.module';
 
 @Module({
@@ -19,12 +20,11 @@ import { SubscriptionDomainModule } from './subscription-domain/subscription-dom
     DatabaseModule,
     SubscriptionDomainModule,
   ],
-  controllers: [PublicSubscriptionController, InternalSubscriptionController],
+  controllers: [SubscriptionController],
   providers: [
-    SubscriptionFacade,
-    { provide: SubscriptionFacadeRepository, useExisting: SubscriptionFacade },
-    { provide: SubscriptionFacadePublic, useExisting: SubscriptionFacade },
+    { provide: SubscriptionFacadeInterface, useClass: SubscriptionFacade },
+    { provide: WeatherClient, useClass: WeatherHttpClient },
   ],
-  exports: [SubscriptionFacadeRepository, SubscriptionFacadePublic],
+  exports: [SubscriptionFacadeInterface, WeatherClient],
 })
 export class SubscriptionModule {}

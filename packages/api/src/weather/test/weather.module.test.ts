@@ -1,12 +1,17 @@
 import { Module } from '@nestjs/common';
-import { CityFacadeInterface, WeatherFacadePublic } from 'src/weather/application/interfaces/weather-facade.interfaces';
-import { WeatherFacade } from '../application/weather.facade';
+import { SubscriptionClient } from '../clients/interfaces/subscription-client.interface';
+import { SubscriptionHttpClient } from '../clients/subscription.http-client';
+import { WeatherFacadeInterface } from '../facade/interfaces/weather-facade.interface';
+import { WeatherFacade } from '../facade/weather.facade';
 import { CityTestModule } from './city.module.test';
 import { WeatherAPITestModule } from './weather-api.module.test';
 
 @Module({
   imports: [WeatherAPITestModule, CityTestModule],
-  providers: [WeatherFacade, { provide: WeatherFacadePublic, useExisting: WeatherFacade }, { provide: CityFacadeInterface, useExisting: WeatherFacade }],
-  exports: [WeatherFacadePublic, CityFacadeInterface],
+  providers: [
+    { provide: WeatherFacadeInterface, useClass: WeatherFacade },
+    { provide: SubscriptionClient, useClass: SubscriptionHttpClient },
+  ],
+  exports: [WeatherFacadeInterface, SubscriptionClient],
 })
 export class WeatherTestModule {}

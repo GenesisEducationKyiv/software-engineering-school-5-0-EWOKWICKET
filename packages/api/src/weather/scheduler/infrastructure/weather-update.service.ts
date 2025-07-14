@@ -5,7 +5,7 @@ import { CacheInvalidator } from 'src/weather/cache/application/interfaces/cache
 import { createCacheKey } from 'src/weather/common/cache/utils/create-cache-key';
 import { WeatherProvider } from 'src/weather/weather-api/application/interfaces/weather-provider.abstract';
 import { WeatherCachePrefixes } from 'src/weather/weather-api/infrastructure/constants/weather-cache-prefixes.enum';
-import { SubscriptionClient } from '../../public/interfaces/subscription-client.interface';
+import { SubscriptionClient } from '../../clients/interfaces/subscription-client.interface';
 import { WeatherUpdateInterface } from '../application/interfaces/weather-update.abstract';
 import { WeatherUpdateOptions } from '../application/types/weather-update.options';
 

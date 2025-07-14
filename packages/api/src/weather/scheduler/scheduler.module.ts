@@ -5,17 +5,17 @@ import { CacheModule } from '../cache/cache.module';
 import { WeatherAPIModule } from '../weather-api/weather-api.module';
 import { WeatherModule } from '../weather.module';
 import { WeatherUpdateInterface } from './application/interfaces/weather-update.abstract';
-import { WeatherSchedulerService } from './application/weather-scheduler.service';
+import { SchedulerService } from './application/scheduler.service';
 import { WeatherUpdateService } from './infrastructure/weather-update.service';
 
 @Module({
   imports: [ScheduleModule.forRoot(), NotificationsModule, CacheModule, WeatherAPIModule, forwardRef(() => WeatherModule)],
   providers: [
-    WeatherSchedulerService,
+    SchedulerService,
     {
       provide: WeatherUpdateInterface,
       useClass: WeatherUpdateService,
     },
   ],
 })
-export class WeatherSchedulerModule {}
+export class SchedulerModule {}

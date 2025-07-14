@@ -5,7 +5,7 @@ import { Frequency } from 'src/common/subscription/domain/frequency.vo';
 import { WeatherUpdateInterface } from './interfaces/weather-update.abstract';
 
 @Injectable()
-export class WeatherSchedulerService {
+export class SchedulerService {
   constructor(private readonly weatherUpdateService: WeatherUpdateInterface) {}
 
   @Cron(CronExpression.EVERY_HOUR)

@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { SubscriptionFacadePublic, SubscriptionFacadeRepository } from 'src/subscription/application/interfaces/subscription-facade.interface';
-import { SubscriptionFacade } from '../application/subscription.facade';
 import { databaseTestConfig } from '../config/test.config';
+import { SubscriptionFacadeInterface } from '../facade/interfaces/subscription-facade.interface';
+import { SubscriptionFacade } from '../facade/subscription.facade';
+import { SubscriptionController } from '../presentation/subcription.controller';
 import { DatabaseTestModule } from './database.module.test';
 import { SubscriptionDomainTestModule } from './subscriptions-domain.module.test';
 
@@ -16,11 +17,8 @@ import { SubscriptionDomainTestModule } from './subscriptions-domain.module.test
     DatabaseTestModule,
     SubscriptionDomainTestModule,
   ],
-  providers: [
-    SubscriptionFacade,
-    { provide: SubscriptionFacadeRepository, useExisting: SubscriptionFacade },
-    { provide: SubscriptionFacadePublic, useExisting: SubscriptionFacade },
-  ],
-  exports: [SubscriptionFacadeRepository, SubscriptionFacadePublic],
+  controllers: [SubscriptionController],
+  providers: [{ provide: SubscriptionFacadeInterface, useClass: SubscriptionFacade }],
+  exports: [SubscriptionFacadeInterface],
 })
 export class SubscriptionTestModule {}

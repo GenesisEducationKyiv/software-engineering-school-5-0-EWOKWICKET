@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { CityFacadeInterface, WeatherFacadePublic } from 'src/weather/application/interfaces/weather-facade.interfaces';
-import { WeatherFacade } from './application/weather.facade';
 import { CacheModule } from './cache/cache.module';
 import { CityModule } from './city/city.module';
+import { SubscriptionClient } from './clients/interfaces/subscription-client.interface';
+import { SubscriptionHttpClient } from './clients/subscription.http-client';
 import cacheConfig from './config/cache.config';
 import { weatherEnvSchema } from './config/env.validation';
 import providersConfig from './config/providers.config';
-import { PublicWeatherController } from './presentation/public.controller';
-import { SubscriptionClient } from './public/interfaces/subscription-client.interface';
-import { SubscriptionHttpClient } from './public/subscription.http-client';
+import { WeatherFacadeInterface } from './facade/interfaces/weather-facade.interface';
+import { WeatherFacade } from './facade/weather.facade';
+import { WeatherController } from './presentation/weather.controller';
+import { SchedulerModule } from './scheduler/scheduler.module';
 import { WeatherAPIModule } from './weather-api/weather-api.module';
-import { WeatherSchedulerModule } from './weather-scheduler/weather-scheduler.module';
 
 @Module({
   imports: [
@@ -23,15 +23,13 @@ import { WeatherSchedulerModule } from './weather-scheduler/weather-scheduler.mo
     WeatherAPIModule,
     CityModule,
     CacheModule,
-    WeatherSchedulerModule,
+    SchedulerModule,
   ],
-  controllers: [PublicWeatherController],
+  controllers: [WeatherController],
   providers: [
-    WeatherFacade,
-    { provide: WeatherFacadePublic, useExisting: WeatherFacade },
-    { provide: CityFacadeInterface, useExisting: WeatherFacade },
+    { provide: WeatherFacadeInterface, useClass: WeatherFacade },
     { provide: SubscriptionClient, useClass: SubscriptionHttpClient },
   ],
-  exports: [WeatherFacadePublic, CityFacadeInterface, SubscriptionClient],
+  exports: [WeatherFacadeInterface, SubscriptionClient],
 })
 export class WeatherModule {}
