@@ -2,13 +2,13 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import appConfig from 'src/config/app.config';
 import { appEnvSchema } from 'src/config/env.validation';
+import { GatewayModule } from 'src/gateway/gateway.module';
+import { NotificationsModule } from 'src/notifications/notifications.module';
+import { SubscriptionModule } from 'src/subscription/subscription.module';
+import { WeatherModule } from 'src/weather/weather.module';
+import appConfig from './config/app.config';
 import urlsConfig from './config/urls.config';
-import { GatewayModule } from './gateway/gateway.module';
-import { NotificationsModule } from './notifications/notifications.module';
-import { SubscriptionModule } from './subscription/subscription.module';
-import { WeatherModule } from './weather/weather.module';
 
 @Module({
   imports: [

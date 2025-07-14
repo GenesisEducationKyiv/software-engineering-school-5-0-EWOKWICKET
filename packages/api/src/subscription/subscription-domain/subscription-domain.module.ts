@@ -1,12 +1,10 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { NotificationsModule } from 'src/notifications/notifications.module';
-import { CityExistsConstraint } from 'src/subscription/subscription-domain/application/validators/city-exists.constraint';
-import { WeatherModule } from 'src/weather/weather.module';
 import { SubscriptionModule } from '../subscription.module';
 import { SubscriptionServiceInterface, SubscriptionServiceLookup } from './application/interfaces/subcription-service.abstract';
 import { GroupSubscriptionRepository, ServiceSubscriptionRepository } from './application/interfaces/subscription-repository.abstract';
 import { SubscriptionService } from './application/subscription.service';
+import { CityExistsConstraint } from './application/validators/city-exists.constraint';
 import { SubscriptionRepository } from './infrastructure/persistence/repositories/subscription.repository';
 import { Subscription, SubscriptionSchema } from './infrastructure/persistence/schemas/subscription.schema';
 
@@ -18,8 +16,6 @@ import { Subscription, SubscriptionSchema } from './infrastructure/persistence/s
         schema: SubscriptionSchema,
       },
     ]),
-    NotificationsModule,
-    WeatherModule,
     forwardRef(() => SubscriptionModule),
   ],
   providers: [

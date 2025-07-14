@@ -1,6 +1,5 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
-import { NotificationsModule } from 'src/notifications/notifications.module';
 import { CacheModule } from '../cache/cache.module';
 import { WeatherAPIModule } from '../weather-api/weather-api.module';
 import { WeatherModule } from '../weather.module';
@@ -9,7 +8,7 @@ import { SchedulerService } from './application/scheduler.service';
 import { WeatherUpdateService } from './infrastructure/weather-update.service';
 
 @Module({
-  imports: [ScheduleModule.forRoot(), NotificationsModule, CacheModule, WeatherAPIModule, forwardRef(() => WeatherModule)],
+  imports: [ScheduleModule.forRoot(), CacheModule, WeatherAPIModule, forwardRef(() => WeatherModule)],
   providers: [
     SchedulerService,
     {

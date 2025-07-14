@@ -2,10 +2,10 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { useContainer } from 'class-validator';
+import { AxiosExceptionFilter } from 'src/common/filters/axious-error.filter';
 import { DatabaseExceptionFilter } from 'src/common/filters/database-exception.filter';
 import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 import { AppModule } from './app.module';
-import { AxiosExceptionFilter } from './common/filters/axious-error.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { NotificationsServiceInterface } from 'src/notifications/application/interfaces/notifications-service.abstract';
 import { NotificationsFacadeInterface } from 'src/notifications/facade/interfaces/notifications-facade.interface';
 import { NotificationsFacade } from '../facade/notifications.facade';
+import { NotificationsController } from '../presentation/notifications.controller';
 
 const notificationsServiceMock: NotificationsServiceInterface = {
   sendConfirmationNotification: async () => {},
@@ -9,10 +10,10 @@ const notificationsServiceMock: NotificationsServiceInterface = {
 };
 
 @Module({
+  controllers: [NotificationsController],
   providers: [
     { provide: NotificationsServiceInterface, useValue: notificationsServiceMock },
     { provide: NotificationsFacadeInterface, useClass: NotificationsFacade },
   ],
-  exports: [NotificationsFacadeInterface],
 })
 export class NotificationsTestModule {}

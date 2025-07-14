@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ProviderLogger } from 'src/common/logger/interfaces/logger.interface';
 import { LoggerModule } from 'src/common/logger/logger.module';
-import { CacheAccessor } from 'src/weather/cache/application/interfaces/cache-service.interface';
+import { CacheAccessor } from '../cache/application/interfaces/cache-service.interface';
 import { CacheModule } from '../cache/cache.module';
 import { CityProvider } from './application/interfaces/city-provider.abstract';
 import { OpenWeatherCityProvider } from './infrastructure/providers/openweather.provider';
