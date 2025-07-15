@@ -1,21 +1,21 @@
-import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { NotificationsHttpClient } from 'src/clients/notifications.http-client';
-import { NotificationsClient } from '../clients/interfaces/notifications-client.interface';
-import { SubscriptionClient } from '../clients/interfaces/subscription-client.interface';
-import { SubscriptionHttpClient } from '../clients/subscription.http-client';
-import { WeatherFacadeInterface } from '../facade/interfaces/weather-facade.interface';
-import { WeatherFacade } from '../facade/weather.facade';
-import { CityTestModule } from './city.module.test';
-import { WeatherAPITestModule } from './weather-api.module.test';
+import { WeatherProvider } from 'src/weather/application/interfaces/weather-provider.abstract';
+import { OpenWeatherWeatherProvider } from 'src/weather/infrastructure/providers/openweather.provider';
+import { WeatherApiWeatherProvider } from 'src/weather/infrastructure/providers/weatherapi.provider';
+import { WeatherProviderAdapter } from 'src/weather/infrastructure/wrappers/weather-povider.adapter';
 
 @Module({
-  imports: [HttpModule.register({ global: true }), WeatherAPITestModule, CityTestModule],
   providers: [
-    { provide: WeatherFacadeInterface, useClass: WeatherFacade },
-    { provide: SubscriptionClient, useClass: SubscriptionHttpClient },
-    { provide: NotificationsClient, useClass: NotificationsHttpClient },
+    WeatherApiWeatherProvider,
+    OpenWeatherWeatherProvider,
+    {
+      provide: WeatherProvider,
+      useFactory: (provider1: WeatherApiWeatherProvider, provider2: OpenWeatherWeatherProvider) => {
+        return new WeatherProviderAdapter(provider1.setNext(provider2));
+      },
+      inject: [WeatherApiWeatherProvider, OpenWeatherWeatherProvider],
+    },
   ],
-  exports: [WeatherFacadeInterface, SubscriptionClient, NotificationsClient],
+  exports: [WeatherProvider],
 })
 export class WeatherTestModule {}

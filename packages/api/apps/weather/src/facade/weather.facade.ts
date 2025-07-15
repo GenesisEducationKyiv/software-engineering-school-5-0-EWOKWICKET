@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { WeatherProvider } from 'src/weather/application/interfaces/weather-provider.abstract';
+import { Weather } from 'src/weather/domain/weather.entity';
 import { CityProvider } from '../city/application/interfaces/city-provider.abstract';
-import { WeatherProvider } from '../weather-api/application/interfaces/weather-provider.abstract';
-import { Weather } from '../weather-api/domain/weather.entity';
 import { WeatherFacadeInterface } from './interfaces/weather-facade.interface';
 
 @Injectable()

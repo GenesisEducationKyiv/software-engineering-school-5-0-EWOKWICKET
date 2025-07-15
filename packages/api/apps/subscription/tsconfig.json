@@ -8,5 +8,5 @@
       "src/*": ["apps/subscription/src/*"]
     }
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts"]
 }

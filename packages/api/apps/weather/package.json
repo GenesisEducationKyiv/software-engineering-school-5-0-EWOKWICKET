@@ -8,7 +8,12 @@
     "start:prod": "node dist/apps/weather/src/main",
     "build": "nest build",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test:integration": "jest --config test/jest-integration.config.js",
+    "docker:up": "??",
+    "docker:down": "??",
+    "docker:integration": "??",
+    "docker:test:clear": "??"
   },
   "dependencies": {
     "@nestjs/cache-manager": "^3.0.1",

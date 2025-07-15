@@ -1,9 +1,9 @@
-import { Frequency } from '@common/contracts/subscription/domain/frequency.vo';
 import { Injectable } from '@nestjs/common';
-import { SubscriptionServiceInterface } from 'src/subscription-domain/application/interfaces/subcription-service.abstract';
-import { GroupSubscriptionRepository } from 'src/subscription-domain/application/interfaces/subscription-repository.abstract';
-import { CreateSubscriptionDto } from 'src/subscription-domain/presentation/dtos/create-subscription.dto';
+import { SubscriptionServiceInterface } from 'src/subscription/application/interfaces/subcription-service.abstract';
+import { GroupSubscriptionRepository } from 'src/subscription/application/interfaces/subscription-repository.abstract';
+import { CreateSubscriptionDto } from 'src/subscription/presentation/dtos/create-subscription.dto';
 import { SubscriptionFacadeInterface } from './interfaces/subscription-facade.interface';
+import { Frequency } from 'src/subscription/domain/frequency.vo';
 
 @Injectable()
 export class SubscriptionFacade implements SubscriptionFacadeInterface {

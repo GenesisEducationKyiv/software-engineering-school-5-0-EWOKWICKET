@@ -10,5 +10,5 @@
       "src/*": ["apps/weather/src/*"]
     }
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts"]
 }

@@ -1,4 +1,4 @@
-import { Weather } from 'src/weather-api/domain/weather.entity';
+import { Weather } from 'src/weather/domain/weather.entity';
 
 export abstract class WeatherFacadeInterface {
   abstract getCurrentWeather(city: string): Promise<Weather>;

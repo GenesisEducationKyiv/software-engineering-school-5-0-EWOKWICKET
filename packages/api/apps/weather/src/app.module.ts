@@ -7,21 +7,20 @@ import appConfig from './config/app.config';
 import cacheConfig from './config/cache.config';
 import { weatherEnvSchema } from './config/env.validation';
 import providersConfig from './config/providers.config';
-import urlsConfig from './config/urls.config';
 import { WeatherFacadeInterface } from './facade/interfaces/weather-facade.interface';
 import { WeatherFacade } from './facade/weather.facade';
 import { WeatherController } from './presentation/weather.controller';
-import { WeatherAPIModule } from './weather-api/weather-api.module';
+import { WeatherModule } from './weather/weather.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, providersConfig, cacheConfig, urlsConfig],
+      load: [appConfig, providersConfig, cacheConfig],
       validationSchema: weatherEnvSchema,
     }),
     HttpModule.register({ global: true }),
-    WeatherAPIModule,
+    WeatherModule,
     CityModule,
     CacheModule,
   ],

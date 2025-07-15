@@ -2,7 +2,7 @@ import { NotificationType } from '@common/contracts/notifications/constants/noti
 import { Injectable } from '@nestjs/common';
 import { NotificationsClient } from 'src/clients/interfaces/notifications-client.interface';
 import { WeatherClient } from 'src/clients/interfaces/weather-client.interface';
-import { GroupSubscriptionRepository } from 'src/subscription-domain/application/interfaces/subscription-repository.abstract';
+import { GroupSubscriptionRepository } from 'src/subscription/application/interfaces/subscription-repository.abstract';
 import { WeatherUpdateInterface } from '../application/interfaces/weather-update.abstract';
 import { WeatherUpdateOptions } from '../application/types/weather-update.options';
 

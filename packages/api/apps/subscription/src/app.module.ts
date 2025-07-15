@@ -14,7 +14,7 @@ import { SubscriptionFacadeInterface } from './facade/interfaces/subscription-fa
 import { SubscriptionFacade } from './facade/subscription.facade';
 import { SubscriptionController } from './presentation/subcription.controller';
 import { SchedulerModule } from './scheduler/scheduler.module';
-import { SubscriptionDomainModule } from './subscription-domain/subscription-domain.module';
+import { SubscriptionModule } from './subscription/subscription.module';
 
 @Module({
   imports: [
@@ -25,7 +25,7 @@ import { SubscriptionDomainModule } from './subscription-domain/subscription-dom
     }),
     HttpModule.register({ global: true }),
     DatabaseModule,
-    SubscriptionDomainModule,
+    SubscriptionModule,
     SchedulerModule,
   ],
   controllers: [SubscriptionController],

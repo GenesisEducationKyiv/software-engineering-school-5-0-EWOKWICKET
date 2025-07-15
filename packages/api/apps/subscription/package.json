@@ -9,6 +9,11 @@
     "build": "nest build",
     "lint": "eslint .",
     "format": "prettier --write .",
+    "test:integration": "yarn jest --config test/jest-integration.config.js --detectOpenHandles",
+    "docker:up": "??",
+    "docker:down": "??",
+    "docker:integration": "??",
+    "docker:test:clear": "??",
     "migrate": "yarn tscpaths src/database/infrastructure/scripts/run-migrations.ts",
     "migrate:test": "yarn tscpaths src/test/run-migrations.ts",
     "tscpaths": "ts-node -r tsconfig-paths/register"

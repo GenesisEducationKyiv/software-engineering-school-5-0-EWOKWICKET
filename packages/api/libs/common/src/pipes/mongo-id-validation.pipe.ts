@@ -1,6 +1,6 @@
 import { Injectable, PipeTransform } from '@nestjs/common';
 import { Types } from 'mongoose';
-import { InvalidTokenException } from '../contracts/subscription/domain/errors/invalid-token.error';
+import { InvalidTokenException } from '../contracts/subscription/errors/invalid-token.error';
 
 @Injectable()
 export class MongoIdValidationPipe implements PipeTransform {

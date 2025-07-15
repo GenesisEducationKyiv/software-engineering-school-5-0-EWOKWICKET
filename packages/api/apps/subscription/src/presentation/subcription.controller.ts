@@ -1,7 +1,7 @@
-import { Frequency } from '@common/contracts/subscription/domain/frequency.vo';
+import { Frequency } from 'src/subscription/domain/frequency.vo';
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { SubscriptionFacadeInterface } from 'src/facade/interfaces/subscription-facade.interface';
-import { CreateSubscriptionDto } from '../subscription-domain/presentation/dtos/create-subscription.dto';
+import { CreateSubscriptionDto } from '../subscription/presentation/dtos/create-subscription.dto';
 
 @Controller()
 export class SubscriptionController {

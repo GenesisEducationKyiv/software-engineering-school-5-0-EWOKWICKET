@@ -1,5 +1,5 @@
 import { NotificationSubjects } from '@common/contracts/notifications/constants/notification-subjects.enum';
-import { Frequency } from '@common/contracts/subscription/domain/frequency.vo';
+import { Frequency } from 'src/subscription/domain/frequency.vo';
 
 export type WeatherUpdateOptions = {
   frequency: Frequency;
