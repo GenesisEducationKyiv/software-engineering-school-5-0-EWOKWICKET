@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist",
+    "types": ["jest"],
+    "paths": {
+      "@common/*": ["libs/common/src/*"],
+      "src/*": ["apps/subscription/src/*"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

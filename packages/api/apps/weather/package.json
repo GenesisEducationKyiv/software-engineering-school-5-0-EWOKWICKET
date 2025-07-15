@@ -1,0 +1,19 @@
+{
+  "name": "weather",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:prod": "node dist/apps/weather/src/main",
+    "build": "nest build",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@nestjs/cache-manager": "^3.0.1",
+    "@nestjs/schedule": "^6.0.0",
+    "cache-manager": "^7.0.1",
+    "cache-manager-redis-store": "^3.0.1"
+  }
+}

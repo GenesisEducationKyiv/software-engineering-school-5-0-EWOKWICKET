@@ -9,15 +9,15 @@ import { NotificationSubjects } from 'src/common/notifications/constants/notific
 import { NotificationType } from 'src/common/notifications/constants/notification-type.enum';
 import { Frequency } from 'src/common/subscription/domain/frequency.vo';
 import { appTestConfig } from 'src/config/test.config';
+import { GatewayTestModule } from 'src/gateway/src/test/gateway.module.test';
 import { CreateSubscriptionDto } from 'src/gateway/subscription/presentation/dtos/create-subscription.dto';
-import { GatewayTestModule } from 'src/gateway/test/gateway.module.test';
 import { NotificationsServiceInterface } from 'src/notifications/application/interfaces/notifications-service.abstract';
-import { databaseTestConfig } from 'src/subscription/config/test.config';
-import { SubscriptionRepository } from 'src/subscription/subscription-domain/infrastructure/persistence/repositories/subscription.repository';
-import { Subscription } from 'src/subscription/subscription-domain/infrastructure/persistence/schemas/subscription.schema';
+import { databaseTestConfig } from 'src/subscription/src/config/test.config';
+import { SubscriptionRepository } from 'src/subscription/src/subscription-domain/infrastructure/persistence/repositories/subscription.repository';
+import { Subscription } from 'src/subscription/src/subscription-domain/infrastructure/persistence/schemas/subscription.schema';
 import { OpenWeatherCityProvider } from 'src/weather/city/infrastructure/providers/openweather.provider';
 import { WeatherApiCityProvider } from 'src/weather/city/infrastructure/providers/weatherapi.provider';
-import { ExternalApiException } from 'src/weather/common/errors/external-api.error';
+import { ExternalApiException } from 'src/weather/src/common/errors/external-api.error';
 import * as request from 'supertest';
 import { TestsUrl } from 'test/utils/test-urls.enum';
 

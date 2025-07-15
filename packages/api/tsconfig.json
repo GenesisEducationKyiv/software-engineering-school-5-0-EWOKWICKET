@@ -9,9 +9,12 @@
     "allowSyntheticDefaultImports": true,
     "target": "ES2023",
     "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "types": ["jest"],
+    "baseUrl": ".",
+    "paths": {
+      "@common/*": ["libs/common/src/*"],
+      "@metrics/*": ["libs/metrics/src/*"],
+      "@logger/*": ["libs/logger/src/*"]
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -20,5 +23,5 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "exclude": ["node_modules", "dist"]
 }

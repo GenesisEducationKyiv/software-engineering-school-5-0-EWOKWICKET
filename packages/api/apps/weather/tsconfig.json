@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist",
+    "types": ["jest"],
+    "paths": {
+      "@common/*": ["libs/common/src/*"],
+      "@logger/*": ["libs/logger/src/*"],
+      "@metrics/*": ["libs/metrics/src/*"],
+      "src/*": ["apps/weather/src/*"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}
