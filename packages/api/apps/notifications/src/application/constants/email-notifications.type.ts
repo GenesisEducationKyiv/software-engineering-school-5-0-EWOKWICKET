@@ -1,4 +1,4 @@
-import { ConfirmationNotification, WeatherUpdateNotification } from 'src/application/constants/notification.type';
+import { ConfirmationNotification, WeatherUpdateNotification } from '@common/contracts/notifications/constants/notification.type';
 
 export type EmailNotification = {
   html?: string;

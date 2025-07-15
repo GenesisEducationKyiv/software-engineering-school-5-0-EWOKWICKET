@@ -6,8 +6,7 @@
   "private": true,
   "workspaces": [
     "apps/*",
-    "libs/logger",
-    "libs/metrics"
+    "libs/*"
   ],
   "scripts": {
     "build": "rimraf dist && yarn workspace weather build && yarn workspace notifications build && yarn workspace subscription build && yarn workspace gateway build",

@@ -9,5 +9,5 @@
       "@assets": ["libs/assets"]
     }
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "../../libs/common/src/contracts/notifications/constants/notification.type.ts", "../../libs/common/src/contracts/notifications/constants/weather-update.type.ts"]
 }

@@ -26,4 +26,16 @@ export class WeatherHttpClient implements WeatherClient {
     );
     return data;
   }
+
+  async getCurrentWeather(city: string): Promise<boolean> {
+    const { data } = await firstValueFrom(
+      this.http.request({
+        method: 'GET',
+        baseURL: this.weatherBaseUrl,
+        url: 'current',
+        params: { city },
+      }),
+    );
+    return data;
+  }
 }

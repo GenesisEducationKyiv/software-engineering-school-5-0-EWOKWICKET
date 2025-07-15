@@ -10,7 +10,6 @@ async function bootstrap() {
   app.setGlobalPrefix('notifications');
   app.enableCors();
 
-  //   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   app.useGlobalFilters(new HttpExceptionFilter(), new AxiosExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 

@@ -1,4 +1,4 @@
-import { WeatherUpdate } from './weather-update.type';
+import { WeatherUpdate } from '@common/contracts/notifications/constants/weather-update.type';
 
 export type Notification = {
   to: string;

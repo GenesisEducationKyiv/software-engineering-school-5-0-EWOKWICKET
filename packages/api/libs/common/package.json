@@ -1,0 +1,10 @@
+{
+  "name": "common",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  }
+}

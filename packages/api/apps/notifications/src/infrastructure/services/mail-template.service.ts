@@ -1,9 +1,9 @@
+import { WeatherUpdate } from '@common/contracts/notifications/constants/weather-update.type';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs';
 import Handlebars, { TemplateDelegate } from 'handlebars';
 import * as path from 'path';
-import { WeatherUpdate } from 'src/application/constants/weather-update.type';
 import { TemplateParams } from '../constants/template.type';
 import { Templates } from '../constants/templates.enum';
 

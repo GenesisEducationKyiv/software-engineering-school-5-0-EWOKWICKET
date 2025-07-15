@@ -13,6 +13,7 @@ import { DatabaseModule } from './database/database.module';
 import { SubscriptionFacadeInterface } from './facade/interfaces/subscription-facade.interface';
 import { SubscriptionFacade } from './facade/subscription.facade';
 import { SubscriptionController } from './presentation/subcription.controller';
+import { SchedulerModule } from './scheduler/scheduler.module';
 import { SubscriptionDomainModule } from './subscription-domain/subscription-domain.module';
 
 @Module({
@@ -25,6 +26,7 @@ import { SubscriptionDomainModule } from './subscription-domain/subscription-dom
     HttpModule.register({ global: true }),
     DatabaseModule,
     SubscriptionDomainModule,
+    SchedulerModule,
   ],
   controllers: [SubscriptionController],
   providers: [
