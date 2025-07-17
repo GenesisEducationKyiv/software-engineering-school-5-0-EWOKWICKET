@@ -1,5 +1,4 @@
 import { Page, expect } from '@playwright/test';
-import { Frequency } from 'src/common/subscription/domain/frequency.vo';
 
 export class SubscriptionPage {
   page: Page;
@@ -12,7 +11,7 @@ export class SubscriptionPage {
     await this.page.goto('http://localhost:3000/weatherapi.app/');
   }
 
-  async sendForm(email: string, city: string, frequency: Frequency) {
+  async sendForm(email: string, city: string, frequency: string) {
     await this.page.fill('#email', email);
     await this.page.fill('#city', city);
     await this.page.selectOption('#frequency', frequency);

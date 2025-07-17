@@ -74,16 +74,6 @@ describe('SubscriptionController (Direct Method Call)', () => {
       const nonExistingId = new Types.ObjectId().toString();
       await expect(controller.confirm(nonExistingId)).rejects.toThrow('Token Not Found');
     });
-
-    it('should throw 404 if token is not a valid mongo id', async () => {
-      const invalidToken = 'invalid-token';
-      const updateByIdSpy = jest.spyOn(subscriptionRepository, 'updateById');
-
-      await expect(controller.confirm(invalidToken)).rejects.toThrow('Invalid Token');
-
-      // flow didn't reach update method
-      expect(updateByIdSpy).not.toHaveBeenCalled();
-    });
   });
 
   describe('unsubscribe', () => {
@@ -100,16 +90,6 @@ describe('SubscriptionController (Direct Method Call)', () => {
       // generate a valid mongo id that doesn't exist in the database
       const nonExistingId = new Types.ObjectId().toString();
       await expect(controller.unsubscribe(nonExistingId)).rejects.toThrow('Token Not Found');
-    });
-
-    it('should throw if token is not a valid mongo id', async () => {
-      const invalidToken = 'invalid-token';
-      const deleteByIdSpy = jest.spyOn(subscriptionRepository, 'deleteById');
-
-      await expect(controller.unsubscribe(invalidToken)).rejects.toThrow('Invalid Token');
-
-      // flow didn't reach delete method
-      expect(deleteByIdSpy).not.toHaveBeenCalled();
     });
   });
 });

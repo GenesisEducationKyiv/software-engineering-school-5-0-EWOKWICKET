@@ -1,4 +1,3 @@
-import { MongoIdValidationPipe } from '@common/pipes/mongo-id-validation.pipe';
 import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
 import { SubscriptionClient } from '../application/interfaces/subscription-client.interface';
 import { CreateSubscriptionDto } from './dtos/create-subscription.dto';
@@ -14,12 +13,12 @@ export class SubscriptionController {
   }
 
   @Get('confirm/:token')
-  async confirm(@Param('token', MongoIdValidationPipe) token: string) {
+  async confirm(@Param('token') token: string) {
     await this.subscription.confirm(token);
   }
 
   @Get('unsubscribe/:token')
-  async unsubscribe(@Param('token', MongoIdValidationPipe) token: string) {
+  async unsubscribe(@Param('token') token: string) {
     await this.subscription.unsubscribe(token);
   }
 }

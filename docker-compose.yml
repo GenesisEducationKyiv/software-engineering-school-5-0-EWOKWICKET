@@ -1,34 +1,69 @@
 services:
-  app:
-    container_name: backend
+  gateway:
+    container_name: gateway
     build:
-      context: ./packages
-      dockerfile: Dockerfile
-    env_file:
-      - ./packages/api/.env
-    environment:
-      - HOST=0.0.0.0
-      - DB_URI=mongodb://mongo:27017/weatherAPI
-      - REDIS_URL=redis://redis:6379
+      context: ./packages/api
+      dockerfile: apps/gateway/Dockerfile
+    env_file: ./packages/api/apps/gateway/.env
+    ports:
+      - 3000:3000
     depends_on:
-      - mongo
-      - redis
+      - subscription
 
-  mongo:
-    container_name: mongo
+  notifications:
+    container_name: notifications
+    build:
+      context: ./packages/api
+      dockerfile: apps/notifications/Dockerfile
+    env_file: ./packages/api/apps/notifications/.env
+    environment:
+      - NODE_ENV=docker
+    ports:
+      - 3001:3001
+
+  subscription:
+    container_name: subscription
+    build:
+      context: ./packages/api
+      dockerfile: apps/subscription/Dockerfile
+    env_file: ./packages/api/apps/subscription/.env
+    ports:
+      - 3002:3002
+    depends_on:
+      - subscription_mongo
+      - notifications
+
+  subscription_mongo:
+    container_name: subscription_mongo
     image: mongo
     restart: always
     ports:
       - 27017:27017
     volumes:
-      - mongo-data:/data/db
+      - subscription_mongo-data:/data/db
+
+  weather:
+    container_name: weather
+    build:
+      context: ./packages/api
+      dockerfile: apps/weather/Dockerfile
+    env_file: ./packages/api/apps/weather/.env
+    environment:
+      - REDIS_URL=redis://redis:6379
+    ports:
+      - 3003:3003
+    depends_on:
+      - redis
 
   redis:
     image: redis:7.4-alpine
-    restart: always
     container_name: redis
+    restart: always
     ports:
       - 6379:6379
+    volumes:
+      - redis-data:/data
 
 volumes:
-  mongo-data:
+  subscription_mongo-data:
+  redis-data:

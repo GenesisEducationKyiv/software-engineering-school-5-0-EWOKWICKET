@@ -4,6 +4,7 @@ import * as Joi from 'joi';
 export const subscriptionEnvSchema = Joi.object({
   HOST: Joi.string().default('localhost'),
   PORT: Joi.number().port().default(3002),
+  NODE_ENV: Joi.string().default('development'),
 
   DB_URI: Joi.string().optional().default(''),
 }).unknown(true);

@@ -3,23 +3,23 @@
   "version": "1.0.0",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:prod": "node dist/apps/subscription/src/main",
-    "build": "nest build",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test:integration": "yarn jest --config test/jest-integration.config.js --detectOpenHandles",
-    "docker:up": "??",
-    "docker:down": "??",
-    "docker:integration": "??",
-    "docker:test:clear": "??",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:prod": "node ../../dist/apps/subscription/src/main",
+    "start:test": "node ../../dist/apps/subscription/src/test/main.test",
+    "build": "nest build",
+    "build:test": "nest build --config nest-cli.test.json",
+    "test:integration": "yarn jest --config test/jest-integration.config.js",
+    "docker:integration": "docker compose -f ../../../../docker-compose.test.yml up --build --abort-on-container-exit subscription-integration",
     "migrate": "yarn tscpaths src/database/infrastructure/scripts/run-migrations.ts",
-    "migrate:test": "yarn tscpaths src/test/run-migrations.ts",
+    "migrate:test": "yarn tscpaths src/test/run-migrations.test.ts",
     "tscpaths": "ts-node -r tsconfig-paths/register"
   },
   "dependencies": {
     "@nestjs/mongoose": "^11.0.3",
+    "@nestjs/schedule": "^6.0.0",
     "mongoose": "^8.16.3"
   }
 }

@@ -5,10 +5,10 @@ export const weatherEnvSchema = Joi.object({
   HOST: Joi.string().default('localhost'),
   PORT: Joi.number().port().default(3003),
 
+  REDIS_URL: Joi.string().required(),
+
   WEATHERAPI_API_KEY: Joi.string().required(),
   OPENWEATHER_API_KEY: Joi.string().required(),
-
-  REDIS_URL: Joi.string().default('redis://redis:6379'),
 }).unknown(true);
 
 dotenv();

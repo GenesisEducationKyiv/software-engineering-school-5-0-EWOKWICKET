@@ -4,6 +4,7 @@ import * as Joi from 'joi';
 export const appEnvSchema = Joi.object({
   HOST: Joi.string().default('localhost'),
   PORT: Joi.number().port().default(3000),
+  NODE_ENV: Joi.string().default('development'),
 }).unknown(true);
 
 dotenv();

@@ -3,22 +3,21 @@
   "version": "1.0.0",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:prod": "node dist/apps/weather/src/main",
-    "build": "nest build",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test:integration": "jest --config test/jest-integration.config.js",
-    "docker:up": "??",
-    "docker:down": "??",
-    "docker:integration": "??",
-    "docker:test:clear": "??"
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:prod": "node ../../dist/apps/weather/src/main",
+    "start:test": "node ../../dist/apps/weather/src/test/main.test",
+    "build": "nest build",
+    "build:test": "nest build --config nest-cli.test.json",
+    "test:integration": "jest --config ./test/jest-integration.config.js",
+    "docker:integration": "docker compose -f ../../../../docker-compose.test.yml up --build --abort-on-container-exit weather-integration"
   },
   "dependencies": {
+    "@keyv/redis": "^4.6.0",
     "@nestjs/cache-manager": "^3.0.1",
-    "@nestjs/schedule": "^6.0.0",
     "cache-manager": "^7.0.1",
-    "cache-manager-redis-store": "^3.0.1"
+    "keyv": "^5.3.4"
   }
 }

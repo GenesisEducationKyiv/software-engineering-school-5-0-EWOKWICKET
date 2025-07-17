@@ -2,12 +2,19 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist",
+    "target": "ES2023",
+    "module": "commonjs",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false,
+    "baseUrl": "../../",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "types": ["jest"],
     "paths": {
       "@common/*": ["libs/common/src/*"],
-      "src/*": ["apps/notifications/src/*"],
-      "@assets": ["libs/assets"]
+      "src/*": ["apps/notifications/src/*"]
     }
   },
-  "include": ["src/**/*.ts", "../../libs/common/src/contracts/notifications/constants/notification.type.ts", "../../libs/common/src/contracts/notifications/constants/weather-update.type.ts"]
+  "include": ["src/**/*.ts", "assets/**/*"]
 }

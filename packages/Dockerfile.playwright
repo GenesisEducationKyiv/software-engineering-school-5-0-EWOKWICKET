@@ -2,11 +2,13 @@ FROM mcr.microsoft.com/playwright:v1.54.0-jammy
 
 WORKDIR /app/api
 
-COPY api/package.json api/yarn.lock ./
+COPY api/package.json api/yarn.lock api/tsconfig*.json ./
+COPY api/libs ./api/libs
+COPY api/apps/ ./api/apps
+COPY api/test ./api/test
 
 RUN yarn install --frozen-lockfile
 
-COPY api ./
 COPY public ../public
 
 RUN yarn build:test

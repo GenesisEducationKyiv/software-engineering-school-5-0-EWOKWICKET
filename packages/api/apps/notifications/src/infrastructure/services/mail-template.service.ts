@@ -12,10 +12,12 @@ export class MailTemplateService {
   private templates: Record<string, TemplateDelegate> = {};
   private readonly confirmURL: string;
   private readonly unsubscribeUrl: string;
+  private readonly nodeEnv: string;
 
   constructor(private readonly configServie: ConfigService) {
     this.confirmURL = this.configServie.get<string>('providers.urls.confirm');
     this.unsubscribeUrl = this.configServie.get<string>('providers.urls.unsubscribe');
+    this.nodeEnv = this.configServie.get<string>('app.nodeEnv');
     this.loadTemplates();
   }
 
@@ -55,7 +57,15 @@ export class MailTemplateService {
   }
 
   private compileTemplate(name: string): void {
-    const templatePath = path.join('src', '..', 'assets', 'templates', 'mail', `${name}.hbs`);
+    let templatePath: string;
+    switch (this.nodeEnv) {
+      case 'development':
+        templatePath = path.join(process.cwd(), 'assets', 'templates', 'mail', `${name}.hbs`);
+        break;
+      case 'docker':
+        templatePath = path.join(__dirname, '..', '..', '..', 'assets', 'templates', 'mail', `${name}.hbs`);
+    }
+
     const template = fs.readFileSync(templatePath, 'utf-8');
     this.templates[name] = Handlebars.compile(template);
   }

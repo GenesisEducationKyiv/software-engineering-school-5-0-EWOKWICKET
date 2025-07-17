@@ -1,12 +1,12 @@
 import { MINUTE } from '@common/utils/time-units';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
-import { Cache } from 'cache-manager';
+import Keyv from 'keyv';
 import { CacheAccessor, CacheInvalidator } from '../application/interfaces/cache-service.interface';
 
 @Injectable()
 export class CacheService implements CacheAccessor, CacheInvalidator {
-  constructor(@Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {}
+  constructor(@Inject(CACHE_MANAGER) private readonly cacheManager: Keyv) {}
 
   async set<T>(key: string, value: T, ttl: number = MINUTE * 10): Promise<void> {
     await this.cacheManager.set<T>(key, value, ttl);
@@ -17,6 +17,7 @@ export class CacheService implements CacheAccessor, CacheInvalidator {
   }
 
   async mdel(keys: string[]): Promise<void> {
-    await this.cacheManager.mdel(keys);
+    await this.cacheManager.deleteMany(keys);
+    // await Promise.all(keys.map((key) => this.cacheManager.delete(key)));
   }
 }

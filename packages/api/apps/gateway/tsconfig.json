@@ -2,7 +2,16 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist",
-    "types": ["jest"]
+    "target": "ES2023",
+    "module": "commonjs",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false,
+    "baseUrl": "../../",
+    "paths": {
+      "@common/*": ["libs/common/src/*"],
+      "src/*": ["apps/gateway/src/*"]
+    }
   },
   "include": ["src/**/*.ts"]
 }

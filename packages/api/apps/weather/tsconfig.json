@@ -2,6 +2,14 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist",
+    "target": "ES2023",
+    "module": "commonjs",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false,
+    "baseUrl": "../../",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "types": ["jest"],
     "paths": {
       "@common/*": ["libs/common/src/*"],

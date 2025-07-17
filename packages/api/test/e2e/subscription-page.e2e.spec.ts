@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test';
-import { Frequency } from 'src/common/subscription/domain/frequency.vo';
 import { SubscriptionPage } from 'test/utils/subscription.page';
 
 test.describe('Subscription Page', () => {
@@ -19,23 +18,23 @@ test.describe('Subscription Page', () => {
   });
 
   test('should handle invalid email', async () => {
-    await subscriptionPage.sendForm('invalidEmail', 'CityValid', Frequency.DAILY);
+    await subscriptionPage.sendForm('invalidEmail', 'CityValid', 'daily');
     await subscriptionPage.expectResultContains(/must be an email/i);
   });
 
   test('should handle invalid city', async () => {
-    await subscriptionPage.sendForm('oopsgu2006@gmail.com', 'Invalid', Frequency.DAILY);
+    await subscriptionPage.sendForm('oopsgu2006@gmail.com', 'Invalid', 'daily');
     await subscriptionPage.expectResultContains(/City Not Found/i, 10000);
   });
 
   test('should successfully subscribe', async () => {
-    await subscriptionPage.sendForm('oopsgu2006@gmail.com', 'CityValid', Frequency.HOURLY);
+    await subscriptionPage.sendForm('oopsgu2006@gmail.com', 'CityValid', 'hourly');
     await subscriptionPage.expectResultContains(/confirmation mail sent/i, 10000);
   });
 
   test('should handle whole flow(first subscription created - second throws conflict)', async () => {
-    await subscriptionPage.sendForm('oopsgu2006@gmail.com', 'CityValid', Frequency.HOURLY);
-    await subscriptionPage.sendForm('oopsgu2006@gmail.com', 'CityValid', Frequency.DAILY);
+    await subscriptionPage.sendForm('oopsgu2006@gmail.com', 'CityValid', 'hourly');
+    await subscriptionPage.sendForm('oopsgu2006@gmail.com', 'CityValid', 'daily');
 
     await subscriptionPage.expectResultContains(/conflict/i, 10000);
   });

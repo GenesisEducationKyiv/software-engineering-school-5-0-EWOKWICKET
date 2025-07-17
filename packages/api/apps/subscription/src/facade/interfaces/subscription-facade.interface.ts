@@ -1,4 +1,4 @@
-import { Frequency } from "src/subscription/domain/frequency.vo";
+import { Frequency } from 'src/subscription/domain/frequency.vo';
 
 export abstract class SubscriptionFacadeInterface {
   //public

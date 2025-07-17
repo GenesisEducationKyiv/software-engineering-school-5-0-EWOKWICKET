@@ -1,21 +1,26 @@
+import { MINUTE } from '@common/utils/time-units';
+import KeyvRedis from '@keyv/redis';
 import { CacheMetrics } from '@metrics/application/interfaces/metrics-service.interface';
 import { MetricsModule } from '@metrics/metrics.module';
 import { CacheModule as CachingModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { CacheAccessor, CacheInvalidator } from './application/interfaces/cache-service.interface';
-import { RedisConfig } from './config/redis.config';
 import { CacheService } from './infrastructure/cache.service';
 import { CacheMetricsDecorator } from './infrastructure/decorators/cache-metrics.decorator';
 
 @Module({
   imports: [
     CachingModule.registerAsync({
-      useClass: RedisConfig,
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        store: () => new KeyvRedis(configService.get('cache.redis.url')),
+        ttl: 10 * MINUTE,
+      }),
     }),
     MetricsModule,
   ],
   providers: [
-    RedisConfig,
     CacheService,
     {
       provide: CacheAccessor,
