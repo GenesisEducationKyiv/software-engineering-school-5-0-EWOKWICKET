@@ -13,7 +13,7 @@ import { SubscriptionTestModule } from './subscriptions.module.test';
 
 const weatherMock: WeatherClient = {
   cityExists: async (city: string) => city === 'CityValid',
-  getCurrentWeather: async (_city: string) => undefined,
+  getCurrentWeather: async (city: string) => undefined,
 };
 
 const notificationsMock: NotificationsClient = {

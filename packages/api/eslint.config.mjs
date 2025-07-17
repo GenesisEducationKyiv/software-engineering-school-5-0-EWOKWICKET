@@ -2,7 +2,7 @@ import * as tseslint from 'typescript-eslint';
 
 export default [
   {
-    ignores: ['test/**', '**/*.spec.ts', 'dist', 'node_modules'],
+    ignores: ['**/test/**', '**/*.spec.ts', 'dist', 'node_modules'],
   },
   {
     languageOptions: {
