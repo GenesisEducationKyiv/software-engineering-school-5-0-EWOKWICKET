@@ -9,7 +9,7 @@
     "libs/*"
   ],
   "scripts": {
-    "lint": "yarn workspaces run lint",
+    "lint": "yarn workspace weather lint && yarn workspace notifications lint && yarn workspace subscription lint && yarn workspace gateway lint",
     "format": "yarn workspaces run format",
     "generate:proto": "yarn workspace proto generate",
     "build": "rimraf dist && yarn workspace proto build && yarn workspace weather build && yarn workspace notifications build && yarn workspace subscription build && yarn workspace gateway build",

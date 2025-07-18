@@ -9,6 +9,6 @@ export class MongoIdValidationPipe implements PipeTransform {
       throw new InvalidTokenException();
     }
 
-    return value; 
+    return value;
   }
 }

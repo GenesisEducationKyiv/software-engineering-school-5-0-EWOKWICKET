@@ -4,9 +4,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "generate": "buf generate",
-    "lint": "eslint .",
-    "format": "prettier --write ."
+    "generate": "buf generate"
   },
   "devDependencies": {
     "@bufbuild/buf": "^1.55.1",
