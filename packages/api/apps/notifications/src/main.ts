@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import path from 'path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -19,7 +20,7 @@ async function bootstrap() {
     options: {
       url: url,
       package: 'notifications',
-      protoPath: '../../libs/proto/src/notifications.proto',
+      protoPath: path.join(__dirname, '..', '..', '..', 'libs', 'proto', 'src', 'notifications.proto'),
     },
   });
 
@@ -27,6 +28,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
   await app.listen();
-  console.log(`Server is running on ${url}`);
+  console.log('Server Notifications is running');
 }
 bootstrap();

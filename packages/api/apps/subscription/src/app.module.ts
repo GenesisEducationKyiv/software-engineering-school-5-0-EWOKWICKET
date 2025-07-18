@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import * as path from 'path';
 import { NotificationsClient } from './clients/interfaces/notifications-client.interface';
 import { WeatherClient } from './clients/interfaces/weather-client.interface';
 import { NotificationsGrpcClient } from './clients/notifications.grps-client';
@@ -8,7 +9,6 @@ import { WeatherGrpcClient } from './clients/weather.grpc-client';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 import { subscriptionEnvSchema } from './config/env.validation';
-import urlsConfig from './config/urls.config';
 import { DatabaseModule } from './database/database.module';
 import { SubscriptionFacadeInterface } from './facade/interfaces/subscription-facade.interface';
 import { SubscriptionFacade } from './facade/subscription.facade';
@@ -20,7 +20,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, databaseConfig, urlsConfig],
+      load: [appConfig, databaseConfig],
       validationSchema: subscriptionEnvSchema,
     }),
     ClientsModule.registerAsync([
@@ -31,9 +31,9 @@ import { SubscriptionModule } from './subscription/subscription.module';
         useFactory: (config: ConfigService) => ({
           transport: Transport.GRPC,
           options: {
-            url: config.get<string>('urls.weather'),
+            url: config.get<string>('app.weather'),
             package: 'weather',
-            protoPath: '../../libs/proto/src/weather.proto',
+            protoPath: path.join(__dirname, '..', '..', '..', 'libs', 'proto', 'src', 'weather.proto'),
           },
         }),
       },
@@ -44,9 +44,9 @@ import { SubscriptionModule } from './subscription/subscription.module';
         useFactory: (config: ConfigService) => ({
           transport: Transport.GRPC,
           options: {
-            url: config.get<string>('urls.notifications'),
+            url: config.get<string>('app.notifications'),
             package: 'notifications',
-            protoPath: '../../libs/proto/src/notifications.proto',
+            protoPath: path.join(__dirname, '..', '..', '..', 'libs', 'proto', 'src', 'notifications.proto'),
           },
         }),
       },

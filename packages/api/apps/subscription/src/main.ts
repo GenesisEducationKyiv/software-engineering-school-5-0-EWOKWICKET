@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { useContainer } from 'class-validator';
+import * as path from 'path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -21,7 +22,7 @@ async function bootstrap() {
     options: {
       url: url,
       package: 'subscription',
-      protoPath: '../../libs/proto/src/subscription.proto',
+      protoPath: path.join(__dirname, '..', '..', '..', 'libs', 'proto', 'src', 'subscription.proto'),
     },
   });
 
@@ -29,7 +30,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter(), new AxiosExceptionFilter(), new DatabaseExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
-  await app.listen();
-  console.log(`Running on ${url}`);
+  app.listen();
+  console.log('Server Subscription is running');
 }
 bootstrap();

@@ -1,7 +1,7 @@
 import { registerAs } from '@nestjs/config';
 import { env } from './env.validation';
 
-const BASE = `http://${env.HOST}:${env.PORT}/weatherapi.app/api`;
+const BASE = `http://localhost:3000/weatherapi.app/api`;
 
 export default registerAs('providers', () => ({
   weatherApiKey: env.WEATHERAPI_API_KEY,

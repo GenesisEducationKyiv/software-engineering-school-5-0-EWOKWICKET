@@ -57,15 +57,7 @@ export class MailTemplateService {
   }
 
   private compileTemplate(name: string): void {
-    let templatePath: string;
-    switch (this.nodeEnv) {
-      case 'development':
-        templatePath = path.join(process.cwd(), 'assets', 'templates', 'mail', `${name}.hbs`);
-        break;
-      case 'docker':
-        templatePath = path.join(__dirname, '..', '..', '..', 'assets', 'templates', 'mail', `${name}.hbs`);
-    }
-
+    const templatePath = path.join(__dirname, '..', '..', '..', 'assets', 'templates', 'mail', `${name}.hbs`);
     const template = fs.readFileSync(templatePath, 'utf-8');
     this.templates[name] = Handlebars.compile(template);
   }

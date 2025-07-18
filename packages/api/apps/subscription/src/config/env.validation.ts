@@ -2,11 +2,12 @@ import { config as dotenv } from 'dotenv';
 import * as Joi from 'joi';
 
 export const subscriptionEnvSchema = Joi.object({
-  HOST: Joi.string().default('0.0.0.0'),
-  PORT: Joi.number().port().default(50052),
-  NODE_ENV: Joi.string().default('development'),
+  HOST: Joi.string().required(),
+  PORT: Joi.number().port().required(),
 
-  DB_URI: Joi.string().optional().default(''),
+  WEATHER_URL: Joi.string().required(),
+  NOTIFICATIONS_URL: Joi.string().required(),
+  DB_URI: Joi.string().required(),
 }).unknown(true);
 
 dotenv();
