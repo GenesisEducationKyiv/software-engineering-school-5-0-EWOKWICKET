@@ -4,10 +4,10 @@ const isDocker = process.env.NODE_ENV === 'production';
 
 export default registerAs('urls', () => ({
   notifications: isDocker
-    ? 'http://notifications:3001/notifications'
-    : 'http://localhost:3002/subscription',
+    ? 'notifications:50051'
+    : 'localhost:50051',
 
   weather: isDocker
-    ? 'http://weather:3003/weather'
-    : 'http://localhost:3003/weather',
+    ? 'weather:50054'
+    : 'localhost:50053',
 }));

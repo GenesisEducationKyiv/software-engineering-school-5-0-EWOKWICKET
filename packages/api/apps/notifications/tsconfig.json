@@ -13,6 +13,7 @@
     "types": ["jest"],
     "paths": {
       "@common/*": ["libs/common/src/*"],
+      "@proto/*": ["libs/proto/generated/*"],
       "src/*": ["apps/notifications/src/*"]
     }
   },

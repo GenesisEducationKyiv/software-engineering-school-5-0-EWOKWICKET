@@ -1,10 +1,10 @@
-import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { NotificationsClient } from './clients/interfaces/notifications-client.interface';
 import { WeatherClient } from './clients/interfaces/weather-client.interface';
-import { NotificationsHttpClient } from './clients/notifications.http-client';
-import { WeatherHttpClient } from './clients/weather.http-client';
+import { NotificationsGrpcClient } from './clients/notifications.grps-client';
+import { WeatherGrpcClient } from './clients/weather.grpc-client';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 import { subscriptionEnvSchema } from './config/env.validation';
@@ -23,7 +23,34 @@ import { SubscriptionModule } from './subscription/subscription.module';
       load: [appConfig, databaseConfig, urlsConfig],
       validationSchema: subscriptionEnvSchema,
     }),
-    HttpModule.register({ global: true }),
+    ClientsModule.registerAsync([
+      {
+        name: 'WEATHER',
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        useFactory: (config: ConfigService) => ({
+          transport: Transport.GRPC,
+          options: {
+            url: config.get<string>('urls.weather'),
+            package: 'weather',
+            protoPath: '../../libs/proto/src/weather.proto',
+          },
+        }),
+      },
+      {
+        name: 'NOTIFICATIONS',
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        useFactory: (config: ConfigService) => ({
+          transport: Transport.GRPC,
+          options: {
+            url: config.get<string>('urls.notifications'),
+            package: 'notifications',
+            protoPath: '../../libs/proto/src/notifications.proto',
+          },
+        }),
+      },
+    ]),
     DatabaseModule,
     SubscriptionModule,
     SchedulerModule,
@@ -31,8 +58,8 @@ import { SubscriptionModule } from './subscription/subscription.module';
   controllers: [SubscriptionController],
   providers: [
     { provide: SubscriptionFacadeInterface, useClass: SubscriptionFacade },
-    { provide: WeatherClient, useClass: WeatherHttpClient },
-    { provide: NotificationsClient, useClass: NotificationsHttpClient },
+    { provide: WeatherClient, useClass: WeatherGrpcClient },
+    { provide: NotificationsClient, useClass: NotificationsGrpcClient },
   ],
   exports: [SubscriptionFacadeInterface, WeatherClient, NotificationsClient],
 })

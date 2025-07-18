@@ -1,0 +1,13 @@
+{
+  "name": "proto",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "nest build",
+    "generate": "buf generate"
+  },
+  "devDependencies": {
+    "@bufbuild/buf": "^1.55.1",
+    "ts-proto": "^2.7.5"
+  }
+}

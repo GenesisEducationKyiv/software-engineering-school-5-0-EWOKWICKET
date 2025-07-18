@@ -1,7 +1,7 @@
 import { NotificationSubjects } from '@common/contracts/notifications/constants/notification-subjects.enum';
-import { Frequency } from 'src/subscription/domain/frequency.vo';
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { Frequency } from 'src/subscription/domain/frequency.vo';
 import { WeatherUpdateInterface } from './interfaces/weather-update.abstract';
 
 @Injectable()

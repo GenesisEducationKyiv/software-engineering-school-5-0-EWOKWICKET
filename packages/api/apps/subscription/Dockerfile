@@ -14,6 +14,7 @@ COPY apps/subscription ./apps/subscription
 COPY libs ./libs
 
 RUN yarn install --frozen-lockfile
+RUN yarn workspace proto build
 RUN yarn workspace subscription build
 
 FROM node:22.15.1-alpine AS runner

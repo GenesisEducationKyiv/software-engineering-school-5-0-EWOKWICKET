@@ -1,5 +1,5 @@
 import { NotificationType } from '@common/contracts/notifications/constants/notification-type.enum';
-import { Notification } from '@common/contracts/notifications/constants/notification.type';
+import { Notification } from '@proto/notifications';
 
 export interface NotificationsSender {
   type: NotificationType;

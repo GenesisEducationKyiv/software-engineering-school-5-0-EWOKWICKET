@@ -1,4 +1,3 @@
-import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { NotificationsSender, NotificationsSenderToken } from './application/interfaces/notifications-sender.interface';
@@ -20,7 +19,6 @@ import { NotificationsController } from './presentation/notifications.controller
       validationSchema: notificationsEnvSchema,
       load: [appConfig, mailConfig],
     }),
-    HttpModule.register({ global: true }),
     MailModule,
   ],
   controllers: [NotificationsController],

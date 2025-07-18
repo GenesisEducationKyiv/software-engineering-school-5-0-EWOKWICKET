@@ -1,0 +1,11 @@
+version: v2
+clean: true
+inputs:
+  - directory: src
+plugins:
+  - local: protoc-gen-ts_proto
+    out: generated
+    opt:
+      - esModuleInterop=true
+      - forceLong=string
+      - outputServices=grpc-js

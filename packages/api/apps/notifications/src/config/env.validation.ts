@@ -2,8 +2,8 @@ import { config as dotenv } from 'dotenv';
 import * as Joi from 'joi';
 
 export const notificationsEnvSchema = Joi.object({
-  HOST: Joi.string().default('localhost'),
-  PORT: Joi.number().port().default(3001),
+  HOST: Joi.string().default('0.0.0.0'),
+  PORT: Joi.number().port().default(50051),
   NODE_ENV: Joi.string().default('development'),
 
   MAIL_HOST: Joi.string().required(),

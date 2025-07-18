@@ -1,46 +1,50 @@
 services:
-  gateway:
-    container_name: gateway
-    build:
-      context: ./packages/api
-      dockerfile: apps/gateway/Dockerfile
-    env_file: ./packages/api/apps/gateway/.env
-    ports:
-      - 3000:3000
-    depends_on:
-      - subscription
+  # gateway:
+  #   container_name: gateway
+  #   build:
+  #     context: ./packages/api
+  #     dockerfile: apps/gateway/Dockerfile
+  #   env_file: ./packages/api/apps/gateway/.env
+  #   environment:
+  #     - NODE_ENV=production
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - subscription
 
-  notifications:
-    container_name: notifications
-    build:
-      context: ./packages/api
-      dockerfile: apps/notifications/Dockerfile
-    env_file: ./packages/api/apps/notifications/.env
-    environment:
-      - NODE_ENV=docker
-    ports:
-      - 3001:3001
+  # notifications:
+  #   container_name: notifications
+  #   build:
+  #     context: ./packages/api
+  #     dockerfile: apps/notifications/Dockerfile
+  #   env_file: ./packages/api/apps/notifications/.env
+  #   environment:
+  #     - NODE_ENV=docker
+  #   ports:
+  #     - 50051:50051
 
-  subscription:
-    container_name: subscription
-    build:
-      context: ./packages/api
-      dockerfile: apps/subscription/Dockerfile
-    env_file: ./packages/api/apps/subscription/.env
-    ports:
-      - 3002:3002
-    depends_on:
-      - subscription_mongo
-      - notifications
+  # subscription:
+  #   container_name: subscription
+  #   build:
+  #     context: ./packages/api
+  #     dockerfile: apps/subscription/Dockerfile
+  #   env_file: ./packages/api/apps/subscription/.env
+  #   environment:
+  #     - NODE_ENV=production
+  #   ports:
+  #     - 50052:50052
+  #   depends_on:
+  #     - subscription_mongo
+  #     - notifications
 
-  subscription_mongo:
-    container_name: subscription_mongo
-    image: mongo
-    restart: always
-    ports:
-      - 27017:27017
-    volumes:
-      - subscription_mongo-data:/data/db
+  # subscription_mongo:
+  #   container_name: subscription_mongo
+  #   image: mongo
+  #   restart: always
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - subscription_mongo-data:/data/db
 
   weather:
     container_name: weather
@@ -51,7 +55,7 @@ services:
     environment:
       - REDIS_URL=redis://redis:6379
     ports:
-      - 3003:3003
+      - 50053:50053
     depends_on:
       - redis
 

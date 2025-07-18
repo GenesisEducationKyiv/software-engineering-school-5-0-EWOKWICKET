@@ -1,6 +1,6 @@
-import { WeatherUpdate } from '@common/contracts/notifications/constants/weather-update.type';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { WeatherUpdateDto } from '@proto/notifications';
 import * as fs from 'fs';
 import Handlebars, { TemplateDelegate } from 'handlebars';
 import * as path from 'path';
@@ -35,7 +35,7 @@ export class MailTemplateService {
     return html;
   }
 
-  buildWeatherUpdateNotification(data: WeatherUpdate) {
+  buildWeatherUpdateNotification(data: WeatherUpdateDto) {
     const html = this.renderTemplate({
       template: Templates.WEATHER_UPDATE,
       params: { ...data },

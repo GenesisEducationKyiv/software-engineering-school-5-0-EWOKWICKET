@@ -5,7 +5,8 @@
     "paths": {
       "@common/*": ["libs/common/src/*"],
       "@logger/*": ["libs/logger/src/*"],
-      "@metrics/*": ["libs/metrics/src/*"]
+      "@metrics/*": ["libs/metrics/src/*"],
+      "@proto/*": ["libs/proto/generated/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

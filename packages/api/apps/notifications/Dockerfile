@@ -14,6 +14,7 @@ COPY apps/notifications ./apps/notifications
 COPY libs ./libs
 
 RUN yarn install --frozen-lockfile
+RUN yarn workspace proto build
 RUN yarn workspace notifications build
 
 FROM node:22.15.1-alpine AS runner

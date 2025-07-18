@@ -8,17 +8,17 @@ export class SubscriptionController {
 
   @HttpCode(200)
   @Post('subscribe')
-  async subscribe(@Body() subscribeDto: CreateSubscriptionDto) {
+  async subscribe(@Body() subscribeDto: CreateSubscriptionDto): Promise<void> {
     await this.subscription.subscribe(subscribeDto);
   }
 
   @Get('confirm/:token')
-  async confirm(@Param('token') token: string) {
+  async confirm(@Param('token') token: string): Promise<void> {
     await this.subscription.confirm(token);
   }
 
   @Get('unsubscribe/:token')
-  async unsubscribe(@Param('token') token: string) {
+  async unsubscribe(@Param('token') token: string): Promise<void> {
     await this.subscription.unsubscribe(token);
   }
 }

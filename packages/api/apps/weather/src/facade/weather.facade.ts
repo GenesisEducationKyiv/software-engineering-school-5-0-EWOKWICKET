@@ -12,7 +12,8 @@ export class WeatherFacade implements WeatherFacadeInterface {
   ) {}
 
   async getCurrentWeather(city: string): Promise<Weather> {
-    return await this.weatherService.getCurrentWeather(city);
+    const weather = await this.weatherService.getCurrentWeather(city);
+    return weather;
   }
 
   async cityExists(city: string): Promise<boolean> {

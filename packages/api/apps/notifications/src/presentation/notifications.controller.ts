@@ -1,19 +1,22 @@
-import { NotificationType } from '@common/contracts/notifications/constants/notification-type.enum';
-import { ConfirmationNotification, WeatherUpdateNotification } from '@common/contracts/notifications/constants/notification.type';
-import { Body, Controller, Post } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
+import { GrpcMethod } from '@nestjs/microservices';
+import { ConfirmationNotificationOptions, WeatherUpdateNotificationOptions } from '@proto/notifications';
+import { NotificationTypeValidationPipe } from 'src/common/pipes/notification-type-validation.pipe';
 import { NotificationsFacadeInterface } from 'src/facade/interfaces/notifications-facade.interface';
 
 @Controller()
 export class NotificationsController {
   constructor(private readonly facade: NotificationsFacadeInterface) {}
 
-  @Post('subscriptionConfirmation')
-  async sendConfirmationNotification(@Body() { data, type }: { data: ConfirmationNotification; type: NotificationType }): Promise<void> {
-    await this.facade.sendConfirmationNotification(data, type);
+  @GrpcMethod('NotificationsService', 'sendConfirmationNotification')
+  async sendConfirmationNotification({ data, type }: ConfirmationNotificationOptions): Promise<void> {
+    const validatedType = new NotificationTypeValidationPipe().transform(type);
+    await this.facade.sendConfirmationNotification(data, validatedType);
   }
 
-  @Post('weatherUpdate')
-  async sendWeatherUpdateNotification(@Body() { data, type }: { data: WeatherUpdateNotification; type: NotificationType }): Promise<void> {
-    await this.facade.sendWeatherUpdateNotification(data, type);
+  @GrpcMethod('NotificationsService', 'sendWeatherUpdateNotification')
+  async sendWeatherUpdateNotification({ data, type }: WeatherUpdateNotificationOptions): Promise<void> {
+    const validatedType = new NotificationTypeValidationPipe().transform(type);
+    await this.facade.sendWeatherUpdateNotification(data, validatedType);
   }
 }

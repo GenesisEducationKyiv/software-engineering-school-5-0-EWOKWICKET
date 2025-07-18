@@ -1,6 +1,6 @@
 import { NotificationType } from '@common/contracts/notifications/constants/notification-type.enum';
-import { ConfirmationNotification, WeatherUpdateNotification } from '@common/contracts/notifications/constants/notification.type';
 import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConfirmationNotification, WeatherUpdateNotification } from '@proto/notifications';
 import { NotificationsSender, NotificationsSenderToken } from './interfaces/notifications-sender.interface';
 import { NotificationsServiceInterface } from './interfaces/notifications-service.abstract';
 

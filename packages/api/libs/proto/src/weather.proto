@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package weather;
+
+message WeatherDto {
+    double temperature = 1;
+    double humidity = 2;
+    string description = 3;
+} 
+
+message GetCurrentRequest {
+    string city = 1;
+}
+
+message GetCurrentResponse {
+    WeatherDto weather = 1;
+}
+
+message CityExistsRequest {
+    string city = 1;
+}
+
+message CityExistsResponse {
+    bool exists = 1;
+}
+
+service WeatherService {
+    rpc getCurrentWeather (GetCurrentRequest) returns (GetCurrentResponse);
+    rpc cityExists (CityExistsRequest) returns (CityExistsResponse);
+}

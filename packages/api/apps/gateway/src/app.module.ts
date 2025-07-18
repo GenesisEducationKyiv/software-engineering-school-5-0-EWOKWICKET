@@ -1,15 +1,15 @@
-import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import appConfig from './config/app.config';
 import { appEnvSchema } from './config/env.validation';
 import urlsConfig from './config/urls.config';
 import { SubscriptionClient } from './subscription/application/interfaces/subscription-client.interface';
-import { SubscriptionHttpClient } from './subscription/infrastructure/subscription.http-client';
+import { SubscriptionGrpcClient } from './subscription/infrastructure/subscription.grpc-client';
 import { SubscriptionController } from './subscription/presentation/subscription.controller';
 import { WeatherClient } from './weather/application/interfaces/weather-client.interface';
-import { WeatherHttpClient } from './weather/infrastructure/weather.http-client';
+import { WeatherGrpcClient } from './weather/infrastructure/weather.grpc-client';
 import { WeatherController } from './weather/presentation/weather.controller';
 
 @Module({
@@ -25,17 +25,36 @@ import { WeatherController } from './weather/presentation/weather.controller';
       serveRoot: '/weatherapi.app',
       exclude: ['/weatherapi.app/api*'],
     }),
-    HttpModule.register({ global: true }),
+    ClientsModule.register([
+      {
+        name: 'WEATHER',
+        transport: Transport.GRPC,
+        options: {
+          url: 'localhost:50053',
+          package: 'weather',
+          protoPath: '../../libs/proto/src/weather.proto',
+        },
+      },
+      {
+        name: 'SUBSCRIPTION',
+        transport: Transport.GRPC,
+        options: {
+          url: 'localhost:50052',
+          package: 'subscription',
+          protoPath: '../../libs/proto/src/subscription.proto',
+        },
+      },
+    ]),
   ],
   controllers: [SubscriptionController, WeatherController],
   providers: [
     {
       provide: SubscriptionClient,
-      useClass: SubscriptionHttpClient,
+      useClass: SubscriptionGrpcClient,
     },
     {
       provide: WeatherClient,
-      useClass: WeatherHttpClient,
+      useClass: WeatherGrpcClient,
     },
   ],
 })

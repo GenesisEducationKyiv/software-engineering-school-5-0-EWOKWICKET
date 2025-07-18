@@ -1,4 +1,4 @@
-import { WeatherUpdate } from '@common/contracts/notifications/constants/weather-update.type';
+import { WeatherUpdateDto } from '@proto/notifications';
 import { Templates } from './templates.enum';
 
 export type TemplateParams =
@@ -11,5 +11,5 @@ export type TemplateParams =
     }
   | {
       template: Templates.WEATHER_UPDATE;
-      params: WeatherUpdate;
+      params: WeatherUpdateDto;
     };
