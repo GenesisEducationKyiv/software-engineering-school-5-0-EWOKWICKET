@@ -1,7 +1,6 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import urlsConfig from 'src/config/urls.config';
 import { NotificationsClient } from '../clients/interfaces/notifications-client.interface';
 import { WeatherClient } from '../clients/interfaces/weather-client.interface';
 import { appTestConfig, databaseTestConfig } from '../config/test.config';
@@ -27,7 +26,7 @@ const notificationsMock: NotificationsClient = {
     ConfigModule.forRoot({
       ignoreEnvFile: true,
       isGlobal: true,
-      load: [appTestConfig, databaseTestConfig, urlsConfig],
+      load: [appTestConfig, databaseTestConfig],
     }),
     DatabaseTestModule,
     SubscriptionTestModule,

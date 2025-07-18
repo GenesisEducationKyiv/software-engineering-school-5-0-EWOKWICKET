@@ -29,7 +29,6 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter(), new AxiosExceptionFilter(), new DatabaseExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
-  await app.listen();
-  console.log(`Running on ${url}`);
+  app.listen();
 }
 bootstrap();

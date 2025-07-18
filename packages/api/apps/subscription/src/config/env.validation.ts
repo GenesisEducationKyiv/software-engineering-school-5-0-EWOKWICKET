@@ -6,7 +6,8 @@ export const subscriptionEnvSchema = Joi.object({
   PORT: Joi.number().port().default(50052),
   NODE_ENV: Joi.string().default('development'),
 
-  DB_URI: Joi.string().optional().default(''),
+  DB_URI: Joi.string().required(),
+  RMQ_URL: Joi.string().required(),
 }).unknown(true);
 
 dotenv();

@@ -1,6 +1,6 @@
 import { registerAs } from '@nestjs/config';
 
 export const appTestConfig = registerAs('app', () => ({
-  host: '0.0.0.0',
-  port: 3001,
+  rmqUrl: 'amqp://guest:guest@localhost:5672',
+  nodeEnv: 'development',
 }));

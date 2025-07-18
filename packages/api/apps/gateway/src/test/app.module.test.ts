@@ -2,7 +2,6 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { appTestConfig } from '../config/test.config';
-import urlsConfig from '../config/urls.config';
 import { SubscriptionClient } from '../subscription/application/interfaces/subscription-client.interface';
 import { SubscriptionHttpClient } from '../subscription/infrastructure/subscription.http-client';
 import { SubscriptionController } from '../subscription/presentation/subscription.controller';
@@ -16,7 +15,7 @@ import { WeatherController } from '../weather/presentation/weather.controller';
     ConfigModule.forRoot({
       isGlobal: true,
       ignoreEnvFile: true,
-      load: [appTestConfig, urlsConfig],
+      load: [appTestConfig],
     }),
   ],
   controllers: [SubscriptionController, WeatherController],

@@ -19,10 +19,10 @@ export class SubscriptionService implements SubscriptionServiceLookup, Subscript
   async subscribe(subscribeDto: CreateSubscriptionDto): Promise<void> {
     const newSubscription = await this.subscriptionRepository.create(subscribeDto);
 
-    await this.notifications.sendConfirmationNotification(
+    await this.notifications.notify(
       {
         to: newSubscription.email,
-        subject: `${NotificationSubjects.SUBSCRIPTION_CONFIRMATION} ${newSubscription.city}`,
+        subject: NotificationSubjects.SUBSCRIPTION_CONFIRMATION,
         token: newSubscription._id.toString(),
       },
       NotificationType.EMAIL,

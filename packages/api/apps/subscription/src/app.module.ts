@@ -3,12 +3,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { NotificationsClient } from './clients/interfaces/notifications-client.interface';
 import { WeatherClient } from './clients/interfaces/weather-client.interface';
-import { NotificationsGrpcClient } from './clients/notifications.grps-client';
+import { NotificationsMessageClient } from './clients/notifications.message-client';
 import { WeatherGrpcClient } from './clients/weather.grpc-client';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 import { subscriptionEnvSchema } from './config/env.validation';
-import urlsConfig from './config/urls.config';
 import { DatabaseModule } from './database/database.module';
 import { SubscriptionFacadeInterface } from './facade/interfaces/subscription-facade.interface';
 import { SubscriptionFacade } from './facade/subscription.facade';
@@ -20,7 +19,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, databaseConfig, urlsConfig],
+      load: [appConfig, databaseConfig],
       validationSchema: subscriptionEnvSchema,
     }),
     ClientsModule.registerAsync([
@@ -31,7 +30,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
         useFactory: (config: ConfigService) => ({
           transport: Transport.GRPC,
           options: {
-            url: config.get<string>('urls.weather'),
+            url: config.get<string>('app.weather'),
             package: 'weather',
             protoPath: '../../libs/proto/src/weather.proto',
           },
@@ -42,11 +41,13 @@ import { SubscriptionModule } from './subscription/subscription.module';
         imports: [ConfigModule],
         inject: [ConfigService],
         useFactory: (config: ConfigService) => ({
-          transport: Transport.GRPC,
+          transport: Transport.RMQ,
           options: {
-            url: config.get<string>('urls.notifications'),
-            package: 'notifications',
-            protoPath: '../../libs/proto/src/notifications.proto',
+            urls: [config.get<string>('app.rmqUrl')],
+            queue: 'notifications',
+            queueOptions: {
+              durable: false,
+            },
           },
         }),
       },
@@ -59,7 +60,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
   providers: [
     { provide: SubscriptionFacadeInterface, useClass: SubscriptionFacade },
     { provide: WeatherClient, useClass: WeatherGrpcClient },
-    { provide: NotificationsClient, useClass: NotificationsGrpcClient },
+    { provide: NotificationsClient, useClass: NotificationsMessageClient },
   ],
   exports: [SubscriptionFacadeInterface, WeatherClient, NotificationsClient],
 })

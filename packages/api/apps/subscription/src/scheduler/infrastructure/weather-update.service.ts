@@ -1,4 +1,3 @@
-import { NotificationType } from '@common/contracts/notifications/constants/notification-type.enum';
 import { Injectable } from '@nestjs/common';
 import { NotificationsClient } from 'src/clients/interfaces/notifications-client.interface';
 import { WeatherClient } from 'src/clients/interfaces/weather-client.interface';
@@ -21,21 +20,21 @@ export class WeatherUpdateService implements WeatherUpdateInterface {
       const city = group.city;
       const weather = await this.weather.getCurrentWeather(city);
 
-      await Promise.all(
-        group.subscriptions.map((subscription) => {
-          this.notifications.sendWeatherUpdateNotification(
-            {
-              to: subscription.email,
-              subject,
-              data: {
-                city,
-                ...weather,
-              },
-            },
-            NotificationType.EMAIL,
-          );
-        }),
-      );
+      // await Promise.all(
+      //   group.subscriptions.map((subscription) => {
+      //     this.notifications.sendWeatherUpdateNotification(
+      //       {
+      //         to: subscription.email,
+      //         subject,
+      //         data: {
+      //           city,
+      //           ...weather,
+      //         },
+      //       },
+      //       NotificationType.EMAIL,
+      //     );
+      //   }),
+      // );
     }
   }
 }

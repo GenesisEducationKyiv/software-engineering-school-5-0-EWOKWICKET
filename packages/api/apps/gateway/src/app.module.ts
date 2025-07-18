@@ -4,7 +4,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import appConfig from './config/app.config';
 import { appEnvSchema } from './config/env.validation';
-import urlsConfig from './config/urls.config';
 import { SubscriptionClient } from './subscription/application/interfaces/subscription-client.interface';
 import { SubscriptionGrpcClient } from './subscription/infrastructure/subscription.grpc-client';
 import { SubscriptionController } from './subscription/presentation/subscription.controller';
@@ -17,7 +16,7 @@ import { WeatherController } from './weather/presentation/weather.controller';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
-      load: [appConfig, urlsConfig],
+      load: [appConfig],
       validationSchema: appEnvSchema,
     }),
     ServeStaticModule.forRoot({

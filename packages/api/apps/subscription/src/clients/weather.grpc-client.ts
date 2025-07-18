@@ -1,11 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { CityExistsResponse, WeatherDto } from '@proto/weather';
 import { lastValueFrom } from 'rxjs';
 import { WeatherClient } from './interfaces/weather-client.interface';
 
 @Injectable()
-export class WeatherGrpcClient implements WeatherClient {
+export class WeatherGrpcClient implements WeatherClient, OnModuleInit {
   private weather;
 
   constructor(@Inject('WEATHER') private readonly weatherClient: ClientGrpc) {}
