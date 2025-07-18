@@ -20,5 +20,6 @@ async function bootstrap() {
   });
 
   await app.listen();
+  console.log('Server Notifications is running');
 }
 bootstrap();

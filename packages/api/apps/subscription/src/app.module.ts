@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import * as path from 'path';
 import { NotificationsClient } from './clients/interfaces/notifications-client.interface';
 import { WeatherClient } from './clients/interfaces/weather-client.interface';
 import { NotificationsMessageClient } from './clients/notifications.message-client';
@@ -32,7 +33,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
           options: {
             url: config.get<string>('app.weather'),
             package: 'weather',
-            protoPath: '../../libs/proto/src/weather.proto',
+            protoPath: path.join(__dirname, '..', '..', '..', 'libs', 'proto', 'src', 'weather.proto'),
           },
         }),
       },

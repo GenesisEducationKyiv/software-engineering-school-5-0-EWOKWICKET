@@ -1,64 +1,4 @@
 services:
-  # gateway:
-  #   container_name: gateway
-  #   build:
-  #     context: ./packages/api
-  #     dockerfile: apps/gateway/Dockerfile
-  #   env_file: ./packages/api/apps/gateway/.env
-  #   environment:
-  #     - NODE_ENV=production
-  #   ports:
-  #     - 3000:3000
-  #   depends_on:
-  #     - subscription
-
-  # notifications:
-  #   container_name: notifications
-  #   build:
-  #     context: ./packages/api
-  #     dockerfile: apps/notifications/Dockerfile
-  #   env_file: ./packages/api/apps/notifications/.env
-  #   environment:
-  #     - NODE_ENV=docker
-  #   ports:
-  #     - 50051:50051
-
-  # subscription:
-  #   container_name: subscription
-  #   build:
-  #     context: ./packages/api
-  #     dockerfile: apps/subscription/Dockerfile
-  #   env_file: ./packages/api/apps/subscription/.env
-  #   environment:
-  #     - NODE_ENV=production
-  #   ports:
-  #     - 50052:50052
-  #   depends_on:
-  #     - subscription_mongo
-  #     - notifications
-
-  # subscription_mongo:
-  #   container_name: subscription_mongo
-  #   image: mongo
-  #   restart: always
-  #   ports:
-  #     - 27017:27017
-  #   volumes:
-  #     - subscription_mongo-data:/data/db
-
-  weather:
-    container_name: weather
-    build:
-      context: ./packages/api
-      dockerfile: apps/weather/Dockerfile
-    env_file: ./packages/api/apps/weather/.env
-    environment:
-      - REDIS_URL=redis://redis:6379
-    ports:
-      - 50053:50053
-    depends_on:
-      - redis
-
   redis:
     image: redis:7.4-alpine
     container_name: redis
@@ -67,6 +7,94 @@ services:
       - 6379:6379
     volumes:
       - redis-data:/data
+
+  subscription_mongo:
+    container_name: subscription_mongo
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - subscription_mongo-data:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ['CMD', 'rabbitmqctl', 'status']
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+
+  weather:
+    container_name: weather
+    build:
+      context: ./packages/api
+      dockerfile: apps/weather/Dockerfile
+    env_file: ./packages/api/apps/weather/.env
+    environment:
+      REDIS_URL: redis://redis:6379
+    ports:
+      - 50053:50053
+    depends_on:
+      redis:
+        condition: service_started
+
+  notifications:
+    container_name: notifications
+    build:
+      context: ./packages/api
+      dockerfile: apps/notifications/Dockerfile
+    env_file: ./packages/api/apps/notifications/.env
+    environment:
+      RMQ_URL: amqp://guest:guest@rabbitmq:5672
+    ports:
+      - 50051:50051
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  subscription:
+    container_name: subscription
+    build:
+      context: ./packages/api
+      dockerfile: apps/subscription/Dockerfile
+    env_file: ./packages/api/apps/subscription/.env
+    environment:
+      WEATHER_URL: weather:50053
+      DB_URI: mongodb://subscription_mongo:27017/weatherAPI
+      RMQ_URL: amqp://guest:guest@rabbitmq:5672
+    ports:
+      - 50052:50052
+    depends_on:
+      subscription_mongo:
+        condition: service_started
+      notifications:
+        condition: service_started
+      weather:
+        condition: service_started
+
+  gateway:
+    container_name: gateway
+    build:
+      context: ./packages/api
+      dockerfile: apps/gateway/Dockerfile
+    env_file: ./packages/api/apps/gateway/.env
+    environment:
+      SUBSCRIPTION_URL: subscription:50052
+      WEATHER_URL: weather:50053
+    ports:
+      - 3000:3000
+    depends_on:
+      subscription:
+        condition: service_started
 
 volumes:
   subscription_mongo-data:

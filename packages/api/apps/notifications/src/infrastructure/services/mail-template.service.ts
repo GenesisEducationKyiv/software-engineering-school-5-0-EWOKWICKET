@@ -3,7 +3,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as fs from 'fs';
 import Handlebars, { TemplateDelegate } from 'handlebars';
-import path from 'path';
+import * as path from 'path';
 import { TemplateParams } from '../constants/template.type';
 import { Templates } from '../constants/templates.enum';
 
@@ -57,15 +57,7 @@ export class MailTemplateService {
   }
 
   private compileTemplate(name: string): void {
-    let templatePath: string;
-    switch (this.nodeEnv) {
-      case 'local':
-        templatePath = path.join(process.cwd(), 'assets', 'templates', 'mail', `${name}.hbs`);
-        break;
-      case 'development':
-        templatePath = path.join(__dirname, '..', '..', '..', 'assets', 'templates', 'mail', `${name}.hbs`);
-    }
-
+    const templatePath = path.join(__dirname, '..', '..', '..', 'assets', 'templates', 'mail', `${name}.hbs`);
     const template = fs.readFileSync(templatePath, 'utf-8');
     this.templates[name] = Handlebars.compile(template);
   }
