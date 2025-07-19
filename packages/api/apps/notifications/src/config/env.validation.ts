@@ -3,6 +3,8 @@ import * as Joi from 'joi';
 
 export const notificationsEnvSchema = Joi.object({
   RMQ_URL: Joi.string().required(),
+  CONFIRM_URL: Joi.string().required(),
+  UNSUBSCRIBE_URL: Joi.string().required(),
 
   MAIL_HOST: Joi.string().required(),
   MAIL_PORT: Joi.string().required(),

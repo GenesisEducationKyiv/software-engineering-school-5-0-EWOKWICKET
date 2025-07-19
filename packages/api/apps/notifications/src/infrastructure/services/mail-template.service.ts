@@ -12,18 +12,17 @@ export class MailTemplateService {
   private templates: Record<string, TemplateDelegate> = {};
   private readonly confirmURL: string;
   private readonly unsubscribeUrl: string;
-  private readonly nodeEnv: string;
 
   constructor(private readonly configServie: ConfigService) {
-    this.confirmURL = this.configServie.get<string>('providers.urls.confirm');
-    this.unsubscribeUrl = this.configServie.get<string>('providers.urls.unsubscribe');
-    this.nodeEnv = this.configServie.get<string>('app.nodeEnv');
+    this.confirmURL = this.configServie.get<string>('app.urls.confirm');
+    this.unsubscribeUrl = this.configServie.get<string>('app.urls.unsubscribe');
     this.loadTemplates();
   }
 
   buildConfirmationNotification(token: string) {
     const confirmUrl = `${this.confirmURL}/${token}`;
     const unsubscribeUrl = `${this.unsubscribeUrl}/${token}`;
+
     const html = this.renderTemplate({
       template: Templates.CONFIRMATION,
       params: {
