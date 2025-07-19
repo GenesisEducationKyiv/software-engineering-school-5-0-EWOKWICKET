@@ -30,7 +30,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter(), new AxiosExceptionFilter(), new DatabaseExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
-  app.listen();
+  await app.listen();
   console.log('Server Subscription is running');
 }
 bootstrap();

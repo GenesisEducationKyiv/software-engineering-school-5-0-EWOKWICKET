@@ -13,9 +13,10 @@ async function bootstrap() {
     options: {
       urls: [rmqUrl],
       queue: 'notifications',
-      queueOptions: {
-        durable: false,
-      },
+      exchange: 'notifications',
+      exchangeType: 'topic',
+      routingKey: 'notifications.*',
+      persistent: true,
     },
   });
 

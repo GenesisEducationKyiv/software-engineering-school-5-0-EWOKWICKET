@@ -46,8 +46,10 @@ import { SubscriptionModule } from './subscription/subscription.module';
           options: {
             urls: [config.get<string>('app.rmqUrl')],
             queue: 'notifications',
+            exchange: 'notifications',
+            exchangeType: 'topic',
             queueOptions: {
-              durable: false,
+              durable: true,
             },
           },
         }),
