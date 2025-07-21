@@ -9,9 +9,11 @@ import { WeatherApiCityProvider } from './infrastructure/providers/weatherapi.pr
 import { CityProviderLoggingDecorator } from './infrastructure/wrappers/city-provider-logging.decorator';
 import { CityProviderAdapter } from './infrastructure/wrappers/city-provider.adapter';
 import { CityProviderCacheProxy } from './infrastructure/wrappers/city-validation-cache.proxy';
+import { CityController } from './presentation/city.controller';
 
 @Module({
   imports: [LoggerModule, CacheModule],
+  controllers: [CityController],
   providers: [
     WeatherApiCityProvider,
     OpenWeatherCityProvider,

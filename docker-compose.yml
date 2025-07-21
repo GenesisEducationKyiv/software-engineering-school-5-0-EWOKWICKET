@@ -55,8 +55,6 @@ services:
     env_file: ./packages/api/apps/notifications/.env
     environment:
       RMQ_URL: amqp://guest:guest@rabbitmq:5672
-    ports:
-      - 50051:50051
     depends_on:
       rabbitmq:
         condition: service_healthy

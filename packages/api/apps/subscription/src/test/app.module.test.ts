@@ -1,14 +1,11 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { NotificationsClient } from '../clients/interfaces/notifications-client.interface';
-import { WeatherClient } from '../clients/interfaces/weather-client.interface';
-import { appTestConfig, databaseTestConfig } from '../config/test.config';
-import { SubscriptionFacadeInterface } from '../facade/interfaces/subscription-facade.interface';
-import { SubscriptionFacade } from '../facade/subscription.facade';
-import { SubscriptionController } from '../presentation/subcription.controller';
+import { SubscriptionController } from '../subscription/presentation/subcription.controller';
 import { DatabaseTestModule } from './database.module.test';
 import { SubscriptionTestModule } from './subscriptions.module.test';
+import { NotificationsClient } from 'src/common/clients/interfaces/notifications-client.interface';
+import { WeatherClient } from 'src/common/clients/interfaces/weather-client.interface';
 
 const weatherMock: WeatherClient = {
   cityExists: async (city: string) => city === 'CityValid',

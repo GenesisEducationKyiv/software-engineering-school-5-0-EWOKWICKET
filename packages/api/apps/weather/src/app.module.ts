@@ -7,9 +7,6 @@ import appConfig from './config/app.config';
 import cacheConfig from './config/cache.config';
 import { weatherEnvSchema } from './config/env.validation';
 import providersConfig from './config/providers.config';
-import { WeatherFacadeInterface } from './facade/interfaces/weather-facade.interface';
-import { WeatherFacade } from './facade/weather.facade';
-import { WeatherController } from './presentation/weather.controller';
 import { WeatherModule } from './weather/weather.module';
 
 @Module({
@@ -24,8 +21,5 @@ import { WeatherModule } from './weather/weather.module';
     CityModule,
     CacheModule,
   ],
-  controllers: [WeatherController],
-  providers: [{ provide: WeatherFacadeInterface, useClass: WeatherFacade }],
-  exports: [WeatherFacadeInterface],
 })
 export class AppModule {}

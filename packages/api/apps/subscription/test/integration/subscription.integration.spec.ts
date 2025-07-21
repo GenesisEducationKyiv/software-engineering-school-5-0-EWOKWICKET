@@ -2,11 +2,11 @@ import { INestApplication } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { Model, Types } from 'mongoose';
-import { SubscriptionController } from 'src/presentation/subcription.controller';
 import { Frequency } from 'src/subscription/domain/frequency.vo';
 import { SubscriptionRepository } from 'src/subscription/infrastructure/persistence/repositories/subscription.repository';
 import { Subscription } from 'src/subscription/infrastructure/persistence/schemas/subscription.schema';
 import { CreateSubscriptionDto } from 'src/subscription/presentation/dtos/create-subscription.dto';
+import { SubscriptionController } from 'src/subscription/presentation/subcription.controller';
 import { AppTestModule } from 'src/test/app.module.test';
 
 const succesfulSubscriptionDto: CreateSubscriptionDto = {
