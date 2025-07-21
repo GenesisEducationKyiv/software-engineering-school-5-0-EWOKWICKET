@@ -3,9 +3,8 @@ import { Injectable, InternalServerErrorException, PipeTransform } from '@nestjs
 
 @Injectable()
 export class NotificationTypeValidationPipe implements PipeTransform {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  transform(value: any) {
-    if (!Object.values(NotificationType).includes(value)) {
+  transform(value: string) {
+    if (!Object.values(NotificationType).includes(value as NotificationType)) {
       throw new InternalServerErrorException(`Invalid notification type: ${value}`);
     }
     return value as NotificationType;

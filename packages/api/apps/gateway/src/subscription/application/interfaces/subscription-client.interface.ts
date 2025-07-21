@@ -1,4 +1,4 @@
-import { CreateSubscriptionDto } from 'src/subscription/presentation/dtos/create-subscription.dto';
+import { CreateSubscriptionDto } from '../../presentation/dtos/create-subscription.dto';
 
 export abstract class SubscriptionClient {
   abstract subscribe(subscribeDto: CreateSubscriptionDto): Promise<void>;

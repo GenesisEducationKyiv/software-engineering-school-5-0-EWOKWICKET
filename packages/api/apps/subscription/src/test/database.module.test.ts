@@ -10,10 +10,10 @@ import { Subscription, SubscriptionSchema } from '../subscription/infrastructure
   imports: [
     ConfigModule.forRoot({
       ignoreEnvFile: true,
+      isGlobal: true,
       load: [databaseTestConfig],
     }),
     MongooseModule.forRootAsync({
-      imports: [ConfigModule],
       useClass: DatabaseConfig,
       inject: [DatabaseConfig],
     }),

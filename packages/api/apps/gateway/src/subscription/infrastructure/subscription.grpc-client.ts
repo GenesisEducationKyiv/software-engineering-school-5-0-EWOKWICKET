@@ -1,15 +1,12 @@
-import { BadRequestException, Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { ClientGrpc } from '@nestjs/microservices';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { SubscriptionClient } from '../application/interfaces/subscription-client.interface';
 import { DtoRequestMapper } from '../application/mappers/dto-request.mapper';
 import { CreateSubscriptionDto } from '../presentation/dtos/create-subscription.dto';
 
 @Injectable()
-export class SubscriptionGrpcClient implements SubscriptionClient, OnModuleInit {
-  private subscription;
-
-  constructor(@Inject('SUBSCRIPTION') private readonly subscriptionClient: ClientGrpc) {}
+export class SubscriptionGrpcClient implements SubscriptionClient {
+  constructor(private readonly subscription) {}
 
   async subscribe(subscribeDto: CreateSubscriptionDto): Promise<void> {
     try {
@@ -25,9 +22,5 @@ export class SubscriptionGrpcClient implements SubscriptionClient, OnModuleInit 
 
   async unsubscribe(token: string): Promise<void> {
     await lastValueFrom(this.subscription.unsubscribe({ token }));
-  }
-
-  onModuleInit() {
-    this.subscription = this.subscriptionClient.getService('SubscriptionService');
   }
 }

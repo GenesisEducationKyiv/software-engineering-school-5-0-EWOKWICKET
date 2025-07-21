@@ -2,12 +2,12 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import urlsConfig from 'src/config/urls.config';
-import { NotificationsClient } from '../clients/interfaces/notifications-client.interface';
-import { WeatherClient } from '../clients/interfaces/weather-client.interface';
+import { NotificationsClient } from '../common/clients/interfaces/notifications-client.interface';
+import { WeatherClient } from '../common/clients/interfaces/weather-client.interface';
 import { appTestConfig, databaseTestConfig } from '../config/test.config';
 import { SubscriptionFacadeInterface } from '../facade/interfaces/subscription-facade.interface';
 import { SubscriptionFacade } from '../facade/subscription.facade';
-import { SubscriptionController } from '../presentation/subcription.controller';
+import { SubscriptionController } from '../subscription/presentation/subcription.controller';
 import { DatabaseTestModule } from './database.module.test';
 import { SubscriptionTestModule } from './subscriptions.module.test';
 

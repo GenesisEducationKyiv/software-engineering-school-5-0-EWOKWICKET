@@ -3,7 +3,7 @@ import { NotificationType } from '@common/contracts/notifications/constants/noti
 import { InvalidTokenException } from '@common/contracts/subscription/errors/invalid-token.error';
 import { Injectable } from '@nestjs/common';
 import { RootFilterQuery } from 'mongoose';
-import { NotificationsClient } from 'src/clients/interfaces/notifications-client.interface';
+import { NotificationsClient } from 'src/common/clients/interfaces/notifications-client.interface';
 import { Subscription } from '../domain/subscription.entity';
 import { CreateSubscriptionDto } from '../presentation/dtos/create-subscription.dto';
 import { SubscriptionServiceInterface, SubscriptionServiceLookup } from './interfaces/subcription-service.abstract';

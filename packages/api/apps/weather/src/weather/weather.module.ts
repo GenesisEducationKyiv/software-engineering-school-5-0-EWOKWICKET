@@ -9,9 +9,11 @@ import { WeatherApiWeatherProvider } from './infrastructure/providers/weatherapi
 import { WeatherProviderCacheProxy } from './infrastructure/wrappers/weather-cache.proxy';
 import { WeatherProviderAdapter } from './infrastructure/wrappers/weather-povider.adapter';
 import { WeatherProviderLoggingDecorator } from './infrastructure/wrappers/weather-provider-logging.decorator';
+import { WeatherController } from './presentation/weather.controller';
 
 @Module({
   imports: [LoggerModule, CacheModule],
+  controllers: [WeatherController],
   providers: [
     WeatherApiWeatherProvider,
     OpenWeatherWeatherProvider,

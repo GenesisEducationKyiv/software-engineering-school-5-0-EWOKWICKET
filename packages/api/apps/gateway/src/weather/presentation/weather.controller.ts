@@ -1,6 +1,6 @@
 import { WeatherDto } from '@common/contracts/weather/dtos/weather.dto';
 import { Controller, Get, Query } from '@nestjs/common';
-import { WeatherClient } from '../application/interfaces/weather-client.interface';
+import { WeatherClient } from 'src/common/clients/interfaces/weather-client.interface';
 
 @Controller()
 export class WeatherController {
