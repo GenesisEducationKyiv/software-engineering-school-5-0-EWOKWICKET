@@ -14,5 +14,5 @@
       "src/*": ["apps/gateway/src/*"]
     }
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "../../libs/common/src/clients/clients.config.ts"]
 }

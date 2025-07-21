@@ -1,3 +1,4 @@
+import { GrpcServices } from '@common/configs/services';
 import { MongoIdValidationPipe } from '@common/pipes/mongo-id-validation.pipe';
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
@@ -11,7 +12,7 @@ import { SubscriptionServiceInterface } from '../application/interfaces/subcript
 export class SubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionServiceInterface) {}
 
-  @GrpcMethod('SubscriptionService', 'subscribe')
+  @GrpcMethod(GrpcServices.SUBSCRIPTION.name, GrpcServices.SUBSCRIPTION.endpoints.subscribe)
   async subscribe(subscribeDto: CreateSubscriptionRequest): Promise<void> {
     const dto = plainToInstance(CreateSubscriptionDto, subscribeDto);
     await validateOrReject(dto);
@@ -19,12 +20,12 @@ export class SubscriptionController {
     await this.subscriptionService.subscribe(dto);
   }
 
-  @GrpcMethod('SubscriptionService', 'confirm')
+  @GrpcMethod(GrpcServices.SUBSCRIPTION.name, GrpcServices.SUBSCRIPTION.endpoints.confirm)
   async confirm({ token }: TokenRequest): Promise<void> {
     await this.subscriptionService.confirm(new MongoIdValidationPipe().transform(token));
   }
 
-  @GrpcMethod('SubscriptionService', 'unsubscribe')
+  @GrpcMethod(GrpcServices.SUBSCRIPTION.name, GrpcServices.SUBSCRIPTION.endpoints.unsubscribe)
   async unsubscribe({ token }: TokenRequest): Promise<void> {
     await this.subscriptionService.unsubscribe(new MongoIdValidationPipe().transform(token));
   }

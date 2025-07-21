@@ -1,3 +1,4 @@
+import { GrpcServices } from '@common/configs/services';
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { GetCurrentRequest, GetCurrentResponse } from '@proto/weather';
@@ -7,7 +8,7 @@ import { WeatherProvider } from '../application/interfaces/weather-provider.abst
 export class WeatherController {
   constructor(private readonly weatherService: WeatherProvider) {}
 
-  @GrpcMethod('WeatherService', 'getCurrentWeather')
+  @GrpcMethod(GrpcServices.WEATHER.name, GrpcServices.WEATHER.endpoints.getCurrentWeather)
   async getCurrentWeather({ city }: GetCurrentRequest): Promise<GetCurrentResponse> {
     return {
       weather: await this.weatherService.getCurrentWeather(city),

@@ -1,3 +1,4 @@
+import { GrpcServices } from '@common/configs/services';
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { ConfirmationNotificationOptions, WeatherUpdateNotificationOptions } from '@proto/notifications';
@@ -8,13 +9,13 @@ import { NotificationTypeValidationPipe } from 'src/common/pipes/notification-ty
 export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsServiceInterface) {}
 
-  @GrpcMethod('NotificationsService', 'sendConfirmationNotification')
+  @GrpcMethod(GrpcServices.NOTIFICATIONS.name, GrpcServices.NOTIFICATIONS.endpoints.sendConfirmationNotification)
   async sendConfirmationNotification({ data, type }: ConfirmationNotificationOptions): Promise<void> {
     const validatedType = new NotificationTypeValidationPipe().transform(type);
     await this.notificationsService.sendConfirmationNotification(data, validatedType);
   }
 
-  @GrpcMethod('NotificationsService', 'sendWeatherUpdateNotification')
+  @GrpcMethod(GrpcServices.NOTIFICATIONS.name, GrpcServices.NOTIFICATIONS.endpoints.sendWeatherUpdateNotification)
   async sendWeatherUpdateNotification({ data, type }: WeatherUpdateNotificationOptions): Promise<void> {
     const validatedType = new NotificationTypeValidationPipe().transform(type);
     await this.notificationsService.sendWeatherUpdateNotification(data, validatedType);

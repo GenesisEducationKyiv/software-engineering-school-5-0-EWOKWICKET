@@ -1,8 +1,8 @@
+import { GrpcClientsConfigs } from '@common/configs/clients';
+import { GrpcServices } from '@common/configs/services';
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { ClientGrpc, ClientsModule, Transport } from '@nestjs/microservices';
+import { ClientGrpc, ClientsModule } from '@nestjs/microservices';
 import { MongooseModule } from '@nestjs/mongoose';
-import * as path from 'path';
 import { NotificationsClient } from 'src/common/clients/interfaces/notifications-client.interface';
 import { WeatherClient } from 'src/common/clients/interfaces/weather-client.interface';
 import { NotificationsGrpcClient } from 'src/common/clients/notifications.grps-client';
@@ -23,32 +23,7 @@ import { SubscriptionController } from './presentation/subcription.controller';
         schema: SubscriptionSchema,
       },
     ]),
-    ClientsModule.registerAsync([
-      {
-        name: 'WEATHER',
-        inject: [ConfigService],
-        useFactory: (config: ConfigService) => ({
-          transport: Transport.GRPC,
-          options: {
-            url: config.get<string>('app.weather'),
-            package: 'weather',
-            protoPath: path.join(__dirname, '..', '..', '..', '..', 'libs', 'proto', 'src', 'weather.proto'),
-          },
-        }),
-      },
-      {
-        name: 'NOTIFICATIONS',
-        inject: [ConfigService],
-        useFactory: (config: ConfigService) => ({
-          transport: Transport.GRPC,
-          options: {
-            url: config.get<string>('app.notifications'),
-            package: 'notifications',
-            protoPath: path.join(__dirname, '..', '..', '..', '..', 'libs', 'proto', 'src', 'notifications.proto'),
-          },
-        }),
-      },
-    ]),
+    ClientsModule.registerAsync([GrpcClientsConfigs.WEATHER, GrpcClientsConfigs.NOTIFICATIONS]),
   ],
   controllers: [SubscriptionController],
   providers: [
@@ -61,16 +36,16 @@ import { SubscriptionController } from './presentation/subcription.controller';
     { provide: GroupSubscriptionRepository, useExisting: SubscriptionRepository },
     {
       provide: WeatherClient,
-      inject: ['WEATHER'],
+      inject: [GrpcClientsConfigs.WEATHER.name],
       useFactory: (client: ClientGrpc): WeatherClient => {
-        return new WeatherGrpcClient(client.getService('WeatherService'));
+        return new WeatherGrpcClient(client.getService(GrpcServices.WEATHER.name));
       },
     },
     {
       provide: NotificationsClient,
-      inject: ['NOTIFICATIONS'],
+      inject: [GrpcClientsConfigs.NOTIFICATIONS.name],
       useFactory: (client: ClientGrpc): NotificationsClient => {
-        return new NotificationsGrpcClient(client.getService('NotificationsService'));
+        return new NotificationsGrpcClient(client.getService(GrpcServices.NOTIFICATIONS.name));
       },
     },
   ],
