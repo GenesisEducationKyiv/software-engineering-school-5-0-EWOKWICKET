@@ -1,10 +1,10 @@
+import { ServersConfigs } from '@common/configs/servers';
 import { AxiosExceptionFilter } from '@common/filters/axious-exception.filter';
 import { HttpExceptionFilter } from '@common/filters/http-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import * as path from 'path';
+import { AsyncMicroserviceOptions } from '@nestjs/microservices';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -15,14 +15,7 @@ async function bootstrap() {
   const port = config.get<string>('app.port');
   const url = `${host}:${port}`;
 
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
-    transport: Transport.GRPC,
-    options: {
-      url: url,
-      package: 'weather',
-      protoPath: path.join(__dirname, '..', '..', '..', 'libs', 'proto', 'src', 'weather.proto'),
-    },
-  });
+  const app = await NestFactory.createMicroservice<AsyncMicroserviceOptions>(AppModule, ServersConfigs.WEATHER);
 
   app.useGlobalFilters(new HttpExceptionFilter(), new AxiosExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));

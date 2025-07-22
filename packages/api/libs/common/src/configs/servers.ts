@@ -1,47 +1,44 @@
 import { ConfigService } from '@nestjs/config';
-import { ClientsProviderAsyncOptions, Transport } from '@nestjs/microservices';
+import { AsyncMicroserviceOptions, Transport } from '@nestjs/microservices';
 import * as path from 'path';
 
 const protoBasePath = path.join(__dirname, '..', '..', '..', 'proto', 'src');
 
-export const ClientsConfigs = Object.freeze<Record<string, ClientsProviderAsyncOptions>>({
+export const ServersConfigs = Object.freeze<Record<string, AsyncMicroserviceOptions>>({
   WEATHER: {
-    name: 'WEATHER',
     inject: [ConfigService],
     useFactory: (config: ConfigService) => ({
       transport: Transport.GRPC,
       options: {
-        url: config.get<string>('app.urls.weather'),
+        url: `${config.get<string>('app.host')}:${config.get<string>('app.port')}`,
         package: 'weather',
         protoPath: path.join(protoBasePath, 'weather.proto'),
       },
     }),
   },
   SUBSCRIPTION: {
-    name: 'SUBSCRIPTION',
     inject: [ConfigService],
     useFactory: (config: ConfigService) => ({
       transport: Transport.GRPC,
       options: {
-        url: config.get<string>('app.urls.subscription'),
+        url: `${config.get<string>('app.host')}:${config.get<string>('app.port')}`,
         package: 'subscription',
         protoPath: path.join(protoBasePath, 'subscription.proto'),
       },
     }),
   },
   NOTIFICATIONS: {
-    name: 'NOTIFICATIONS',
     inject: [ConfigService],
     useFactory: (config: ConfigService) => ({
       transport: Transport.RMQ,
       options: {
-        urls: [config.get<string>('app.urls.rmqUrl')],
+        urls: [config.get<string>('app.rmqUrl')],
         queue: 'notifications',
         exchange: 'notifications',
         exchangeType: 'topic',
-        queueOptions: {
-          durable: true,
-        },
+        routingKey: 'notifications.*',
+        persistent: true,
+        noAck: false,
       },
     }),
   },

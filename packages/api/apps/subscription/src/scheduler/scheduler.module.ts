@@ -1,5 +1,4 @@
-import { GrpcClientsConfigs } from '@common/configs/clients';
-import { RmqNotificationsConfig } from '@common/configs/rmq';
+import { ClientsConfigs } from '@common/configs/clients';
 import { GrpcServices } from '@common/configs/services';
 import { Module } from '@nestjs/common';
 import { ClientGrpc, ClientsModule } from '@nestjs/microservices';
@@ -14,7 +13,7 @@ import { SchedulerService } from './application/scheduler.service';
 import { WeatherUpdateService } from './infrastructure/weather-update.service';
 
 @Module({
-  imports: [ScheduleModule.forRoot(), ClientsModule.registerAsync([GrpcClientsConfigs.WEATHER, RmqNotificationsConfig.NOTIFICATIONS]), SubscriptionModule],
+  imports: [ScheduleModule.forRoot(), ClientsModule.registerAsync([ClientsConfigs.WEATHER, ClientsConfigs.NOTIFICATIONS]), SubscriptionModule],
   providers: [
     SchedulerService,
     {
@@ -23,7 +22,7 @@ import { WeatherUpdateService } from './infrastructure/weather-update.service';
     },
     {
       provide: WeatherClient,
-      inject: [GrpcClientsConfigs.WEATHER.name],
+      inject: [ClientsConfigs.WEATHER.name],
       useFactory: (client: ClientGrpc): WeatherClient => {
         return new WeatherGrpcClient(client.getService(GrpcServices.WEATHER.name));
       },

@@ -1,7 +1,7 @@
 import { NotificationType } from '@common/contracts/notifications/constants/notification-type.enum';
 import { ConfirmationNotification, WeatherUpdateNotification } from '@common/contracts/notifications/constants/notifications.type';
 import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Ctx, MessagePattern, Payload, RmqContext } from '@nestjs/microservices';
 import { NotificationsServiceInterface } from 'src/application/interfaces/notifications-service.abstract';
 
 @Controller()
@@ -9,22 +9,30 @@ export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsServiceInterface) {}
 
   @MessagePattern('notifications.send_confirmation')
-  async sendConfirmationNotification(@Payload() { data, type }: { data: ConfirmationNotification; type: NotificationType }) {
+  async sendConfirmationNotification(@Payload() { data, type }: { data: ConfirmationNotification; type: NotificationType }, @Ctx() context: RmqContext) {
+    const channel = context.getChannelRef();
+    const message = context.getMessage();
+
     try {
       await this.notificationsService.sendConfirmationNotification(data, type);
-      return { status: 'ok' };
-    } catch {
-      console.log('ERR OCCURED');
+      channel.ack(message);
+    } catch (err) {
+      console.error('Error processing message:', err);
+      channel.nack(message, false, true);
     }
   }
 
   @MessagePattern('notifications.send_weather_update')
-  async sendWeatherUpdateNotification(@Payload() { data, type }: { data: WeatherUpdateNotification; type: NotificationType }) {
+  async sendWeatherUpdateNotification(@Payload() { data, type }: { data: WeatherUpdateNotification; type: NotificationType }, @Ctx() context: RmqContext) {
+    const channel = context.getChannelRef();
+    const message = context.getMessage();
+
     try {
       await this.notificationsService.sendWeatherUpdateNotification(data, type);
-      return { status: 'ok' };
-    } catch {
-      console.log('ERR OCCURED');
+      channel.ack(message);
+    } catch (err) {
+      console.error('Error processing message:', err);
+      channel.nack(message, false, true);
     }
   }
 }

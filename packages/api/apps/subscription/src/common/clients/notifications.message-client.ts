@@ -2,7 +2,6 @@ import { NotificationType } from '@common/contracts/notifications/constants/noti
 import { ConfirmationNotification, WeatherUpdateNotification } from '@common/contracts/notifications/constants/notifications.type';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
 import { NotificationsClient } from './interfaces/notifications-client.interface';
 
 @Injectable()
@@ -10,10 +9,10 @@ export class NotificationsMessageClient implements NotificationsClient {
   constructor(@Inject('NOTIFICATIONS') private readonly notifications: ClientProxy) {}
 
   async sendConfirmationNotification(data: ConfirmationNotification, type: NotificationType) {
-    await firstValueFrom(this.notifications.send('notifications.send_confirmation', { data, type }));
+    this.notifications.emit('notifications.send_confirmation', { data, type });
   }
 
   async sendWeatherUpdateNotification(data: WeatherUpdateNotification, type: NotificationType) {
-    await firstValueFrom(this.notifications.send('notifications.send_weather_update', { data, type }));
+    this.notifications.emit('notifications.send_weather_update', { data, type });
   }
 }
