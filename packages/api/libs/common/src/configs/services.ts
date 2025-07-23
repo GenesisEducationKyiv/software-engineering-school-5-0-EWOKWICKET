@@ -13,7 +13,13 @@ function extractServiceMetadata<T extends Record<string, { path: string }>>(clie
   };
 }
 
-export const GrpcServices = Object.freeze({
+export const Services = Object.freeze({
   WEATHER: extractServiceMetadata(WeatherServiceClient, WeatherServiceService),
   SUBSCRIPTION: extractServiceMetadata(SubscriptionServiceClient, SubscriptionServiceService),
+  NOTIFICATIONS: {
+    events: {
+      confirmation: 'notifications.send_confirmation',
+      update: 'notifications.send_weather_update',
+    },
+  },
 });

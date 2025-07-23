@@ -1,3 +1,4 @@
+import { Services } from '@common/configs/services';
 import { NotificationType } from '@common/contracts/notifications/constants/notification-type.enum';
 import { ConfirmationNotification, WeatherUpdateNotification } from '@common/contracts/notifications/constants/notifications.type';
 import { Controller } from '@nestjs/common';
@@ -8,7 +9,7 @@ import { NotificationsServiceInterface } from 'src/application/interfaces/notifi
 export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsServiceInterface) {}
 
-  @MessagePattern('notifications.send_confirmation')
+  @MessagePattern(Services.NOTIFICATIONS.events.confirmation)
   async sendConfirmationNotification(@Payload() { data, type }: { data: ConfirmationNotification; type: NotificationType }, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef();
     const message = context.getMessage();
@@ -22,7 +23,7 @@ export class NotificationsController {
     }
   }
 
-  @MessagePattern('notifications.send_weather_update')
+  @MessagePattern(Services.NOTIFICATIONS.events.update)
   async sendWeatherUpdateNotification(@Payload() { data, type }: { data: WeatherUpdateNotification; type: NotificationType }, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef();
     const message = context.getMessage();
