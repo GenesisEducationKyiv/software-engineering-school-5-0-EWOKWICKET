@@ -1,0 +1,11 @@
+{
+  "name": "cache",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@keyv/redis": "^4.6.0",
+    "@nestjs/cache-manager": "^3.0.1",
+    "cache-manager": "^7.0.1",
+    "keyv": "^5.3.4"
+  }
+}

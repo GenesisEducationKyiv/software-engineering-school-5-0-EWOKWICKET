@@ -13,11 +13,5 @@
     "build:test": "nest build --config nest-cli.test.json",
     "test:integration": "jest --config ./test/jest-integration.config.js",
     "docker:integration": "docker compose -f ../../../../docker-compose.test.yml up --build --abort-on-container-exit weather-integration"
-  },
-  "dependencies": {
-    "@keyv/redis": "^4.6.0",
-    "@nestjs/cache-manager": "^3.0.1",
-    "cache-manager": "^7.0.1",
-    "keyv": "^5.3.4"
   }
 }

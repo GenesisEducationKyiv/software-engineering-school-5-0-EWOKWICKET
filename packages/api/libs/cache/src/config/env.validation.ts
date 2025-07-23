@@ -2,11 +2,7 @@ import { config as dotenv } from 'dotenv';
 import * as Joi from 'joi';
 
 export const weatherEnvSchema = Joi.object({
-  HOST: Joi.string().required(),
-  PORT: Joi.number().port().required(),
-
-  WEATHERAPI_API_KEY: Joi.string().required(),
-  OPENWEATHER_API_KEY: Joi.string().required(),
+  REDIS_URL: Joi.string().required(),
 }).unknown(true);
 
 dotenv();

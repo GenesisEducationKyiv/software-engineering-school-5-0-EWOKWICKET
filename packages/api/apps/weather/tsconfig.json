@@ -15,6 +15,7 @@
       "@common/*": ["libs/common/src/*"],
       "@logger/*": ["libs/logger/src/*"],
       "@metrics/*": ["libs/metrics/src/*"],
+      "@cache/*": ["libs/cache/src/*"],
       "@proto/*": ["libs/proto/generated/*"],
       "src/*": ["apps/weather/src/*"]
     }

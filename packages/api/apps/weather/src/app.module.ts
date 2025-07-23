@@ -1,10 +1,8 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { CacheModule } from './cache/cache.module';
 import { CityModule } from './city/city.module';
 import appConfig from './config/app.config';
-import cacheConfig from './config/cache.config';
 import { weatherEnvSchema } from './config/env.validation';
 import providersConfig from './config/providers.config';
 import { WeatherModule } from './weather/weather.module';
@@ -13,13 +11,12 @@ import { WeatherModule } from './weather/weather.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, providersConfig, cacheConfig],
+      load: [appConfig, providersConfig],
       validationSchema: weatherEnvSchema,
     }),
     HttpModule.register({ global: true }),
     WeatherModule,
     CityModule,
-    CacheModule,
   ],
 })
 export class AppModule {}
