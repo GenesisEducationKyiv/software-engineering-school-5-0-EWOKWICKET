@@ -1,3 +1,5 @@
+import { CacheAccessor } from '@cache/application/interfaces/cache-service.interface';
+import { CacheModule } from '@cache/cache.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { NotificationsSender, NotificationsSenderToken } from './application/interfaces/notifications-sender.interface';
@@ -8,6 +10,7 @@ import { notificationsEnvSchema } from './config/env.validation';
 import mailConfig from './config/mail.config';
 import { MailModule } from './infrastructure/mail.module';
 import { MailSender } from './infrastructure/services/mail-sender.service';
+import { NotificaionsIdempotencyProxy } from './infrastructure/wrappers/idempotency.proxy';
 import { NotificationsController } from './presentation/notifications.controller';
 
 @Module({
@@ -18,10 +21,18 @@ import { NotificationsController } from './presentation/notifications.controller
       load: [appConfig, mailConfig],
     }),
     MailModule,
+    CacheModule,
   ],
   controllers: [NotificationsController],
   providers: [
-    { provide: NotificationsServiceInterface, useClass: NotificationsService },
+    NotificationsService,
+    {
+      provide: NotificationsServiceInterface,
+      inject: [NotificationsService, CacheAccessor],
+      useFactory: (notificationsService: NotificationsService, cacheService: CacheAccessor) => {
+        return new NotificaionsIdempotencyProxy(notificationsService, cacheService);
+      },
+    },
     {
       provide: NotificationsSenderToken,
       useFactory: (mailSender: MailSender): NotificationsSender[] => {

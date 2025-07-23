@@ -1,6 +1,6 @@
-import { HOUR } from '@common/utils/time-units';
 import { CacheAccessor } from '@cache/application/interfaces/cache-service.interface';
-import { createCacheKey } from 'src/common/cache/utils/create-cache-key';
+import { createCacheKey } from '@cache/application/utils/create-cache-key';
+import { HOUR } from '@common/utils/time-units';
 import { ChainableCityProvider } from '../../application/interfaces/chainable-city.provider';
 import { CityCachePrefixes } from '../constants/city-cache-prefixes.enum';
 

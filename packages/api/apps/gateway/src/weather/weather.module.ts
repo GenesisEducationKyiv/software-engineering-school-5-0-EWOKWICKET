@@ -1,5 +1,5 @@
 import { ClientsConfigs } from '@common/configs/clients';
-import { GrpcServices } from '@common/configs/services';
+import { Services } from '@common/configs/services';
 import { Module } from '@nestjs/common';
 import { ClientGrpc, ClientsModule } from '@nestjs/microservices';
 import { WeatherClient } from 'src/common/clients/interfaces/weather-client.interface';
@@ -14,7 +14,7 @@ import { WeatherController } from './presentation/weather.controller';
       provide: WeatherClient,
       inject: [ClientsConfigs.WEATHER.name],
       useFactory: (client: ClientGrpc): WeatherClient => {
-        return new WeatherGrpcClient(client.getService(GrpcServices.WEATHER.name));
+        return new WeatherGrpcClient(client.getService(Services.WEATHER.name));
       },
     },
   ],
