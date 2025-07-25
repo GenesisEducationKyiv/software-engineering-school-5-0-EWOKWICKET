@@ -6,25 +6,10 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AsyncMicroserviceOptions } from '@nestjs/microservices';
 import { useContainer } from 'class-validator';
+import * as path from 'path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  // const appContext = await NestFactory.createApplicationContext(AppModule);
-  // const config = appContext.get(ConfigService);
-
-  // const host = config.get<string>('app.host');
-  // const port = config.get<string>('app.port');
-  // const url = `${host}:${port}`;
-
-  // const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
-  //   transport: Transport.GRPC,
-  //   options: {
-  //     url: url,
-  //     package: 'subscription',
-  //     protoPath: path.join(__dirname, '..', '..', '..', 'libs', 'proto', 'src', 'subscription.proto'),
-  //   },
-  // });
-
   const app = await NestFactory.createMicroservice<AsyncMicroserviceOptions>(AppModule, ServersConfigs.SUBSCRIPTION);
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
