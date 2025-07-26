@@ -2,6 +2,8 @@ import { INestApplication } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { Model, Types } from 'mongoose';
+import { NotificationsClient } from 'src/common/clients/interfaces/notifications-client.interface';
+import { WeatherClient } from 'src/common/clients/interfaces/weather-client.interface';
 import { Frequency } from 'src/subscription/domain/frequency.vo';
 import { SubscriptionRepository } from 'src/subscription/infrastructure/persistence/repositories/subscription.repository';
 import { Subscription } from 'src/subscription/infrastructure/persistence/schemas/subscription.schema';
@@ -20,6 +22,8 @@ describe('SubscriptionController (Direct Method Call)', () => {
   let subscriptionRepository: SubscriptionRepository; // to check repo calls
   let subscriptionModel: Model<Subscription>;
   let controller: SubscriptionController;
+  let notificationsClient: NotificationsClient;
+  let weatherClient: WeatherClient;
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
@@ -32,6 +36,9 @@ describe('SubscriptionController (Direct Method Call)', () => {
     subscriptionRepository = module.get<SubscriptionRepository>(SubscriptionRepository);
     subscriptionModel = module.get<Model<Subscription>>(getModelToken(Subscription.name));
     controller = module.get<SubscriptionController>(SubscriptionController);
+
+    notificationsClient = module.get<NotificationsClient>(NotificationsClient);
+    weatherClient = module.get<WeatherClient>(WeatherClient);
   });
 
   beforeEach(async () => {
@@ -50,6 +57,8 @@ describe('SubscriptionController (Direct Method Call)', () => {
 
       const newSubscription = await subscriptionModel.findOne({ email: succesfulSubscriptionDto.email, city: succesfulSubscriptionDto.city });
       expect(newSubscription).toBeDefined();
+
+      expect(notificationsClient.sendConfirmationNotification).toHaveBeenCalledWith(expect.objectContaining({ to: succesfulSubscriptionDto.email }), expect.anything());
     });
 
     it('should throw if subscription already exists', async () => {
@@ -61,7 +70,7 @@ describe('SubscriptionController (Direct Method Call)', () => {
   describe('confirm', () => {
     it('successfully confirm if subscription exists', async () => {
       const sub = await subscriptionModel.create(succesfulSubscriptionDto);
-      await controller.confirm(sub._id.toString());
+      await controller.confirm({ token: sub._id.toString() });
 
       // verifies document was updated
       const updated: Subscription = await subscriptionModel.findById(sub._id);
@@ -72,14 +81,14 @@ describe('SubscriptionController (Direct Method Call)', () => {
     it('should throw if token not found', async () => {
       // generate a valid mongo id that doesn't exist in the database
       const nonExistingId = new Types.ObjectId().toString();
-      await expect(controller.confirm(nonExistingId)).rejects.toThrow('Token Not Found');
+      await expect(controller.confirm({ token: nonExistingId })).rejects.toThrow('Token Not Found');
     });
   });
 
   describe('unsubscribe', () => {
     it('successfully unsubscribe if subscription exists', async () => {
       const sub = await subscriptionModel.create(succesfulSubscriptionDto);
-      await controller.unsubscribe(sub._id.toString());
+      await controller.unsubscribe({ token: sub._id.toString() });
 
       // verifies document doesn't exist
       const deletedSubscription = await subscriptionModel.findById(sub._id);
@@ -89,7 +98,7 @@ describe('SubscriptionController (Direct Method Call)', () => {
     it('should throw if token not found', async () => {
       // generate a valid mongo id that doesn't exist in the database
       const nonExistingId = new Types.ObjectId().toString();
-      await expect(controller.unsubscribe(nonExistingId)).rejects.toThrow('Token Not Found');
+      await expect(controller.unsubscribe({ token: nonExistingId })).rejects.toThrow('Token Not Found');
     });
   });
 });

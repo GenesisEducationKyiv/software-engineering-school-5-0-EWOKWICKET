@@ -10,7 +10,7 @@ import { DatabaseMigration } from './infrastructure/database.migration';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: 'src/subscription/.env',
+      // envFilePath: 'src/subscription/.env',
       load: [databaseConfig],
     }),
     MongooseModule.forRootAsync({

@@ -1,4 +1,11 @@
 services:
+  mongo-test:
+    container_name: mongo-test
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+
   weather-integration:
     build:
       context: ./packages/api
@@ -11,7 +18,7 @@ services:
       dockerfile: apps/subscription/Dockerfile.test
     depends_on:
       - mongo-test
-    command: sh -c "yarn migrate:test && cd apps/subscription && yarn test:integration"
+    command: sh -c "yarn migrate && cd apps/subscription && yarn test:integration"
 
   e2e-test:
     build:
@@ -20,10 +27,3 @@ services:
     depends_on:
       - mongo-test
     command: sh -c "yarn migrate:test && yarn test:e2e"
-
-  mongo-test:
-    container_name: mongo-test
-    image: mongo
-    restart: always
-    ports:
-      - 27017:27017

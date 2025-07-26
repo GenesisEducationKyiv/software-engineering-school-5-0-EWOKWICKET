@@ -1,43 +1,19 @@
-import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import urlsConfig from 'src/config/urls.config';
-import { NotificationsClient } from '../common/clients/interfaces/notifications-client.interface';
-import { WeatherClient } from '../common/clients/interfaces/weather-client.interface';
-import { appTestConfig, databaseTestConfig } from '../config/test.config';
-import { SubscriptionFacadeInterface } from '../facade/interfaces/subscription-facade.interface';
-import { SubscriptionFacade } from '../facade/subscription.facade';
-import { SubscriptionController } from '../subscription/presentation/subcription.controller';
-import { DatabaseTestModule } from './database.module.test';
+import appConfig from 'src/config/app.config';
+import databaseConfig from 'src/config/database.config';
+import { DatabaseModule } from 'src/database/database.module';
 import { SubscriptionTestModule } from './subscriptions.module.test';
-
-const weatherMock: WeatherClient = {
-  cityExists: async (city: string) => city === 'CityValid',
-  getCurrentWeather: async (city: string) => undefined,
-};
-
-const notificationsMock: NotificationsClient = {
-  sendConfirmationNotification: async () => {},
-  sendWeatherUpdateNotification: async () => {},
-};
 
 @Module({
   imports: [
-    HttpModule.register({ global: true }),
     ConfigModule.forRoot({
       ignoreEnvFile: true,
       isGlobal: true,
-      load: [appTestConfig, databaseTestConfig, urlsConfig],
+      load: [appConfig, databaseConfig],
     }),
-    DatabaseTestModule,
+    DatabaseModule,
     SubscriptionTestModule,
   ],
-  controllers: [SubscriptionController],
-  providers: [
-    { provide: SubscriptionFacadeInterface, useClass: SubscriptionFacade },
-    { provide: WeatherClient, useValue: weatherMock },
-    { provide: NotificationsClient, useValue: notificationsMock },
-  ],
-  exports: [SubscriptionFacadeInterface, WeatherClient, NotificationsClient],
 })
 export class AppTestModule {}
