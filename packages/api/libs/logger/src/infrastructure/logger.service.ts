@@ -13,7 +13,7 @@ const { combine, timestamp, json, prettyPrint } = format;
 export class LoggerService implements LoggerInterface {
   private readonly logger: Logger;
 
-  constructor(options: LoggerOptions, configService: ConfigService) {
+  constructor(configService: ConfigService, options: LoggerOptions) {
     const host = configService.get('logger.url');
     const basicAuth = configService.get('logger.auth');
 

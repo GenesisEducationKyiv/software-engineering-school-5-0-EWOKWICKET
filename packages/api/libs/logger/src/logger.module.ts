@@ -5,6 +5,7 @@ import { LoggerInterface } from './application/interfaces/logger.interface';
 import { loggerEnvSchema } from './config/env.validation';
 import loggerConfig from './config/logger.config';
 import { LoggerService } from './infrastructure/logger.service';
+import { SamplerProxy } from './infrastructure/proxies/sampling.proxy';
 
 @Module({})
 export class LoggerModule {
@@ -23,8 +24,12 @@ export class LoggerModule {
         {
           provide: LoggerInterface,
           inject: [ConfigService],
+          //prettier-ignore
           useFactory: (configService: ConfigService) => {
-            return new LoggerService(options, configService);
+            return new SamplerProxy(
+              new LoggerService(configService, options), 
+              options
+            );
           },
         },
       ],

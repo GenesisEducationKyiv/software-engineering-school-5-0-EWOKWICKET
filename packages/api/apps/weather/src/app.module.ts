@@ -16,7 +16,10 @@ import { WeatherModule } from './weather/weather.module';
       validationSchema: weatherEnvSchema,
     }),
     HttpModule.register({ global: true }),
-    LoggerModule.forRoot({ service: 'Weather' }),
+    LoggerModule.forRoot({
+      service: 'Weather',
+      samplingRate: 0.5,
+    }),
     WeatherModule,
     CityModule,
   ],
