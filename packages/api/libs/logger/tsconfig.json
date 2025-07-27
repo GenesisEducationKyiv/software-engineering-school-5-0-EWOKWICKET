@@ -1,7 +1,13 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    // "moduleResolution": "node",
+    // "esModuleInterop": true,
+    // "allowSyntheticDefaultImports": true,
     "outDir": "../../dist"
+    // "paths": {
+    //   "@metrics/*": ["libs/metrics/src/*"]
+    // }
   },
   "include": ["src/**/*.ts"]
 }

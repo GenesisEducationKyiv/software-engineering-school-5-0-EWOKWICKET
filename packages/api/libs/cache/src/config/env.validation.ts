@@ -1,12 +1,15 @@
 import { config as dotenv } from 'dotenv';
 import * as Joi from 'joi';
+import path from 'path';
 
-export const weatherEnvSchema = Joi.object({
+export const cacheEnvSchema = Joi.object({
   REDIS_URL: Joi.string().required(),
 }).unknown(true);
 
-dotenv();
-const { error, value: env } = weatherEnvSchema.validate(process.env, { abortEarly: false });
+dotenv({
+  path: path.resolve(process.cwd(), '..', '..', 'libs', 'cache', '.env'),
+});
+const { error, value: env } = cacheEnvSchema.validate(process.env, { abortEarly: false });
 if (error) {
   console.error('ENV VALIDATION ERROR:');
   error.details.forEach((detail) => {

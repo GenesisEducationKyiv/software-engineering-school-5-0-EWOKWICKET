@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "UNLICENSED",
   "dependencies": {
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "winston-loki": "^6.1.3"
   }
 }

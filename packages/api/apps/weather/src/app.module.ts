@@ -1,3 +1,4 @@
+import { LoggerModule } from '@logger/logger.module';
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -15,6 +16,7 @@ import { WeatherModule } from './weather/weather.module';
       validationSchema: weatherEnvSchema,
     }),
     HttpModule.register({ global: true }),
+    LoggerModule.forRoot({ service: 'Weather' }),
     WeatherModule,
     CityModule,
   ],

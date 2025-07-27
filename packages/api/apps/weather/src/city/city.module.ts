@@ -1,8 +1,8 @@
 import { CacheAccessor } from '@cache/application/interfaces/cache-service.interface';
 import { CacheModule } from '@cache/cache.module';
+import { LoggerModule } from '@logger/logger.module';
 import { Module } from '@nestjs/common';
-import { ProviderLogger } from 'libs/logger/src/application/interfaces/logger.interface';
-import { LoggerModule } from 'libs/logger/src/logger.module';
+import { LoggerInterface } from 'libs/logger/src/application/interfaces/logger.interface';
 import { CityProvider } from './application/interfaces/city-provider.abstract';
 import { OpenWeatherCityProvider } from './infrastructure/providers/openweather.provider';
 import { WeatherApiCityProvider } from './infrastructure/providers/weatherapi.provider';
@@ -12,15 +12,15 @@ import { CityProviderCacheProxy } from './infrastructure/wrappers/city-validatio
 import { CityController } from './presentation/city.controller';
 
 @Module({
-  imports: [LoggerModule, CacheModule],
+  imports: [CacheModule, LoggerModule],
   controllers: [CityController],
   providers: [
     WeatherApiCityProvider,
     OpenWeatherCityProvider,
     {
       provide: CityProvider,
-      inject: [WeatherApiCityProvider, OpenWeatherCityProvider, ProviderLogger, CacheAccessor],
-      useFactory: (weatherApiProvider: WeatherApiCityProvider, openWeatherProvider: OpenWeatherCityProvider, logger: ProviderLogger, cacheService: CacheAccessor) => {
+      inject: [WeatherApiCityProvider, OpenWeatherCityProvider, LoggerInterface, CacheAccessor],
+      useFactory: (weatherApiProvider: WeatherApiCityProvider, openWeatherProvider: OpenWeatherCityProvider, logger: LoggerInterface, cacheService: CacheAccessor) => {
         const decoratedWeatherAPI = new CityProviderLoggingDecorator(weatherApiProvider, logger);
         const decoratedOpenWeather = new CityProviderLoggingDecorator(openWeatherProvider, logger);
         const cachProxied = new CityProviderCacheProxy(decoratedWeatherAPI.setNext(decoratedOpenWeather), cacheService);

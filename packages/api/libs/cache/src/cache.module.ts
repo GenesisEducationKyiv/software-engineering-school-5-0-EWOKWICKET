@@ -4,13 +4,20 @@ import { CacheMetrics } from '@metrics/application/interfaces/metrics-service.in
 import { MetricsModule } from '@metrics/metrics.module';
 import { CacheModule as CachingModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CacheAccessor, CacheInvalidator } from './application/interfaces/cache-service.interface';
+import cacheConfig from './config/cache.config';
+import { cacheEnvSchema } from './config/env.validation';
 import { CacheService } from './infrastructure/cache.service';
 import { CacheMetricsDecorator } from './infrastructure/decorators/cache-metrics.decorator';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [cacheConfig],
+      validationSchema: cacheEnvSchema,
+    }),
     CachingModule.registerAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({

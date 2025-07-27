@@ -1,23 +1,52 @@
+import { Data } from '@logger/application/constants/data.type';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { createLogger, format, Logger, transports } from 'winston';
-import { ProviderLogger } from '../application/interfaces/logger.interface';
-import { localTimestampFormat } from '../configs/timezone';
+import LokiTransport from 'winston-loki';
+import { LoggerOptions } from '../application/constants/logger.options';
+import { LoggerInterface } from '../application/interfaces/logger.interface';
+import { localTimestampFormat } from '../utils/timezone';
 
 const { combine, timestamp, json, prettyPrint } = format;
 
 @Injectable()
-export class LoggerService implements ProviderLogger {
+export class LoggerService implements LoggerInterface {
   private readonly logger: Logger;
 
-  constructor() {
+  constructor(options: LoggerOptions, configService: ConfigService) {
+    const host = configService.get('logger.url');
+    const basicAuth = configService.get('logger.auth');
+
     this.logger = createLogger({
-      level: 'info',
       format: combine(timestamp({ format: localTimestampFormat }), json(), prettyPrint()),
-      transports: [new transports.File({ filename: 'logs/provider.log' })],
+      transports: [
+        new LokiTransport({
+          host,
+          basicAuth,
+          labels: { app: 'WeatherForecast', service: options.service },
+          onConnectionError: (err) => console.error('Loki connection error:', err),
+          json: true,
+        }),
+        new transports.Console({
+          format: format.combine(format.colorize(), format.simple()),
+        }),
+      ],
     });
   }
 
-  async logProvider(message: string, executor: string, data: unknown = {}): Promise<void> {
-    this.logger.info({ message, executor, data });
+  info(message: string, data?: Data) {
+    this.logger.info(message, data);
+  }
+
+  error(message: string, data?: Data, trace?: string) {
+    this.logger.error(message, data, { trace });
+  }
+
+  warn(message: string, data?: Data) {
+    this.logger.warn(message, data);
+  }
+
+  debug(message: string, data?: Data) {
+    this.logger.debug(message, data);
   }
 }
