@@ -6,7 +6,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AsyncMicroserviceOptions } from '@nestjs/microservices';
 import { useContainer } from 'class-validator';
-import * as path from 'path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {

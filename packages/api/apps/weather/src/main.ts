@@ -2,19 +2,11 @@ import { ServersConfigs } from '@common/configs/servers';
 import { AxiosExceptionFilter } from '@common/filters/axious-exception.filter';
 import { HttpExceptionFilter } from '@common/filters/http-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AsyncMicroserviceOptions } from '@nestjs/microservices';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const appContext = await NestFactory.createApplicationContext(AppModule);
-  const config = appContext.get(ConfigService);
-
-  const host = config.get<string>('app.host');
-  const port = config.get<string>('app.port');
-  const url = `${host}:${port}`;
-
   const app = await NestFactory.createMicroservice<AsyncMicroserviceOptions>(AppModule, ServersConfigs.WEATHER);
 
   app.useGlobalFilters(new HttpExceptionFilter(), new AxiosExceptionFilter());
