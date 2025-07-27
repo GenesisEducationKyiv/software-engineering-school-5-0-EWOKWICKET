@@ -4,8 +4,12 @@ import * as Joi from 'joi';
 export const appEnvSchema = Joi.object({
   HOST: Joi.string().required(),
   PORT: Joi.number().port().required(),
-  SUBSCRIPTION_URL: Joi.string().required(),
+
   WEATHER_URL: Joi.string().required(),
+  WEATHER_PACKAGE: Joi.string().required(),
+
+  SUBSCRIPTION_URL: Joi.string().required(),
+  SUBSCRIPTION_PACKAGE: Joi.string().required(),
 }).unknown(true);
 
 dotenv();

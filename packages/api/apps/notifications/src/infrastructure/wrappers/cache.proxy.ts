@@ -6,8 +6,8 @@ import { MINUTE } from '@common/utils/time-units';
 import { NotificationsServiceInterface } from 'src/application/interfaces/notifications-service.abstract';
 import { CachePrefixes } from '../constants/notifications.cache-prefixes.enum';
 
-export class NotificaionsIdempotencyProxy implements NotificationsServiceInterface {
-  private readonly ttl: number = MINUTE * 5;
+export class NotificaionsCacheProxy implements NotificationsServiceInterface {
+  private readonly ttl: number = MINUTE * 50;
 
   constructor(
     private readonly wrapped: NotificationsServiceInterface,

@@ -10,7 +10,7 @@ import { notificationsEnvSchema } from './config/env.validation';
 import mailConfig from './config/mail.config';
 import { MailModule } from './infrastructure/mail.module';
 import { MailSender } from './infrastructure/services/mail-sender.service';
-import { NotificaionsIdempotencyProxy } from './infrastructure/wrappers/idempotency.proxy';
+import { NotificaionsCacheProxy } from './infrastructure/wrappers/cache.proxy';
 import { NotificationsController } from './presentation/notifications.controller';
 
 @Module({
@@ -30,7 +30,7 @@ import { NotificationsController } from './presentation/notifications.controller
       provide: NotificationsServiceInterface,
       inject: [NotificationsService, CacheAccessor],
       useFactory: (notificationsService: NotificationsService, cacheService: CacheAccessor) => {
-        return new NotificaionsIdempotencyProxy(notificationsService, cacheService);
+        return new NotificaionsCacheProxy(notificationsService, cacheService);
       },
     },
     {

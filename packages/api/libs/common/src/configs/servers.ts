@@ -11,7 +11,7 @@ export const ServersConfigs = Object.freeze<Record<string, AsyncMicroserviceOpti
       transport: Transport.GRPC,
       options: {
         url: `${config.get<string>('app.host')}:${config.get<string>('app.port')}`,
-        package: 'weather',
+        package: config.get<string>('app.grpcPackage'),
         protoPath: path.join(protoBasePath, 'weather.proto'),
       },
     }),
@@ -22,7 +22,7 @@ export const ServersConfigs = Object.freeze<Record<string, AsyncMicroserviceOpti
       transport: Transport.GRPC,
       options: {
         url: `${config.get<string>('app.host')}:${config.get<string>('app.port')}`,
-        package: 'subscription',
+        package: config.get<string>('app.grpcPackage'),
         protoPath: path.join(protoBasePath, 'subscription.proto'),
       },
     }),
@@ -33,10 +33,10 @@ export const ServersConfigs = Object.freeze<Record<string, AsyncMicroserviceOpti
       transport: Transport.RMQ,
       options: {
         urls: [config.get<string>('app.rmqUrl')],
-        queue: 'notifications',
-        exchange: 'notifications',
-        exchangeType: 'topic',
-        routingKey: 'notifications.*',
+        queue: config.get<string>('app.queue'),
+        exchange: config.get<string>('app.exchange'),
+        exchangeType: config.get<string>('app.exchangeType'),
+        routingKey: config.get<string>('app.routingKey'),
         persistent: true,
         noAck: false,
       },

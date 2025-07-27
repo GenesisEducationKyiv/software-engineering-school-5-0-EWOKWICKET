@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import appConfig from './config/app.config';
+import clientsConfig from './config/clients.config';
 import { appEnvSchema } from './config/env.validation';
 import { SubscriptionModule } from './subscription/subscription.module';
 import { WeatherModule } from './weather/weather.module';
@@ -11,7 +12,7 @@ import { WeatherModule } from './weather/weather.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
-      load: [appConfig],
+      load: [appConfig, clientsConfig],
       validationSchema: appEnvSchema,
     }),
     ServeStaticModule.forRoot({

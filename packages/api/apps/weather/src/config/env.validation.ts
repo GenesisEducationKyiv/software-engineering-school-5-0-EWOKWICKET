@@ -5,6 +5,8 @@ export const weatherEnvSchema = Joi.object({
   HOST: Joi.string().required(),
   PORT: Joi.number().port().required(),
 
+  SERVER_PACKAGE: Joi.string().required(),
+
   WEATHERAPI_API_KEY: Joi.string().required(),
   OPENWEATHER_API_KEY: Joi.string().required(),
 }).unknown(true);

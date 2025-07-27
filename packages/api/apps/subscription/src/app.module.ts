@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import appConfig from './config/app.config';
+import clientsConfig from './config/clients.config';
 import databaseConfig from './config/database.config';
 import { subscriptionEnvSchema } from './config/env.validation';
 import { DatabaseModule } from './database/database.module';
@@ -11,7 +12,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, databaseConfig],
+      load: [appConfig, databaseConfig, clientsConfig],
       validationSchema: subscriptionEnvSchema,
     }),
     DatabaseModule,
