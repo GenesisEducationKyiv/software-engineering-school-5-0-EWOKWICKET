@@ -1,5 +1,6 @@
 import { CacheAccessor } from '@cache/application/interfaces/cache-service.interface';
 import { CacheModule } from '@cache/cache.module';
+import { LoggerModule } from '@logger/logger.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { NotificationsSender, NotificationsSenderToken } from './application/interfaces/notifications-sender.interface';
@@ -19,6 +20,10 @@ import { NotificationsController } from './presentation/notifications.controller
       isGlobal: true,
       validationSchema: notificationsEnvSchema,
       load: [appConfig, mailConfig],
+    }),
+    LoggerModule.forRoot({
+      service: 'Notifications',
+      samplingRate: 0.7,
     }),
     MailModule,
     CacheModule,

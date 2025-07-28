@@ -25,7 +25,7 @@ import { WeatherController } from './presentation/weather.controller';
         const decoratedOpenWeather = new WeatherProviderLoggingDecorator(openWeatherProvider, logger, { labels: { provider: 'OpenWeather' } });
         const cacheProxied = new WeatherProviderCacheProxy(decoratedWeatherAPI.setNext(decoratedOpenWeather), cacheService);
 
-        return new WeatherProviderAdapter(cacheProxied);
+        return new WeatherProviderAdapter(cacheProxied, logger);
       },
     },
   ],

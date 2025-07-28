@@ -25,7 +25,7 @@ import { CityController } from './presentation/city.controller';
         const decoratedOpenWeather = new CityProviderLoggingDecorator(openWeatherProvider, logger, { labels: { provider: 'OpenWeather' } });
         const cachProxied = new CityProviderCacheProxy(decoratedWeatherAPI.setNext(decoratedOpenWeather), cacheService);
 
-        return new CityProviderAdapter(cachProxied);
+        return new CityProviderAdapter(cachProxied, logger);
       },
     },
   ],

@@ -1,12 +1,10 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { HttpStatus } from '@nestjs/common';
 
-export class CityNotFoundException extends HttpException {
-  constructor(message: string = 'City not found') {
-    super(
-      {
-        message,
-      },
-      HttpStatus.NOT_FOUND,
-    );
+export class CityNotFoundError extends Error {
+  public status = HttpStatus.NOT_FOUND;
+
+  constructor(message = 'City not found') {
+    super(message);
+    this.name = 'CityNotFoundError';
   }
 }

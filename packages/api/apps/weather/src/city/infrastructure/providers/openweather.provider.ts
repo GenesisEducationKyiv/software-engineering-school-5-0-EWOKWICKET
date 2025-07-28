@@ -3,8 +3,8 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AxiosError } from 'axios';
 import { firstValueFrom } from 'rxjs';
-import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
-import { ExternalApiException } from 'src/common/errors/external-api.error';
+import { CityNotFoundError } from 'src/common/errors/city-not-found.error';
+import { ExternalApiError } from 'src/common/errors/external-api.error';
 import { OpenWeatherWeatherFetch } from 'src/common/weather-provider/types/openweather-weather-fetch.type';
 import { ChainableCityProvider } from '../../application/interfaces/chainable-city.provider';
 
@@ -40,8 +40,8 @@ export class OpenWeatherCityProvider extends ChainableCityProvider {
         },
       }),
     ).catch((err: AxiosError) => {
-      if (err.response.status === HttpStatus.NOT_FOUND) throw new CityNotFoundException();
-      throw new ExternalApiException();
+      if (err.response.status === HttpStatus.NOT_FOUND) throw new CityNotFoundError();
+      throw new ExternalApiError();
     });
 
     return response.data;

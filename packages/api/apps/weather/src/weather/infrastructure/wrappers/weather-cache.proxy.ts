@@ -2,7 +2,7 @@ import { CacheAccessor } from '@cache/application/interfaces/cache-service.inter
 import { createCacheKey } from '@cache/application/utils/create-cache-key';
 import { HOUR, MINUTE } from '@common/utils/time-units';
 import { CityCachePrefixes } from 'src/city/infrastructure/constants/city-cache-prefixes.enum';
-import { CityNotFoundException } from 'src/common/errors/city-not-found.error';
+import { CityNotFoundError } from 'src/common/errors/city-not-found.error';
 import { ChainableWeatherProvider } from '../../application/interfaces/chainable-weather-provider.abstract';
 import { Weather } from '../../domain/weather.entity';
 import { WeatherCachePrefixes } from '../constants/weather-cache-prefixes.enum';
@@ -32,7 +32,7 @@ export class WeatherProviderCacheProxy extends ChainableWeatherProvider {
       await this.cacheService.set<boolean>(cityCacheKey, true, this.cityTtl); // cache city existence
       return result;
     } catch (err) {
-      if (err instanceof CityNotFoundException) {
+      if (err instanceof CityNotFoundError) {
         await this.cacheService.set<boolean>(cityCacheKey, false, this.cityTtl); // cache city inexistence
       }
       throw err;
@@ -41,6 +41,6 @@ export class WeatherProviderCacheProxy extends ChainableWeatherProvider {
 
   private async cityExists(caceKey: string) {
     const exists = await this.cacheService.get<boolean>(caceKey);
-    if (exists === false) throw new CityNotFoundException();
+    if (exists === false) throw new CityNotFoundError();
   }
 }

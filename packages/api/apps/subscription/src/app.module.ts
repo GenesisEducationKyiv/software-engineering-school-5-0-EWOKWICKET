@@ -1,3 +1,4 @@
+import { LoggerModule } from '@logger/logger.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import appConfig from './config/app.config';
@@ -14,6 +15,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
       load: [appConfig, databaseConfig],
       validationSchema: subscriptionEnvSchema,
     }),
+    LoggerModule.forRoot({ service: 'Subscription', samplingRate: 0.8 }),
     DatabaseModule,
     SubscriptionModule,
     SchedulerModule,

@@ -12,6 +12,7 @@
     "paths": {
       "@common/*": ["libs/common/src/*"],
       "@proto/*": ["libs/proto/generated/*"],
+      "@logger/*": ["libs/logger/src/*"],
       "src/*": ["apps/subscription/src/*"]
     }
   },
