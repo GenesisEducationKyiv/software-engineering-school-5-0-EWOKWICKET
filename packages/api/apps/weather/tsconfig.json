@@ -20,5 +20,5 @@
       "src/*": ["apps/weather/src/*"]
     }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "../../libs/cache/src/application/utils/create-cache-key.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts"]
 }

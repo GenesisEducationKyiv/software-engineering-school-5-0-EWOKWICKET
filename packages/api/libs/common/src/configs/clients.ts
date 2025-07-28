@@ -11,8 +11,8 @@ export const ClientsConfigs = Object.freeze<Record<string, ClientsProviderAsyncO
     useFactory: (config: ConfigService) => ({
       transport: Transport.GRPC,
       options: {
-        url: config.get<string>('app.urls.weather'),
-        package: 'weather',
+        url: config.get<string>('clients.weather.url'),
+        package: config.get<string>('clients.weather.package'),
         protoPath: path.join(protoBasePath, 'weather.proto'),
       },
     }),
@@ -23,8 +23,8 @@ export const ClientsConfigs = Object.freeze<Record<string, ClientsProviderAsyncO
     useFactory: (config: ConfigService) => ({
       transport: Transport.GRPC,
       options: {
-        url: config.get<string>('app.urls.subscription'),
-        package: 'subscription',
+        url: config.get<string>('clients.subscription.url'),
+        package: config.get<string>('clients.subscription.package'),
         protoPath: path.join(protoBasePath, 'subscription.proto'),
       },
     }),
@@ -35,10 +35,10 @@ export const ClientsConfigs = Object.freeze<Record<string, ClientsProviderAsyncO
     useFactory: (config: ConfigService) => ({
       transport: Transport.RMQ,
       options: {
-        urls: [config.get<string>('app.urls.rmqUrl')],
-        queue: 'notifications',
-        exchange: 'notifications',
-        exchangeType: 'topic',
+        urls: [config.get<string>('clients.notifications.url')],
+        queue: config.get<string>('clients.notifications.queue'),
+        exchange: config.get<string>('clients.notifications.exchange'),
+        exchangeType: config.get<string>('clients.notifications.exchangeType'),
         queueOptions: {
           durable: true,
         },
