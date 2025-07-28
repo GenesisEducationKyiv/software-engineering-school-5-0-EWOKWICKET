@@ -1,4 +1,4 @@
-import { Data } from '@logger/application/constants/data.type';
+import { Metadata } from '@logger/application/constants/log.types';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createLogger, format, Logger, transports } from 'winston';
@@ -18,12 +18,23 @@ export class LoggerService implements LoggerInterface {
     const basicAuth = configService.get('logger.auth');
 
     this.logger = createLogger({
-      format: combine(timestamp({ format: localTimestampFormat }), json(), prettyPrint()),
+      format: combine(
+        format((info) => {
+          info.labels = {
+            app: 'WeatherForecast',
+            service: options.service,
+            ...(info.labels as Record<string, any>), // dynamic labels configuration
+          };
+          return info;
+        })(),
+        timestamp({ format: localTimestampFormat }),
+        json(),
+        prettyPrint(),
+      ),
       transports: [
         new LokiTransport({
           host,
           basicAuth,
-          labels: { app: 'WeatherForecast', service: options.service },
           onConnectionError: (err) => console.error('Loki connection error:', err),
           json: true,
         }),
@@ -34,19 +45,19 @@ export class LoggerService implements LoggerInterface {
     });
   }
 
-  info(message: string, data?: Data) {
-    this.logger.info(message, data);
+  info(message: string, meta: Metadata) {
+    this.logger.info(message, meta);
   }
 
-  error(message: string, data?: Data, trace?: string) {
-    this.logger.error(message, data, { trace });
+  error(message: string, meta: Metadata) {
+    this.logger.error(message, meta);
   }
 
-  warn(message: string, data?: Data) {
-    this.logger.warn(message, data);
+  warn(message: string, meta: Metadata) {
+    this.logger.warn(message, meta);
   }
 
-  debug(message: string, data?: Data) {
-    this.logger.debug(message, data);
+  debug(message: string, meta: Metadata) {
+    this.logger.debug(message, meta);
   }
 }

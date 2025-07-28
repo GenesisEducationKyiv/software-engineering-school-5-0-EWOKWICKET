@@ -18,7 +18,7 @@ import { WeatherModule } from './weather/weather.module';
     HttpModule.register({ global: true }),
     LoggerModule.forRoot({
       service: 'Weather',
-      samplingRate: 0.5,
+      samplingRate: 0.6,
     }),
     WeatherModule,
     CityModule,

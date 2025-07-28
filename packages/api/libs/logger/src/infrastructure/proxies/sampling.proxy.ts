@@ -1,4 +1,4 @@
-import { Data } from '@logger/application/constants/data.type';
+import { Metadata } from '@logger/application/constants/log.types';
 import { LoggerOptions } from '@logger/application/constants/logger.options';
 import { LoggerInterface } from '@logger/application/interfaces/logger.interface';
 
@@ -12,19 +12,19 @@ export class SamplerProxy implements LoggerInterface {
     return Math.random() < this.options.samplingRate;
   }
 
-  info(message: string, data: Data) {
-    if (this.shouldLog()) this.wrapped.info(message, data);
+  info(message: string, meta: Metadata) {
+    if (this.shouldLog()) this.wrapped.info(message, meta);
   }
 
-  error(message: string, data: Data, trace?: string) {
-    if (this.shouldLog()) this.wrapped.error(message, data, trace);
+  error(message: string, meta: Metadata) {
+    if (this.shouldLog()) this.wrapped.error(message, meta);
   }
 
-  warn(message: string, data: Data) {
-    if (this.shouldLog()) this.wrapped.warn(message, data);
+  warn(message: string, meta: Metadata) {
+    if (this.shouldLog()) this.wrapped.warn(message, meta);
   }
 
-  debug(message: string, data: Data) {
-    if (this.shouldLog()) this.wrapped.debug(message, data);
+  debug(message: string, meta: Metadata) {
+    if (this.shouldLog()) this.wrapped.debug(message, meta);
   }
 }

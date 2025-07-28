@@ -21,8 +21,8 @@ import { WeatherController } from './presentation/weather.controller';
       provide: WeatherProvider,
       inject: [WeatherApiWeatherProvider, OpenWeatherWeatherProvider, LoggerInterface, CacheAccessor],
       useFactory: (weatherApiProvider: WeatherApiWeatherProvider, openWeatherProvider: OpenWeatherWeatherProvider, logger: LoggerInterface, cacheService: CacheAccessor) => {
-        const decoratedWeatherAPI = new WeatherProviderLoggingDecorator(weatherApiProvider, logger);
-        const decoratedOpenWeather = new WeatherProviderLoggingDecorator(openWeatherProvider, logger);
+        const decoratedWeatherAPI = new WeatherProviderLoggingDecorator(weatherApiProvider, logger, { labels: { provider: 'WeatherApi' } });
+        const decoratedOpenWeather = new WeatherProviderLoggingDecorator(openWeatherProvider, logger, { labels: { provider: 'OpenWeather' } });
         const cacheProxied = new WeatherProviderCacheProxy(decoratedWeatherAPI.setNext(decoratedOpenWeather), cacheService);
 
         return new WeatherProviderAdapter(cacheProxied);
