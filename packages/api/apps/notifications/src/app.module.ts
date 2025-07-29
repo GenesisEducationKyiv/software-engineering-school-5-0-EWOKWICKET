@@ -1,5 +1,6 @@
 import { CacheAccessor } from '@cache/application/interfaces/cache-service.interface';
 import { CacheModule } from '@cache/cache.module';
+import { LoggerInterface } from '@logger/application/interfaces/logger.interface';
 import { LoggerModule } from '@logger/logger.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -36,9 +37,9 @@ import { NotificationsController } from './presentation/notifications.controller
     NotificationsService,
     {
       provide: NotificationsServiceInterface,
-      inject: [NotificationsService, CacheAccessor],
-      useFactory: (notificationsService: NotificationsService, cacheService: CacheAccessor) => {
-        return new NotificaionsCacheProxy(notificationsService, cacheService);
+      inject: [NotificationsService, CacheAccessor, LoggerInterface],
+      useFactory: (notificationsService: NotificationsService, cacheService: CacheAccessor, logger: LoggerInterface) => {
+        return new NotificaionsCacheProxy(notificationsService, cacheService, logger);
       },
     },
     {

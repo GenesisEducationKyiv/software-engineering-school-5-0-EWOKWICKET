@@ -32,18 +32,18 @@ export const ServersConfigs = Object.freeze<Record<string, AsyncMicroserviceOpti
     useFactory: (config: ConfigService) => ({
       transport: Transport.RMQ,
       options: {
-        urls: [config.get<string>('app.rmqUrl')],
-        queue: config.get<string>('app.queue'),
-        exchange: config.get<string>('app.exchange'),
-        exchangeType: config.get<string>('app.exchangeType'),
-        routingKey: config.get<string>('app.routingKey'),
+        urls: [config.get<string>('app.rmq.url')],
+        queue: config.get<string>('app.rmq.queue'),
+        exchange: config.get<string>('app.rmq.exchange'),
+        exchangeType: config.get<string>('app.rmq.exchangeType'),
+        routingKey: config.get<string>('app.rmq.routingKey'),
         persistent: true,
         noAck: false,
         queueOptions: {
           durable: true,
           arguments: {
             'x-dead-letter-exchange': '',
-            'x-dead-letter-routing-key': `${config.get<string>('app.queue')}.retry`,
+            'x-dead-letter-routing-key': `${config.get<string>('app.rmq.queue')}.retry`,
           },
         },
       },

@@ -14,7 +14,7 @@ async function bootstrap() {
   await httpApp.listen(configService.get<number>('app.http.port'));
 
   const rmqApp = await NestFactory.createMicroservice<AsyncMicroserviceOptions>(AppModule, ServersConfigs.NOTIFICATIONS);
-  await setupRetryQueue(configService.get('app.rmqUrl'), configService.get('app.queue'));
+  await setupRetryQueue(configService.get('app.rmq.url'), configService.get('app.rmq.queue'));
 
   const metricsService = rmqApp.get(REDMetrics);
   const logger = rmqApp.get(LoggerInterface);

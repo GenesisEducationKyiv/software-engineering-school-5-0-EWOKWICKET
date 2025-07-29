@@ -22,9 +22,6 @@ export class NotificationsController {
     try {
       await this.notificationsService.sendConfirmationNotification(data, type);
       channel.ack(message);
-      this.logger.info('Confirmation notification sent', {
-        data: { userId: data.token, reciever: data.to },
-      });
     } catch (err) {
       const shouldRetryMessage = shouldRetry(err, message, this.logger, this.sendConfirmationNotification.name);
 
@@ -41,9 +38,6 @@ export class NotificationsController {
     try {
       await this.notificationsService.sendWeatherUpdateNotification(data, type);
       channel.ack(message);
-      this.logger.info('Weather update notification sent', {
-        data: { city: data.data.city, reciever: data.to },
-      });
     } catch (err) {
       const shouldRetryMessage = shouldRetry(err, message, this.logger, this.sendWeatherUpdateNotification.name);
 
