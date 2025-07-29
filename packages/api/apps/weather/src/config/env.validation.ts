@@ -2,11 +2,13 @@ import { config as dotenv } from 'dotenv';
 import * as Joi from 'joi';
 
 export const weatherEnvSchema = Joi.object({
+  //app
   HOST: Joi.string().required(),
-  PORT: Joi.number().port().required(),
+  HTTP_PORT: Joi.number().port().required(),
+  GRPC_PORT: Joi.number().port().required(),
+  SERVER_GPRC_PACKAGE: Joi.string().required(),
 
-  SERVER_PACKAGE: Joi.string().required(),
-
+  //providers
   WEATHERAPI_API_KEY: Joi.string().required(),
   OPENWEATHER_API_KEY: Joi.string().required(),
 }).unknown(true);

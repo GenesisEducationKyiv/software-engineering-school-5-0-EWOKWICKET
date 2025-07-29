@@ -6,6 +6,7 @@ import clientsConfig from './config/clients.config';
 import databaseConfig from './config/database.config';
 import { subscriptionEnvSchema } from './config/env.validation';
 import { DatabaseModule } from './database/database.module';
+import { MetricsModule } from './metrics/metrics.module';
 import { SchedulerModule } from './scheduler/scheduler.module';
 import { SubscriptionModule } from './subscription/subscription.module';
 
@@ -17,6 +18,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
       validationSchema: subscriptionEnvSchema,
     }),
     LoggerModule.forRoot({ service: 'Subscription', samplingRate: 0.8 }),
+    MetricsModule,
     DatabaseModule,
     SubscriptionModule,
     SchedulerModule,

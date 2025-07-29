@@ -10,8 +10,8 @@ export const ServersConfigs = Object.freeze<Record<string, AsyncMicroserviceOpti
     useFactory: (config: ConfigService) => ({
       transport: Transport.GRPC,
       options: {
-        url: `${config.get<string>('app.host')}:${config.get<string>('app.port')}`,
-        package: config.get<string>('app.grpcPackage'),
+        url: `${config.get<string>('app.host')}:${config.get<string>('app.grpc.port')}`,
+        package: config.get<string>('app.grpc.package'),
         protoPath: path.join(protoBasePath, 'weather.proto'),
       },
     }),
@@ -21,8 +21,8 @@ export const ServersConfigs = Object.freeze<Record<string, AsyncMicroserviceOpti
     useFactory: (config: ConfigService) => ({
       transport: Transport.GRPC,
       options: {
-        url: `${config.get<string>('app.host')}:${config.get<string>('app.port')}`,
-        package: config.get<string>('app.grpcPackage'),
+        url: `${config.get<string>('app.host')}:${config.get<string>('app.grpc.port')}`,
+        package: config.get<string>('app.grpc.package'),
         protoPath: path.join(protoBasePath, 'subscription.proto'),
       },
     }),

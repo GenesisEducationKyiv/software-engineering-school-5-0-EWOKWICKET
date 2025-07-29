@@ -1,7 +1,6 @@
+import { CacheMetrics } from '@common/metrics/interfaces/metrics-service.interface';
 import { MINUTE } from '@common/utils/time-units';
 import KeyvRedis from '@keyv/redis';
-import { CacheMetrics } from '@metrics/application/interfaces/metrics-service.interface';
-import { MetricsModule } from '@metrics/metrics.module';
 import { CacheModule as CachingModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -10,6 +9,7 @@ import cacheConfig from './config/cache.config';
 import { cacheEnvSchema } from './config/env.validation';
 import { CacheService } from './infrastructure/cache.service';
 import { CacheMetricsDecorator } from './infrastructure/decorators/cache-metrics.decorator';
+import { MetricsModule } from './metrics/metrics.module';
 
 @Module({
   imports: [

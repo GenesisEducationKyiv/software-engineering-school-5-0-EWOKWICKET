@@ -1,14 +1,14 @@
+import { Metrics } from '@common/metrics/constants/metrics';
+import { CacheMetrics } from '@common/metrics/interfaces/metrics-service.interface';
 import { Injectable } from '@nestjs/common';
 import { InjectMetric } from '@willsoto/nestjs-prometheus';
 import { Counter } from 'prom-client';
-import { Metrics } from '../application/constants/metrics';
-import { CacheMetrics } from '../application/interfaces/metrics-service.interface';
 
 @Injectable()
 export class MetricsService implements CacheMetrics {
   constructor(
-    @InjectMetric(Metrics.cacheHit.name) private cacheHitCounter: Counter<string>,
-    @InjectMetric(Metrics.cacheMiss.name) private cacheMissCounter: Counter<string>,
+    @InjectMetric(Metrics.cacheHit.name) private cacheHitCounter: Counter,
+    @InjectMetric(Metrics.cacheMiss.name) private cacheMissCounter: Counter,
   ) {}
 
   incCacheHit(): void {

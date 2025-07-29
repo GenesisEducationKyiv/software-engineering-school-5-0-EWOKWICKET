@@ -6,6 +6,7 @@ import { CityModule } from './city/city.module';
 import appConfig from './config/app.config';
 import { weatherEnvSchema } from './config/env.validation';
 import providersConfig from './config/providers.config';
+import { MetricsModule } from './metrics/metrics.module';
 import { WeatherModule } from './weather/weather.module';
 
 @Module({
@@ -20,6 +21,7 @@ import { WeatherModule } from './weather/weather.module';
       service: 'Weather',
       samplingRate: 0.6,
     }),
+    MetricsModule,
     WeatherModule,
     CityModule,
   ],

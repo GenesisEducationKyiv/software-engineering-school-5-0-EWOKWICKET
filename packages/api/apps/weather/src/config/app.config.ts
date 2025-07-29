@@ -3,6 +3,11 @@ import { env } from './env.validation';
 
 export default registerAs('app', () => ({
   host: env.HOST,
-  port: env.PORT,
-  grpcPackage: env.SERVER_PACKAGE,
+  http: {
+    port: env.HTTP_PORT,
+  },
+  grpc: {
+    port: env.GRPC_PORT,
+    package: env.SERVER_GPRC_PACKAGE,
+  },
 }));
