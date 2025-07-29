@@ -36,12 +36,6 @@ export class MailSender implements NotificationsSender {
   }
 
   private async _sendEmail<T extends Notification>(mailOptions: Partial<T>): Promise<void> {
-    try {
-      await this.mailerService.sendMail({ ...mailOptions });
-
-      console.log(`Email sent to ${mailOptions.to}`);
-    } catch (err) {
-      console.error(`Error occured on sending email to ${mailOptions.to}: ${err}`);
-    }
+    await this.mailerService.sendMail({ ...mailOptions });
   }
 }

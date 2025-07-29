@@ -1,4 +1,4 @@
-import { Metadata } from '@logger/application/constants/log.types';
+import { ErrorMetadata, InfoMetadata } from '@logger/application/constants/log.types';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createLogger, format, Logger, transports } from 'winston';
@@ -45,19 +45,19 @@ export class LoggerService implements LoggerInterface {
     });
   }
 
-  info(message: string, meta: Metadata) {
+  info(message: string, meta: InfoMetadata) {
     this.logger.info(message, meta);
   }
 
-  error(message: string, meta: Metadata) {
+  error(message: string, meta: ErrorMetadata) {
     this.logger.error(message, meta);
   }
 
-  warn(message: string, meta: Metadata) {
+  warn(message: string, meta: ErrorMetadata) {
     this.logger.warn(message, meta);
   }
 
-  debug(message: string, meta: Metadata) {
+  debug(message: string, meta: InfoMetadata) {
     this.logger.debug(message, meta);
   }
 }

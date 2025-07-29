@@ -7,8 +7,8 @@ export default registerAs('app', () => ({
   exchange: env.SERVER_EXCHANGE,
   exchangeType: env.SERVER_EXCHANGE_TYPE,
   routingKey: env.SERVER_ROUTING_KEY,
-  urls: {
-    confirm: env.CONFIRM_URL,
-    unsubscribe: env.UNSUBSCRIBE_URL,
+  http: {
+    host: env.HOST,
+    port: env.HTTP_PORT,
   },
 }));

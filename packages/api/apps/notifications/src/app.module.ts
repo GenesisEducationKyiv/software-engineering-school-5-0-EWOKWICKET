@@ -9,9 +9,11 @@ import { NotificationsService } from './application/notifications.service';
 import appConfig from './config/app.config';
 import { notificationsEnvSchema } from './config/env.validation';
 import mailConfig from './config/mail.config';
+import urlsConfig from './config/urls.config';
 import { MailModule } from './infrastructure/mail.module';
 import { MailSender } from './infrastructure/services/mail-sender.service';
 import { NotificaionsCacheProxy } from './infrastructure/wrappers/cache.proxy';
+import { MetricsModule } from './metrics/metrics.module';
 import { NotificationsController } from './presentation/notifications.controller';
 
 @Module({
@@ -19,12 +21,13 @@ import { NotificationsController } from './presentation/notifications.controller
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: notificationsEnvSchema,
-      load: [appConfig, mailConfig],
+      load: [appConfig, mailConfig, urlsConfig],
     }),
     LoggerModule.forRoot({
       service: 'Notifications',
       samplingRate: 0.7,
     }),
+    MetricsModule,
     MailModule,
     CacheModule,
   ],

@@ -4,10 +4,9 @@ import { catchError, Observable, tap } from 'rxjs';
 import { REDMetrics } from '../interfaces/metrics-service.interface';
 
 @Injectable()
-export class GrpcObservabilityInterceptor implements NestInterceptor {
-  private readonly transport = 'grpc';
-
+export class ObservabilityInterceptor implements NestInterceptor {
   constructor(
+    private readonly transport: 'grpc' | 'http' | 'rmq',
     private readonly metrics: REDMetrics,
     private readonly logger: LoggerInterface,
   ) {}
@@ -25,7 +24,24 @@ export class GrpcObservabilityInterceptor implements NestInterceptor {
       }),
       catchError((err) => {
         this.metrics.onRequestError(this.transport, method);
-        throw err;
+
+        const error = err as any;
+        //check if error is already logged
+        if (!error.logged) {
+          this.logger.error(err.message, {
+            labels: {
+              route: method,
+            },
+            error: {
+              name: err.name,
+              message: err.message,
+            },
+          });
+
+          error.logged = true; //mark as logged
+        }
+
+        throw error;
       }),
     );
   }

@@ -11,11 +11,11 @@ export class MetricsService implements CacheMetrics {
     @InjectMetric(Metrics.cacheMiss.name) private cacheMissCounter: Counter,
   ) {}
 
-  incCacheHit(): void {
+  onCacheHit(): void {
     this.cacheHitCounter.inc();
   }
 
-  incCacheMiss(): void {
+  onCacheMiss(): void {
     this.cacheMissCounter.inc();
   }
 }

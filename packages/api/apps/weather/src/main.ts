@@ -1,5 +1,5 @@
 import { ServersConfigs } from '@common/configs/servers';
-import { GrpcObservabilityInterceptor } from '@common/metrics/interceptors/grpc-observability.interceptor';
+import { ObservabilityInterceptor } from '@common/metrics/interceptors/observability.interceptor';
 import { REDMetrics } from '@common/metrics/interfaces/metrics-service.interface';
 import { LoggerInterface } from '@logger/application/interfaces/logger.interface';
 import { ConfigService } from '@nestjs/config';
@@ -16,7 +16,7 @@ async function bootstrap() {
 
   const metricsService = grpcApp.get(REDMetrics);
   const logger = grpcApp.get(LoggerInterface);
-  grpcApp.useGlobalInterceptors(new GrpcObservabilityInterceptor(metricsService, logger));
+  grpcApp.useGlobalInterceptors(new ObservabilityInterceptor('grpc', metricsService, logger));
 
   await grpcApp.listen();
   console.log('Weather microservice is running');

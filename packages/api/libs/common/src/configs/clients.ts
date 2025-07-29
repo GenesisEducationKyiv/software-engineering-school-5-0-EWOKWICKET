@@ -41,6 +41,10 @@ export const ClientsConfigs = Object.freeze<Record<string, ClientsProviderAsyncO
         exchangeType: config.get<string>('clients.notifications.exchangeType'),
         queueOptions: {
           durable: true,
+          arguments: {
+            'x-dead-letter-exchange': '',
+            'x-dead-letter-routing-key': `${config.get<string>('clients.notifications.queue')}.retry`,
+          },
         },
       },
     }),

@@ -39,6 +39,13 @@ export const ServersConfigs = Object.freeze<Record<string, AsyncMicroserviceOpti
         routingKey: config.get<string>('app.routingKey'),
         persistent: true,
         noAck: false,
+        queueOptions: {
+          durable: true,
+          arguments: {
+            'x-dead-letter-exchange': '',
+            'x-dead-letter-routing-key': `${config.get<string>('app.queue')}.retry`,
+          },
+        },
       },
     }),
   },

@@ -5,6 +5,7 @@ import { LoggerInterface } from '@logger/application/interfaces/logger.interface
 import { Controller } from '@nestjs/common';
 import { Ctx, MessagePattern, Payload, RmqContext } from '@nestjs/microservices';
 import { NotificationsServiceInterface } from 'src/application/interfaces/notifications-service.abstract';
+import { shouldRetry } from 'src/common/utils/shouldRetry';
 
 @Controller()
 export class NotificationsController {
@@ -25,8 +26,10 @@ export class NotificationsController {
         data: { userId: data.token, reciever: data.to },
       });
     } catch (err) {
-      console.error('Error processing message:', err);
-      channel.nack(message, false, true);
+      const shouldRetryMessage = shouldRetry(err, message, this.logger, this.sendConfirmationNotification.name);
+
+      if (!shouldRetryMessage) channel.ack(message);
+      else channel.nack(message, false, false);
     }
   }
 
@@ -42,8 +45,10 @@ export class NotificationsController {
         data: { city: data.data.city, reciever: data.to },
       });
     } catch (err) {
-      console.error('Error processing message:', err);
-      channel.nack(message, false, true);
+      const shouldRetryMessage = shouldRetry(err, message, this.logger, this.sendWeatherUpdateNotification.name);
+
+      if (!shouldRetryMessage) channel.ack(message);
+      else channel.nack(message, false, false);
     }
   }
 }

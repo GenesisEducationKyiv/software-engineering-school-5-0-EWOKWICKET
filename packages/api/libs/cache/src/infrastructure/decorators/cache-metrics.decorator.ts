@@ -11,8 +11,8 @@ export class CacheMetricsDecorator implements CacheAccessor {
   async get<T>(key: string): Promise<T> {
     const data = await this.wrapped.get<T>(key);
 
-    if (data !== undefined) this.metricsService.incCacheHit();
-    else this.metricsService.incCacheMiss();
+    if (data !== undefined) this.metricsService.onCacheHit();
+    else this.metricsService.onCacheMiss();
 
     return data;
   }

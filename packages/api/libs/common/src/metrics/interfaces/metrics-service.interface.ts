@@ -1,6 +1,6 @@
 export abstract class CacheMetrics {
-  abstract incCacheHit(): void;
-  abstract incCacheMiss(): void;
+  abstract onCacheHit(): void;
+  abstract onCacheMiss(): void;
 }
 
 export abstract class REDMetrics {
