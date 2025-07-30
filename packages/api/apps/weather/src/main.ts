@@ -1,5 +1,4 @@
 import { ServersConfigs } from '@common/configs/servers';
-import { GrpcExceptionFilter } from '@common/filters/grpc-exception.filter';
 import { ObservabilityInterceptor } from '@common/metrics/interceptors/observability.interceptor';
 import { REDMetrics } from '@common/metrics/interfaces/metrics-service.interface';
 import { LoggerInterface } from '@logger/application/interfaces/logger.interface';
@@ -18,7 +17,6 @@ async function bootstrap() {
   const metricsService = grpcApp.get(REDMetrics);
   const logger = grpcApp.get(LoggerInterface);
   grpcApp.useGlobalInterceptors(new ObservabilityInterceptor('grpc', metricsService, logger));
-  grpcApp.useGlobalFilters(new GrpcExceptionFilter());
 
   await grpcApp.listen();
   console.log('Weather microservice is running');

@@ -20,6 +20,14 @@ export const notificationsEnvSchema = Joi.object({
   MAIL_PORT: Joi.string().required(),
   MAIL_USER: Joi.string().required(),
   MAIL_PASS: Joi.string().required(),
+
+  //logger
+  G_URL: Joi.string().required(),
+  G_USER: Joi.string().required(),
+  G_KEY: Joi.string().required(),
+
+  //cache
+  REDIS_URL: Joi.string().required(),
 }).unknown(true);
 
 dotenv();

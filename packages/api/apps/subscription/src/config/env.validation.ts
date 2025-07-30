@@ -20,6 +20,11 @@ export const subscriptionEnvSchema = Joi.object({
 
   //db
   DB_URI: Joi.string().required(),
+
+  //logger
+  G_URL: Joi.string().required(),
+  G_USER: Joi.string().required(),
+  G_KEY: Joi.string().required(),
 }).unknown(true);
 
 dotenv();

@@ -8,7 +8,9 @@ import { NotificationsSender, NotificationsSenderToken } from './application/int
 import { NotificationsServiceInterface } from './application/interfaces/notifications-service.abstract';
 import { NotificationsService } from './application/notifications.service';
 import appConfig from './config/app.config';
+import cacheConfig from './config/cache.config';
 import { notificationsEnvSchema } from './config/env.validation';
+import loggerConfig from './config/logger.config';
 import mailConfig from './config/mail.config';
 import urlsConfig from './config/urls.config';
 import { MailModule } from './infrastructure/mail.module';
@@ -22,7 +24,7 @@ import { NotificationsController } from './presentation/notifications.controller
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: notificationsEnvSchema,
-      load: [appConfig, mailConfig, urlsConfig],
+      load: [appConfig, mailConfig, urlsConfig, loggerConfig, cacheConfig],
     }),
     LoggerModule.forRoot({
       service: 'Notifications',

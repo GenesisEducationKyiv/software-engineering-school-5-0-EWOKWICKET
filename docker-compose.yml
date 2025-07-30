@@ -34,6 +34,16 @@ services:
       retries: 5
       start_period: 10s
 
+  loki:
+    image: grafana/loki:2.9.7
+    container_name: loki
+    ports:
+      - 3100:3100
+    command: -config.file=/etc/loki/loki-config.yaml
+    volumes:
+      - ./packages/api/libs/logger/loki-config.yaml:/etc/loki/loki-config.yaml
+      - loki-data:/loki
+
   weather:
     container_name: weather
     build:
@@ -42,10 +52,13 @@ services:
     env_file: ./packages/api/apps/weather/.env
     environment:
       REDIS_URL: redis://redis:6379
+      G_URL: http://loki:3100
     ports:
       - 50053:50053
     depends_on:
       redis:
+        condition: service_started
+      loki:
         condition: service_started
 
   notifications:
@@ -56,6 +69,8 @@ services:
     env_file: ./packages/api/apps/notifications/.env
     environment:
       RMQ_URL: amqp://guest:guest@rabbitmq:5672
+      REDIS_URL: redis://redis:6379
+      G_URL: http://loki:3100
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -70,6 +85,7 @@ services:
       WEATHER_URL: weather:50053
       DB_URI: mongodb://subscription_mongo:27017/weatherAPI
       RMQ_URL: amqp://guest:guest@rabbitmq:5672
+      G_URL: http://loki:3100
     ports:
       - 50052:50052
     depends_on:
@@ -98,3 +114,4 @@ services:
 volumes:
   subscription_mongo-data:
   redis-data:
+  loki-data:

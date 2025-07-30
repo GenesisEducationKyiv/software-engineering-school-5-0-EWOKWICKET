@@ -11,6 +11,14 @@ export const weatherEnvSchema = Joi.object({
   //providers
   WEATHERAPI_API_KEY: Joi.string().required(),
   OPENWEATHER_API_KEY: Joi.string().required(),
+
+  //logger
+  G_URL: Joi.string().required(),
+  G_USER: Joi.string().required(),
+  G_KEY: Joi.string().required(),
+
+  //cache
+  REDIS_URL: Joi.string().required(),
 }).unknown(true);
 
 dotenv();
