@@ -7,5 +7,9 @@
     "@nestjs/cache-manager": "^3.0.1",
     "cache-manager": "^7.0.1",
     "keyv": "^5.3.4"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write ."
   }
 }

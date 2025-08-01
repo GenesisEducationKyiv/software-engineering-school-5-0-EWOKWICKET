@@ -1,5 +1,9 @@
 {
   "name": "common",
   "version": "1.0.0",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  }
 }
