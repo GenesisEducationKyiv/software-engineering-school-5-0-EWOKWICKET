@@ -6,5 +6,6 @@ export class CityNotFoundError extends Error {
   constructor(message = 'City not found') {
     super(message);
     this.name = 'CityNotFoundError';
+    Object.setPrototypeOf(this, CityNotFoundError.prototype);
   }
 }

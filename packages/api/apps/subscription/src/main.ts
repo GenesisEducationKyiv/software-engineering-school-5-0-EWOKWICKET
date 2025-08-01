@@ -8,6 +8,8 @@ import { NestFactory } from '@nestjs/core';
 import { AsyncMicroserviceOptions } from '@nestjs/microservices';
 import { useContainer } from 'class-validator';
 import { AppModule } from './app.module';
+import { DatabaseExceptionFilter } from './common/filters/database-exception.filter';
+import { GrpcExceptionFilter } from './common/filters/grpc-exception.filter';
 
 async function bootstrap() {
   const httpApp = await NestFactory.create(AppModule);
@@ -18,6 +20,7 @@ async function bootstrap() {
 
   useContainer(grpcApp.select(AppModule), { fallbackOnErrors: true });
   grpcApp.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  grpcApp.useGlobalFilters(new DatabaseExceptionFilter(), new GrpcExceptionFilter());
 
   const metricsService = grpcApp.get(REDMetrics);
   const logger = grpcApp.get(LoggerInterface);

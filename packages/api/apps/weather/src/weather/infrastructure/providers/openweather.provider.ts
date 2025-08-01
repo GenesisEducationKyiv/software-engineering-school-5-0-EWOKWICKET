@@ -1,3 +1,4 @@
+import { LoggerInterface } from '@logger/application/interfaces/logger.interface';
 import { HttpService } from '@nestjs/axios';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -18,6 +19,7 @@ export class OpenWeatherWeatherProvider extends ChainableWeatherProvider {
   constructor(
     private readonly configService: ConfigService,
     private readonly httpService: HttpService,
+    private readonly logger: LoggerInterface,
   ) {
     super();
     this.apiKey = this.configService.get('providers.openWeatherApiKey');
@@ -43,6 +45,14 @@ export class OpenWeatherWeatherProvider extends ChainableWeatherProvider {
       }),
     ).catch((err: AxiosError) => {
       if (err.response.status === HttpStatus.NOT_FOUND) throw new CityNotFoundError();
+
+      this.logger.warn('Unexpected provider response', {
+        labels: { provider: 'OpenWeather' },
+        error: {
+          message: err.message,
+          name: err.name,
+        },
+      });
       throw new ExternalApiError();
     });
 

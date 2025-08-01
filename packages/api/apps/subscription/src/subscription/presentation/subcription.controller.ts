@@ -4,7 +4,7 @@ import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { CreateSubscriptionRequest, TokenRequest } from '@proto/subscription';
 import { plainToInstance } from 'class-transformer';
-import { validateOrReject } from 'class-validator';
+import { validateDto } from 'src/common/utils/validateDto';
 import { CreateSubscriptionDto } from 'src/subscription/presentation/dtos/create-subscription.dto';
 import { SubscriptionServiceInterface } from '../application/interfaces/subcription-service.abstract';
 
@@ -15,8 +15,7 @@ export class SubscriptionController {
   @GrpcMethod(Services.SUBSCRIPTION.name, Services.SUBSCRIPTION.endpoints.subscribe)
   async subscribe(subscribeDto: CreateSubscriptionRequest): Promise<void> {
     const dto = plainToInstance(CreateSubscriptionDto, subscribeDto);
-    await validateOrReject(dto);
-
+    await validateDto(dto);
     await this.subscriptionService.subscribe(dto);
   }
 

@@ -11,7 +11,7 @@ export class ObservabilityInterceptor implements NestInterceptor {
     private readonly logger: LoggerInterface,
   ) {}
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const method = context.getHandler()?.name || 'unknown';
 
     const start = Date.now();
@@ -24,24 +24,17 @@ export class ObservabilityInterceptor implements NestInterceptor {
       }),
       catchError((err) => {
         this.metrics.onRequestError(this.transport, method);
+        this.logger.error(err.message, {
+          labels: {
+            route: method,
+          },
+          error: {
+            name: err.name,
+            message: err.message,
+          },
+        });
 
-        const error = err as any;
-        //check if error is already logged
-        if (!error.logged) {
-          this.logger.error(err.message, {
-            labels: {
-              route: method,
-            },
-            error: {
-              name: err.name,
-              message: err.message,
-            },
-          });
-
-          error.logged = true; //mark as logged
-        }
-
-        throw error;
+        throw err;
       }),
     );
   }

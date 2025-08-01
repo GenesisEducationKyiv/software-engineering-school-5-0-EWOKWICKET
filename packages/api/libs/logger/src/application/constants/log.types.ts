@@ -9,7 +9,7 @@ export type InfoMetadata = {
 export type ErrorMetadata = {
   labels?: Labels;
   error: {
-    name: string;
-    message: string;
+    name?: string;
+    message?: string;
   };
 };

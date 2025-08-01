@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AsyncMicroserviceOptions } from '@nestjs/microservices';
 import { AppModule } from './app.module';
+import { GrpcExceptionFilter } from './common/filters/grpc-exception.filter';
 
 async function bootstrap() {
   const httpApp = await NestFactory.create(AppModule);
@@ -17,6 +18,7 @@ async function bootstrap() {
   const metricsService = grpcApp.get(REDMetrics);
   const logger = grpcApp.get(LoggerInterface);
   grpcApp.useGlobalInterceptors(new ObservabilityInterceptor('grpc', metricsService, logger));
+  grpcApp.useGlobalFilters(new GrpcExceptionFilter());
 
   await grpcApp.listen();
   console.log('Weather microservice is running');

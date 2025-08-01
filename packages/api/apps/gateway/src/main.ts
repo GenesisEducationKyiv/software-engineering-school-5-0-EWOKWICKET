@@ -1,16 +1,15 @@
-import { AxiosExceptionFilter } from '@common/filters/axious-exception.filter';
-import { HttpExceptionFilter } from '@common/filters/http-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { GrpcToHttpExceptionFilter } from './common/filters/grpc-to-http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('weatherapi.app/api');
   app.enableCors();
 
-  app.useGlobalFilters(new HttpExceptionFilter(), new AxiosExceptionFilter());
+  app.useGlobalFilters(new GrpcToHttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
   const configService: ConfigService = app.get<ConfigService>(ConfigService);

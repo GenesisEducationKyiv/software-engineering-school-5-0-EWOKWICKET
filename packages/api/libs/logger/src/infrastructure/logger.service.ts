@@ -23,7 +23,7 @@ export class LoggerService implements LoggerInterface {
           info.labels = {
             app: 'WeatherForecast',
             service: options.service,
-            ...(info.labels as Record<string, any>), // dynamic labels configuration
+            ...(info.labels as Record<string, unknown>), // dynamic labels configuration
           };
           return info;
         })(),
