@@ -18,6 +18,5 @@ export class CacheService implements CacheAccessor, CacheInvalidator {
 
   async mdel(keys: string[]): Promise<void> {
     await this.cacheManager.deleteMany(keys);
-    // await Promise.all(keys.map((key) => this.cacheManager.delete(key)));
   }
 }
