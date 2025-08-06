@@ -9,6 +9,8 @@ A backend API built with NestJS for managing weather-related data, connected to 
 - **[NestJS](https://nestjs.com/)** - Node.js framework
 - **[MongoDB Atlas](https://www.mongodb.com/atlas)** - cloud-hosted NoSQL database
 - **[Redis(Upstash)](https://upstash.com/)** - cloud-hosted NoSQL key-value database
+- **[RabbitMQ(CloudAMQP)](https://customer.cloudamqp.com/instance)** - cloud-hosted message broker
+- **[Loki(Graphana)](https://grafana.com/oss/loki/)** - cloud-hosted log aggregation system
 - **[Docker](https://www.docker.com/)** - Containerization platform
 - **[Jest](https://jestjs.io/)** – testing framework
 - **[Yarn](https://yarnpkg.com/)** – Package manager
@@ -34,11 +36,18 @@ A backend API built with NestJS for managing weather-related data, connected to 
 
    - Copy [`.env.example`](packages/api/.env.example) to `.env`
    - Fill in your actual credentials in the `.env` file:
+
      - Mail credentials:\
        - **MAIL_USER** - your email\
        - **MAIL_PASS** - [app password](https://support.google.com/accounts/answer/185833) for email
      - [**WEATHER_API_API_KEY**](https://www.weatherapi.com/)
      - [**OPENWEATHER_API_KEY**](https://openweathermap.org/)
+
+   - Same actions with these:
+     - [`.env.example`](packages/api/apps/gateway/.env.example)
+     - [`.env.example`](packages/api/apps/subscription/.env.example)
+     - [`.env.example`](packages/api/apps/notifications/.env.example)
+     - [`.env.example`](packages/api/apps/weather/.env.example)
 
 4. **Start the server**
 
