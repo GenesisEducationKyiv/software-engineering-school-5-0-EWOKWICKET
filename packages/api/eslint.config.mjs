@@ -2,7 +2,7 @@ import * as tseslint from 'typescript-eslint';
 
 export default [
   {
-    ignores: ['test/**', 'src/**/*.spec.ts', 'dist'],
+    ignores: ['**/test/**', '**/*.spec.ts', 'dist', 'node_modules'],
   },
   {
     languageOptions: {
@@ -14,7 +14,7 @@ export default [
   ...tseslint.configs.recommended, //ts rules
 
   {
-    files: ['src/**/*.ts'],
+    files: ['apps/**/*.ts', 'libs/**/*.ts'],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {

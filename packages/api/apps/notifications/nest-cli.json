@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": ".",
+  "entryFile": "apps/notifications/src/main",
+  "compilerOptions": {
+    "deleteOutDir": false,
+    "assets": [
+      {
+        "include": "assets/**/*",
+        "outDir": "../../dist/apps/notifications"
+      }
+    ]
+  }
+}

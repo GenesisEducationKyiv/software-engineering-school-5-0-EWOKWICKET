@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist",
+    "target": "ES2023",
+    "module": "commonjs",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false,
+    "baseUrl": "../../",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["jest"],
+    "paths": {
+      "@common/*": ["libs/common/src/*"],
+      "@logger/*": ["libs/logger/src/*"],
+      "@cache/*": ["libs/cache/src/*"],
+      "@proto/*": ["libs/proto/generated/*"],
+      "src/*": ["apps/weather/src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"]
+}

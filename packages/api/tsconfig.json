@@ -1,24 +1,14 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "strict": true,
-    "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2023",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "types": ["jest"],
-    "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": false,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "baseUrl": ".",
+    "paths": {
+      "@common/*": ["libs/common/src/*"],
+      "@logger/*": ["libs/logger/src/*"],
+      "@metrics/*": ["libs/metrics/src/*"],
+      "@cache/*": ["libs/cache/src/*"],
+      "@proto/*": ["libs/proto/generated/*"]
+    }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "exclude": ["node_modules", "dist"]
 }

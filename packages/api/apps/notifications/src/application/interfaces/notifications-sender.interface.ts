@@ -1,0 +1,10 @@
+import { NotificationType } from '@common/contracts/notifications/constants/notification-type.enum';
+import { Notification } from '@common/contracts/notifications/constants/notifications.type';
+
+export interface NotificationsSender {
+  type: NotificationType;
+  sendConfirmationNotification(data: Notification): Promise<void>;
+  sendWeatherUpdateNotification(data: Notification): Promise<void>;
+}
+
+export const NotificationsSenderToken = 'NotificationsSender';

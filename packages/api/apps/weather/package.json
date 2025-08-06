@@ -1,0 +1,17 @@
+{
+  "name": "weather",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:prod": "node ../../dist/apps/weather/src/main",
+    "start:test": "node ../../dist/apps/weather/src/test/main.test",
+    "build": "nest build",
+    "build:test": "nest build --config nest-cli.test.json",
+    "test:integration": "jest --config ./test/jest-integration.config.js",
+    "docker:integration": "docker compose -f ../../../../docker-compose.test.yml up --build --abort-on-container-exit weather-integration"
+  }
+}

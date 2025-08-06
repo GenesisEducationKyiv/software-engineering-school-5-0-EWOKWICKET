@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "entryFile": "../../dist/apps/weather/src/test/main.test",
+  "compilerOptions": {
+    "deleteOutDir": false,
+    "tsConfigPath": "tsconfig.build.test.json"
+  }
+}

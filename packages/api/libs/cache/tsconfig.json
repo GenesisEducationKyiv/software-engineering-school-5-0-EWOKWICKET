@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist",
+    "paths": {
+      "@common/*": ["libs/common/src/*"],
+      "@logger/*": ["libs/logger/src/*"],
+      "@metrics/*": ["libs/metrics/src/*"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

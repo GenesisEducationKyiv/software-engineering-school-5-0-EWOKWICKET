@@ -1,11 +1,17 @@
 services:
-  integration-test:
+  weather-integration:
     build:
-      context: ./packages
-      dockerfile: Dockerfile.test
+      context: ./packages/api
+      dockerfile: apps/weather/Dockerfile.test
+    command: sh -c "cd apps/weather && yarn test:integration"
+
+  subscription-integration:
+    build:
+      context: ./packages/api
+      dockerfile: apps/subscription/Dockerfile.test
     depends_on:
       - mongo-test
-    command: sh -c "yarn migrate:test && yarn test:integration"
+    command: sh -c "yarn migrate:test && cd apps/subscription && yarn test:integration"
 
   e2e-test:
     build:

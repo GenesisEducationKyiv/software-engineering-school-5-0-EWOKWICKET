@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist",
+    "target": "ES2023",
+    "module": "commonjs",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "../../",
+    "types": ["jest"],
+    "paths": {
+      "@common/*": ["libs/common/src/*"],
+      "@proto/*": ["libs/proto/generated/*"],
+      "@logger/*": ["libs/logger/src/*"],
+      "src/*": ["apps/subscription/src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"]
+}
