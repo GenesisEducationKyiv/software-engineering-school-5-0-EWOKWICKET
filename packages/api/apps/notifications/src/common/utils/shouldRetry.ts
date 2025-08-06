@@ -1,7 +1,7 @@
 import { LoggerInterface } from '@logger/application/interfaces/logger.interface';
 import { ConsumeMessage } from 'amqplib';
 
-export function shouldRetry(err: unknown, message: ConsumeMessage, logger: LoggerInterface, route: string, maxRetries = 5): boolean {
+export const isRetriable = (err: unknown, message: ConsumeMessage, logger: LoggerInterface, route: string, maxRetries = 5): boolean => {
   const error = err as Error & { name?: string; message?: string };
   const xDeath = message.properties.headers['x-death'] ?? [];
   const retryCount = xDeath[0]?.count ?? 0;
@@ -27,4 +27,4 @@ export function shouldRetry(err: unknown, message: ConsumeMessage, logger: Logge
   });
 
   return true;
-}
+};

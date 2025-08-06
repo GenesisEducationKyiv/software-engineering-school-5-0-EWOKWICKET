@@ -5,7 +5,7 @@ import { LoggerInterface } from '@logger/application/interfaces/logger.interface
 import { Controller } from '@nestjs/common';
 import { Ctx, MessagePattern, Payload, RmqContext } from '@nestjs/microservices';
 import { NotificationsServiceInterface } from 'src/application/interfaces/notifications-service.abstract';
-import { shouldRetry } from 'src/common/utils/shouldRetry';
+import { isRetriable } from 'src/common/utils/shouldRetry';
 
 @Controller()
 export class NotificationsController {
@@ -23,9 +23,9 @@ export class NotificationsController {
       await this.notificationsService.sendConfirmationNotification(data, type);
       channel.ack(message);
     } catch (err) {
-      const shouldRetryMessage = shouldRetry(err, message, this.logger, this.sendConfirmationNotification.name);
+      const retriable = isRetriable(err, message, this.logger, this.sendConfirmationNotification.name);
 
-      if (!shouldRetryMessage) channel.ack(message);
+      if (!retriable) channel.ack(message);
       else channel.nack(message, false, false);
     }
   }
@@ -39,9 +39,9 @@ export class NotificationsController {
       await this.notificationsService.sendWeatherUpdateNotification(data, type);
       channel.ack(message);
     } catch (err) {
-      const shouldRetryMessage = shouldRetry(err, message, this.logger, this.sendWeatherUpdateNotification.name);
+      const retriable = isRetriable(err, message, this.logger, this.sendWeatherUpdateNotification.name);
 
-      if (!shouldRetryMessage) channel.ack(message);
+      if (!retriable) channel.ack(message);
       else channel.nack(message, false, false);
     }
   }
