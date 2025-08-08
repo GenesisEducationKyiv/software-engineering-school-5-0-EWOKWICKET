@@ -1,16 +1,21 @@
 # WeatherForecastAPI
 
-A backend API built with NestJS for managing weather-related data, connected to a MongoDB database, and structured with Docker for containerized environments.
+WeatherForecastAPI is a backend service with microservice architecture built with NestJS that delivers current weather data on demand and lets users subscribe to weather updates via email.
+It uses gRPC for inter-service communication and a custom-built API gateway to route requests.
+MongoDB Atlas stores subscription data, Redis speeds up responses with caching, and RabbitMQ powers the email notification service.
+The application is containerized with Docker and monitored via Loki for centralized logging.
 
 ---
 
 ## Technologies
 
 - **[NestJS](https://nestjs.com/)** - Node.js framework
-- **[MongoDB Atlas](https://www.mongodb.com/atlas)** - cloud-hosted NoSQL database
-- **[Redis(Upstash)](https://upstash.com/)** - cloud-hosted NoSQL key-value database
+- **[MongoDB](https://www.mongodb.com/atlas)** - NoSQL database for storing data
+- **[Redis](https://upstash.com/)** - NoSQL key-value database for caching data
+- **[RabbitMQ](https://www.cloudamqp.com/)** - Message broker
+- **[Loki](https://grafana.com/oss/loki/)** - Log aggregation system
 - **[Docker](https://www.docker.com/)** - Containerization platform
-- **[Jest](https://jestjs.io/)** – testing framework
+- **[Jest](https://jestjs.io/)** – Testing framework
 - **[Yarn](https://yarnpkg.com/)** – Package manager
 
 ---
@@ -23,22 +28,32 @@ A backend API built with NestJS for managing weather-related data, connected to 
    git clone https://github.com/EWOKWICKET/WeatherForecastAPI.git
    ```
 
-2. **Install dependencies**
+2. **Install dependencies and generate grpc contracts**
 
    ```bash
    cd packages/api
    yarn install
+   yarn generate:proto
    ```
 
 3. **Set up environment variables**
 
-   - Copy [`.env.example`](packages/api/.env.example) to `.env`
-   - Fill in your actual credentials in the `.env` file:
-     - Mail credentials:\
-       - **MAIL_USER** - your email\
+   - In each microservice, create `.env` file in same folder as `.env.example`. Links are provided below.
+   - Copy `.env.example` to `.env`
+   - Fill `.env` file with environment variables. **Critical variables**:
+
+     - Mail credentials:
+       - **MAIL_USER** - your email
        - **MAIL_PASS** - [app password](https://support.google.com/accounts/answer/185833) for email
-     - [**WEATHER_API_API_KEY**](https://www.weatherapi.com/)
-     - [**OPENWEATHER_API_KEY**](https://openweathermap.org/)
+     - Provider api keys:
+       - [**WEATHERAPI_API_KEY**](https://www.weatherapi.com/)
+       - [**OPENWEATHER_API_KEY**](https://openweathermap.org/)
+
+   - Env example files:
+     - [`.env.example`](packages/api/apps/gateway/.env.example)
+     - [`.env.example`](packages/api/apps/subscription/.env.example)
+     - [`.env.example`](packages/api/apps/notifications/.env.example)
+     - [`.env.example`](packages/api/apps/weather/.env.example)
 
 4. **Start the server**
 
@@ -48,13 +63,13 @@ A backend API built with NestJS for managing weather-related data, connected to 
    yarn docker:up
    ```
 
-   Dev mode
+   Development(if using cloud-hosted services)
 
    ```bash
    yarn start:dev
    ```
 
-   Production
+   Production(if using cloud-hosted services)
 
    ```bash
    yarn build
